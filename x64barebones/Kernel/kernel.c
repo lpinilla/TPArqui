@@ -18,6 +18,8 @@ static void * const sampleDataModuleAddress = (void*)0x500000;
 
 typedef int (*EntryPoint)();
 
+void initInfo(void);
+void load_idt(void);
 
 void clearBSS(void * bssAddress, uint64_t bssSize)
 {
@@ -76,12 +78,22 @@ void * initializeKernelBinary()
 
 	ncPrint("[Done]");
 	ncNewline();
+
+	load_idt();
+	ncNewline();
 	ncNewline();
 	return getStackBase();
 }
 
 int main()
 {	
+	initInfo(); //initial info with the barebones
+
+
+	return 0;
+}
+
+void initInfo(){
 	ncPrint("[Kernel Main]");
 	ncNewline();
 	ncPrint("  Sample code module at 0x");
@@ -100,5 +112,5 @@ int main()
 	ncNewline();
 
 	ncPrint("[Finished]");
-	return 0;
+	ncClear();
 }
