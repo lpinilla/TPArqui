@@ -1,13 +1,11 @@
 #include <stdint.h>
+#include "irq_dispatcher.h"
 
-void int_20(void);
-void int_60(void);
-void time_handler(void);
-void keyboard_handler(void);
-void irqDispatcher(uint64_t irq);
+void ncPrint();
+void ncClear();
 
 typedef void (* func)(void);
-func f_pointers[] = {int_20, int_60};
+func f_pointers[] = {int_20, int_21};
 
 void irq_dispatcher(uint64_t irq){
 	f_pointers[irq]();
@@ -19,6 +17,8 @@ void int_20(){
 }
 
 //Teclado
-void int_60(){
+void int_21(){
 	//keyboard_handler();
+	ncClear();
+	ncPrint("yay");
 }

@@ -78,9 +78,6 @@ void * initializeKernelBinary()
 
 	ncPrint("[Done]");
 	ncNewline();
-
-	load_idt();
-	ncNewline();
 	ncNewline();
 	return getStackBase();
 }
@@ -88,7 +85,14 @@ void * initializeKernelBinary()
 int main()
 {	
 	initInfo(); //initial info with the barebones
+	ncPrint("Loading IDT");	
+	ncNewline();
+	load_idt();
+	ncPrint("Done");
+	ncNewline();
+	ncPrint("Ready..");	
 
+	while(1){}; //algo tiene que hacer todo el tiempo -> llamar al timer tick?
 
 	return 0;
 }
