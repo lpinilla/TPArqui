@@ -6,7 +6,7 @@
 
 void load_idt() {
 
-	_cli();
+	//_cli();
 
 	setup_IDT_entry (0x20, (uint64_t)&_irq00_handler);
 	setup_IDT_entry(0x21, (uint64_t)&_irq01_handler);
