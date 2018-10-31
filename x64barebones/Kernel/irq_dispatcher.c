@@ -3,12 +3,11 @@
 
 static void int_20();
 
+typedef void (*func)();
+func f_pointers[] = {int_20};
+
 void irq_dispatcher(uint64_t irq) {
-	switch (irq) {
-		case 0:
-			int_20();
-			break;
-	}
+	f_pointers[irq]();
 	return;
 }
 
