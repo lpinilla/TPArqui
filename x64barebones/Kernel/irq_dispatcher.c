@@ -5,6 +5,7 @@
 
 static void int_20();
 static void int_21();
+static int i =0;
 
 typedef void (*func)();
 func f_pointers[] = {int_20, int_21};
@@ -20,5 +21,5 @@ void int_20() {
 
 void int_21() {
 	//keyboard_handler();
-	ncPrint("Teclado!");
+	ncPrintDec(i++);
 }

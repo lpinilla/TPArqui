@@ -93,7 +93,9 @@ int main()
 	ncNewline();
 	ncPrint("Ready..");
 	ncNewline();
-	while(1){};
+
+
+	while(1){}; //mantenerlo vivo
 
 	return 0;
 }
