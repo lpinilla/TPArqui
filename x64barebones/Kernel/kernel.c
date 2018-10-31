@@ -18,8 +18,6 @@ static void * const sampleDataModuleAddress = (void*)0x500000;
 
 typedef int (*EntryPoint)();
 
-void initInfo(void);
-void load_idt(void);
 
 void clearBSS(void * bssAddress, uint64_t bssSize)
 {
@@ -84,20 +82,6 @@ void * initializeKernelBinary()
 
 int main()
 {	
-	initInfo(); //initial info with the barebones
-	ncPrint("Loading IDT");	
-	ncNewline();
-	load_idt();
-	ncPrint("Done");
-	ncNewline();
-	ncPrint("Ready..");	
-
-	while(1){}; //algo tiene que hacer todo el tiempo -> llamar al timer tick?
-
-	return 0;
-}
-
-void initInfo(){
 	ncPrint("[Kernel Main]");
 	ncNewline();
 	ncPrint("  Sample code module at 0x");
@@ -116,5 +100,5 @@ void initInfo(){
 	ncNewline();
 
 	ncPrint("[Finished]");
-	ncClear();
+	return 0;
 }

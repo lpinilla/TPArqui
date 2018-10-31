@@ -1,3 +1,0 @@
-void exception_dispatcher(){
-	
-}
