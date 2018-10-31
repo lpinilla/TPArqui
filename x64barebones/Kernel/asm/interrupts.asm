@@ -6,6 +6,7 @@ GLOBAL haltcpu
 GLOBAL _hlt
 
 GLOBAL _irq00_handler
+GLOBAL _irq01_handler
 
 EXTERN irq_dispatcher
 
@@ -84,12 +85,15 @@ pic_master_mask:
 pic_slave_mask:
 	push    rbp
     mov     rbp, rsp
-    mov     ax, di  ; ax = mascara de 16 bits
+    mov     ax, di  			; ax = mascara de 16 bits
     out	0A1h,al
     pop     rbp
     retn
 
 
-;8254 Timer (Timer Tick)
-_irq00_handler:
+
+_irq00_handler:					;8254 Timer (Timer Tick)
 	irq_handler_master 0
+
+_irq01_handler:					;Teclado
+	irq_handler_master 1
