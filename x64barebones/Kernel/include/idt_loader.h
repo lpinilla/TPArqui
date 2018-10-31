@@ -15,10 +15,15 @@ typedef struct{
 } DESCR_INT;
 
 DESCR_INT * idt = (DESCR_INT *) 0x0;
+
 void _irq00Handler(void);
 void _irq01Handler(void);
+void _exception00Handler(void);
+void _exception06Handler(void);
+
 void picMasterMask(int a);
 void picSlaveMask(int a);
+
 void _cli(void);
 void _sti(void);
 void setup_IDT_entry(int index, uint64_t offset);

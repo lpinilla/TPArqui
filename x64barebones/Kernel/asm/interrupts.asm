@@ -41,7 +41,7 @@ global _irq00Handler
 global _irq01Handler
 
 global _exception00Handler
-global _exception01Handler
+global _exception06Handler
 
 global _cli
 global _sti
@@ -105,10 +105,10 @@ _irq01Handler:			;KEYBOARD
 	irqHandlerMaster 1
 
 _exception00Handler:
-	exceptionHandleMaster 0
+	exceptionHandlerMaster 0
 
 _exception06Handler:
-	exceptionHandleMaster 1
+	exceptionHandlerMaster 1
 
 section .bss
 placeholder resb 10
