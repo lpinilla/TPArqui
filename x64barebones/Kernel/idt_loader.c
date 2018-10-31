@@ -1,5 +1,5 @@
 #include <stdint.h>
-#include "idt_loader.h"
+#include <idt_loader.h>
 
 
 void setup_IDT_entry(int index, uint64_t offset){
@@ -14,6 +14,8 @@ void setup_IDT_entry(int index, uint64_t offset){
 
 void load_idt(){
 	_cli();
+	setup_IDT_entry(0x00, (uint64_t) &_exception00Handler);
+	setup_IDT_entry(0x00, (uint64_t) &_exception06Handler); //opcode
 	//setup_IDT_entry(0x20, (uint64_t) &_irq00Handler); //timmer tick
 	setup_IDT_entry(0x21, (uint64_t) &_irq01Handler);
 

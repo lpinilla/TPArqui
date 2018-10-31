@@ -35,8 +35,14 @@
 %endmacro
 
 extern irq_dispatcher
+extern exception_dispatcher
+
 global _irq00Handler
 global _irq01Handler
+
+global _exception00Handler
+global _exception01Handler
+
 global _cli
 global _sti
 global picMasterMask
@@ -55,6 +61,17 @@ global picSlaveMask
 	popState
 	iretq
 %endmacro
+
+%macro exceptionHandlerMaster 1
+	;hay que imprimir los registros
+	pushState
+	mov rdi, %1
+	call exception_dispatcher
+
+	popState
+	;hacer algo más
+	iretq
+%endmacro 
 
 _cli:
 	cli
@@ -86,3 +103,12 @@ _irq00Handler:			;TimerTick
 						
 _irq01Handler:			;KEYBOARD
 	irqHandlerMaster 1
+
+_exception00Handler:
+	exceptionHandleMaster 0
+
+_exception06Handler:
+	exceptionHandleMaster 1
+
+section .bss
+placeholder resb 10

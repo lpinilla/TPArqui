@@ -18,7 +18,5 @@ void int_20(){
 
 //Teclado
 void int_21(){
-	//keyboard_handler();
-	ncClear();
-	ncPrint("yay");
+	keyboard_handler();
 }
