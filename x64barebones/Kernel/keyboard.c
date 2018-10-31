@@ -3,11 +3,12 @@
 
 //preguntar como se maneja esto
 
+#define KEYBOARD_PORT 0x60
+
 void keyboard_handler(){
-	char key = read_keyboard();
+	char key = io_write(KEYBOARD_PORT);
 	ncPrintChar(keycode_map[key]); //para testear
 	if(key == -1){ //no leyó?
-
 	}
 	buffer[buffer_index++] = key;
 	if(buffer_index >= BUFFER_SIZE){
@@ -21,12 +22,12 @@ void erase_buffer(){ //set all buffer to 0
 
 /*Salvo verificar si es null, no se verifica nada de placeholder
 **Se lee siempre desde el principio y después se mueve el index*/
-void read_from_buffer(char * placeholder, int count){ 
+void read_from_buffer(char * placeholder, int count){
 	if(count < 0 || placeholder == NULL){
 		return;
 	}
 	//pasar al buffer
-	memcpy(placeholder, buffer, count * sizeof(char)); 
+	memcpy(placeholder, buffer, count * sizeof(char));
 	//pasar todas las demas al comienzo
 	int desp = (BUFFER_SIZE - buffer_index) * sizeof(char);
 	memcpy(buffer, buffer + buffer_index * sizeof(char), desp);
