@@ -3,6 +3,7 @@
 #include <lib.h>
 #include <moduleLoader.h>
 #include <naiveConsole.h>
+#include <keyboard.h>
 
 extern uint8_t text;
 extern uint8_t rodata;
@@ -85,7 +86,7 @@ void * initializeKernelBinary()
 void print_pixel();
 
 int main()
-{	
+{
 	initial_info();
 	ncPrint("Loading IDT");
 	ncNewline();
@@ -96,7 +97,10 @@ int main()
 	ncPrint("Ready..");
 	ncNewline();
 	print_pixel();
-	while(1){}; //mantenerlo vivo
+	while(1){
+		for(int i=0; i<buffer_index; i++)
+				ncPrintChar(buffer[i]);
+	}; //mantenerlo vivo
 
 	return 0;
 }
