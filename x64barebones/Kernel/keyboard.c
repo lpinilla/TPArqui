@@ -31,12 +31,15 @@ void erase_buffer(){ //set all buffer to 0
 
 /*Salvo verificar si es null, no se verifica nada de placeholder
 **Se lee siempre desde el principio y después se mueve el index*/
-/*void read_from_buffer(char * placeholder, int count){ 
+void read_from_buffer(char * placeholder, int count){ 
 	if(count < 0 || placeholder == NULL){
 		return;
 	}
-	for(int i = 0; i < count; i++){
-		placeholder[i] = buffer[i];
-	}
-
-}*/
+	//pasar al buffer
+	memcpy(placeholder, buffer, count * sizeof(char)); 
+	//pasar todas las demas al comienzo
+	int desp = (BUFFER_SIZE - buffer_index) * sizeof(char);
+	memcpy(buffer, buffer + buffer_index * sizeof(char), desp);
+	//setear lo que quedó sin desplazar en 0
+	memset(buffer + desp, 0, count);
+}
