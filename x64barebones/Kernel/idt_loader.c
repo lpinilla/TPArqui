@@ -12,11 +12,12 @@ void load_idt() {
  	setup_IDT_entry (0x00, (uint64_t)&_exception0_handler);
 
  	//drivers
-	setup_IDT_entry (0x20, (uint64_t)&_irq00_handler);
-	setup_IDT_entry(0x21, (uint64_t)&_irq01_handler);
+	setup_IDT_entry (0x20, (uint64_t)&_irq00_handler); //timer tick
+	setup_IDT_entry(0x21, (uint64_t)&_irq01_handler); //teclado
+	
 
 
-	pic_master_mask(0xFC);  //timer tick
+	pic_master_mask(0xFC);  //timer tick && teclado
 	pic_slave_mask(0xFF); //todo des-habilitado
     
 	_sti();

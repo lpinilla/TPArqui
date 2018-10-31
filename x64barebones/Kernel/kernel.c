@@ -82,6 +82,8 @@ void * initializeKernelBinary()
 	return getStackBase();
 }
 
+void print_pixel();
+
 int main()
 {	
 	initial_info();
@@ -93,8 +95,7 @@ int main()
 	ncNewline();
 	ncPrint("Ready..");
 	ncNewline();
-
-
+	print_pixel();
 	while(1){}; //mantenerlo vivo
 
 	return 0;

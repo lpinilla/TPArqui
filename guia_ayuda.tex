@@ -16,7 +16,7 @@
 	\underline{\textit{Disclaimer:}} Este documento no fue revisado por ning\'un miembro de la c\'atedra. Puede contener errores. Queda en su propia responsabilidad utilizar el contenido de este documento.
 \end{abstract}
 
-\subsection*{Consideraciones previas}
+\subsection*{Consideraciones previas}w to enable
 Las versiones de Ubuntu mayores a 16.04 presentan problemas al querer manipular la IDT, se recomienda utilizar Docker \textbf{\underline{desde cero.}}
 
 \section*{PIC (Programmable Interface Controller)}
@@ -134,6 +134,49 @@ Por ejemplo: Se crea la interrupci\'on en la entrada 21h. $\longrightarrow$ la i
 
 Hay que entender que la rutina apuntada por la IDT no es lo que finalmente ser\'a lo que lee del teclado, esta rutina llama a una funci\'on de C que se va a encargar de eso y de proveer m\'as funcionalidades.
 
+\section*{Excepciones}
+
+Las excepciones son interrupciones que lanza el mismo procesador, por eso, se crean de la misma manera que las interrupciones.
+
+Esta es una tabla con las excepciones m\'as comunes.
+
+\begin{center}
+	\begin{tabular}{ |c|c| }
+		\hline
+		C\'odigo & Decripci\'on\\
+		\hline
+		0h & Division By zero\\
+		1h & Single-step interrupt (see trap flag) \\
+		2h & NMI\\
+		3h & Breakpoint (callable by the special 1-byte instruction 0xCC, used by debuggers) \\
+		4h & Overflow\\
+		5h & Bounds\\
+		6h & Invalid Opcode \\
+		7h & Coprocessor not available \\
+		8h & Double Fault\\
+		9h & Coprocessor Segment Overrun (386 or earlier only) \\
+		Ah & Invalid Task State Segment \\
+		Bh & Segment not present \\
+		Ch & Stack Fault \\
+		Dh & General Protection Fault\\
+		Eh & Page Fault\\
+		Fh & reserved\\
+		10h & Math Fault \\
+		11h & Alignment Check \\
+		12h & Machine Check \\
+		13h & SIMD Floating-Point Exception \\
+		14h & Virtualization Exception \\
+		15h & Control Protection Exception \\
+		\hline
+	\end{tabular}
+\end{center}
+
+\section*{Teclado}
+Una vez que se pueda leer del teclado y mostrar lo que se aprieta, podemos ver que las teclas
+no corresponden con lo que se escribe, esto es debido a que falta hacer un mapeo 1:1 con el teclado y sus respectivos valores. \\
+
+Para resolver esto simplemente tenemos que tener el mapa de teclado y mapear las teclas antes de devolverlas.
+
 \section*{Entradas comunes}
 Entradas m\'as utilizadas cuando se lee en asm.
 \begin{center}
@@ -144,10 +187,47 @@ Entradas m\'as utilizadas cuando se lee en asm.
 		20-21h & MasterPIC\\
 		A0-A1h & SlavePIC\\
 		60-64h & Keyboard\\
+		70-71h & RTC\\
 		\hline
 	\end{tabular}
 \end{center}
 
-	
+\section*{Pasaje de Par\'ametros en 64 bits}
+Este es el orden en el que se pasan
+
+\begin{center}
+	\begin{enumerate}
+		\item rdi.
+		\item rsi.
+		\item rdx.
+		\item rcx.
+		\item r8.
+		\item r9.
+	\end{enumerate}
+\end{center}
+
+\section*{Modo de video}
+
+El modo de video es una forma distinta de leer la pantalla por parte del driver del monitor.
+
+El est\'andar VGA-VESA nos permite varios modos de video para elegir, los distintos est\'andares suelen estar compuesto por lo siguiente:
+
+	\begin{enumerate}
+		\item Aspect Ratio.
+		\item Display Size.
+		\item Display Resolution.
+		\item Color depth.
+		\item Refresh Rate
+	\end{enumerate}
+
+Cada est\'andar distinto provee distintas opciones para estos items.\\
+
+Para el TP, como tenemos que hacer un juego, voy a elegir el "Modo 13h" que fue bastante utilizado en videojuegos en su \'epoca por tener un f\'acil acceso a memoria ("Chunky Graphics").\\
+
+Siguiendo una documentaci\'on en internet, para cambiar el modo el modo 13, tengo que poner AH en 00h y en AL el modo que quiero, en este caso AX quedar\'ia: 0x0013h\\
+
+\textbf{Para entrar en modo video tengo que cambiar el byte $"cfg_vesa"$ a 1 en Pure64/src/sysvar.asm}\\
+
+En el mismo archivo podemos encontrar toda la informaci\'on de VESA bajo el comentario del mismo nombre.
 
 \end{document}

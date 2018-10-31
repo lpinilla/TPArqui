@@ -5,7 +5,7 @@
 
 void keyboard_handler(){
 	char key = read_keyboard();
-	ncPrintChar(keycode_map[key]);
+	ncPrintChar(keycode_map[key]); //para testear
 	if(key == -1){ //no leyó?
 
 	}
