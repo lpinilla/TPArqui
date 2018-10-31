@@ -1,6 +1,8 @@
 #include <keyboard.h>
 #include <naiveConsole.h> //para testear
 
+//preguntar como se maneja esto
+
 void keyboard_handler(){
 	char key = read_keyboard();
 	ncPrintChar(keycode_map[key]);

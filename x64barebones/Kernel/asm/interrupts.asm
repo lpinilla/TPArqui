@@ -7,8 +7,10 @@ GLOBAL _hlt
 
 GLOBAL _irq00_handler
 GLOBAL _irq01_handler
+GLOBAL _exception0_handler
 
 EXTERN irq_dispatcher
+EXTERN exception_dispatcher
 
 %macro pushState 0
 	push rax
@@ -60,6 +62,17 @@ EXTERN irq_dispatcher
 	iretq
 %endmacro
 
+%macro exception_handler 1
+	pushState
+
+	mov rdi, %1 				; pasaje de parametro
+	call exception_dispatcher
+
+	popState
+	iretq
+%endmacro
+
+
 _hlt:
 	sti
 	hlt
@@ -97,3 +110,7 @@ _irq00_handler:					;8254 Timer (Timer Tick)
 
 _irq01_handler:					;Teclado
 	irq_handler_master 1
+
+								;Zero Division Exception
+_exception0_handler:
+	exception_handler 0

@@ -7,11 +7,14 @@
 void load_idt() {
 
 	//_cli();
+	
+	//exception
+ 	setup_IDT_entry (0x00, (uint64_t)&_exception0_handler);
 
+ 	//drivers
 	setup_IDT_entry (0x20, (uint64_t)&_irq00_handler);
 	setup_IDT_entry(0x21, (uint64_t)&_irq01_handler);
 
- 	//setup_IDT_entry (0x00, (uint64_t)&_exception0Handler);
 
 	pic_master_mask(0xFC);  //timer tick
 	pic_slave_mask(0xFF); //todo des-habilitado
