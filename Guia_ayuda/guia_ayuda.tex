@@ -1,0 +1,263 @@
+\documentclass[]{article}
+
+
+%opening
+\title{Gu\'ia de creaci\'on de Kernel - TP ARQUI - ITBA}
+\author{Lpinilla}
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+	Este documento es una guía para ayudar en el desarrollo del\
+	kernel en el Trabajo Práctico de la materia Arquitectura de\
+	las computadoras. 
+	\underline{\textit{Disclaimer:}} Este documento no fue revisado por ning\'un miembro de la c\'atedra. Puede contener errores. Queda en su propia responsabilidad utilizar el contenido de este documento.
+\end{abstract}
+
+\subsection*{Consideraciones previas}w to enable
+Las versiones de Ubuntu mayores a 16.04 presentan problemas al querer manipular la IDT, se recomienda utilizar Docker \textbf{\underline{desde cero.}}
+
+\section*{PIC (Programmable Interface Controller)}
+Lo primero que hay que entender es que las computadoras tienen 2\
+PIC. El "MasterPIC" y el "SlavePIC". el slave esta "colgado" del\
+master (cascading), por lo tanto se puede deshabilitar o ignorar\
+lo que venga de él desde el master (IRQ02).\\
+Cada PIC tiene 2 entradas, una para leer los datos y otra para conf
+igurarlos, el master esta en 0x21 y 0x20. El slave en 0xA1h y 0xA0
+respectivamente.
+
+\section*{IRQ}
+Cada PIC tiene 8 entradas, 1 bit por cada entrada $\longrightarrow$ 2bytes para configurarlo.
+
+Las entradas del IRQ son:
+\begin{center}
+	\begin{tabular}{ |c|c| }
+		\hline
+		IRQ & Descripción\\
+		\hline
+		\multicolumn{2}{|c|}{MasterPIC} \\	
+		\hline	
+		0 & Timer-Tick\\
+		1 & Keyboard \\
+		2 & Cascade (used internally by the two PICs. never raised) \\
+		3 & COM2 (if enabled)  \\
+		4 & COM1 (if enabled)  \\
+		5 & LPT2 (if enabled)  \\
+		6 & Floppy Disk  \\
+		7 & LPT1 / Unreliable "spurious" interrupt (usually)  \\
+		\hline
+		\multicolumn{2}{|c|}{SlavePIC} \\	
+		\hline	
+		8 & RTC \\
+		9 & Free for peripherals / legacy SCSI / NIC  \\
+		10 & Free for peripherals / SCSI / NIC  \\
+		11 & Free for peripherals / SCSI / NIC  \\
+		12 & PS2-Mouse \\
+		13 & FPU / Coprocessor / Inter-processor  \\
+		14 & Primary ATA Hard Disk  \\
+		15 & Secondary ATA Hard Disk  \\
+		\hline
+	\end{tabular}
+\end{center}
+
+\section*{Masking del PIC}
+Para cambiar la configuración del PIC tenemos que hacer un masking de bits.
+Para deshabilitar algo, tenemos que ponerlo en 1, en caso contrario esta habilitado.
+
+Supongamos que queremos solamente habilitar el teclado, para eso habría que
+solamente dejar en 0 el bit 1 del MasterPic. Para eso debemos encontrar el valor
+en hexa que deja al primer byte del pic en 1101.
+
+Recordando que cada PIC tiene 2 bytes para configurarlo, tenemos que hallar el valor.
+
+En este caso, queremos que este todo en 1 menos el anteúltimo bit: 1111-1101.
+La primer parte corresponde al valor F mientras que la segunda al D. Por lo tanto,
+el valor a mandarle al MasterPIC es FD.
+
+\begin{verbatim}
+	picMasterMask:
+	push rbp
+	mov rbp, rsp
+	mov ax, di
+	out	21h,al
+	pop rbp
+	retn
+\end{verbatim}
+
+Análogamente configuramos el slavePIC con el valor FF para no habilitar ninguna
+otra interrupcion.
+
+\section*{Interrupciones de Hardware}
+
+Recordando que una interrupci\'on es un evento externo que ocurre, veamos como podemos
+realizar driver de un periférico específico (el teclado).
+
+\subsection*{Cadena de ejecuci\'on de interrupciones}
+Veamos como resuelve la pc cuando se interact\'ua con el teclado.
+
+\begin{center}
+	\begin{enumerate}
+		\item Se aprieta una tecla en el teclado.
+		\item El teclado activa una interrupci\'on al PIC.
+		\item El PIC recibe la interrupci\'on desde el IRQ01 y se
+		fija si la deja pasar o no.
+		\item Si la deja pasar, le indica al procesador que tiene una interrupci\'on.
+		\item El procesador le indica si esta listo o no para recibir interrupciones.
+		\item Si esta listo, le env\'ia, el PIC le env\'ia cual de sus interrupciones se activ\'o.
+		\item El microprocesador con esa informaci\'on va a buscar a la IDT el registro correspondiente a la interrupci\'on IRQ01.
+	\end{enumerate}
+\end{center}
+
+En la IDT, el PIC est\'a mapeado directamente, osea que IRQ0 arranca en X0h, IRQ1 en X1h, ... donde X en principio es 0\
+Pero acá hay un problema ya que las primeras 32 entradas de la IDT son excepciones
+por lo tanto se pisar\'ian las entradas, por eso, se "mueve" el inicio de las IRQ.
+En este caso ser\'ia simplemente que X valga 2.\\
+
+Por lo tanto, la tabla de los IRQ arranca en 20 (32 en hexa).
+
+\subsection*{Creaci\'on de Interrupciones}
+Para crear un driver tenemos que manejar las interrupciones del perif\'erico (ej Teclado).
+Para eso, tenemos que hacer un par de cosas:
+
+\begin{center}
+	\begin{enumerate}
+		\item Crear la entrada en la IDT.
+		\item En la entrada de la IDT, asignar un puntero a funci\'on que va a ser la rutina
+		de ejecuci\'on de la interrupci\'on.
+		\item De ser necesario, llamar desde la rutina a una funci\'on en C.
+	\end{enumerate}
+\end{center}
+
+Por ejemplo: Se crea la interrupci\'on en la entrada 21h. $\longrightarrow$ la interrupci\'on llama a la rutina de asm $\longrightarrow$ la rutina llama a una funci\'on de C que se encarga de interactuar con la lectura del teclado.\\
+
+Hay que entender que la rutina apuntada por la IDT no es lo que finalmente ser\'a lo que lee del teclado, esta rutina llama a una funci\'on de C que se va a encargar de eso y de proveer m\'as funcionalidades.
+
+\section*{Excepciones}
+
+Las excepciones son interrupciones que lanza el mismo procesador, por eso, se crean de la misma manera que las interrupciones.
+
+Esta es una tabla con las excepciones m\'as comunes.
+
+\begin{center}
+	\begin{tabular}{ |c|c| }
+		\hline
+		C\'odigo & Decripci\'on\\
+		\hline
+		0h & Division By zero\\
+		1h & Single-step interrupt (see trap flag) \\
+		2h & NMI\\
+		3h & Breakpoint (callable by the special 1-byte instruction 0xCC, used by debuggers) \\
+		4h & Overflow\\
+		5h & Bounds\\
+		6h & Invalid Opcode \\
+		7h & Coprocessor not available \\
+		8h & Double Fault\\
+		9h & Coprocessor Segment Overrun (386 or earlier only) \\
+		Ah & Invalid Task State Segment \\
+		Bh & Segment not present \\
+		Ch & Stack Fault \\
+		Dh & General Protection Fault\\
+		Eh & Page Fault\\
+		Fh & reserved\\
+		10h & Math Fault \\
+		11h & Alignment Check \\
+		12h & Machine Check \\
+		13h & SIMD Floating-Point Exception \\
+		14h & Virtualization Exception \\
+		15h & Control Protection Exception \\
+		\hline
+	\end{tabular}
+\end{center}
+
+\section*{Teclado}
+Una vez que se pueda leer del teclado y mostrar lo que se aprieta, podemos ver que las teclas
+no corresponden con lo que se escribe, esto es debido a que falta hacer un mapeo 1:1 con el teclado y sus respectivos valores. \\
+
+Para resolver esto simplemente tenemos que tener el mapa de teclado y mapear las teclas antes de devolverlas.
+
+\section*{Entradas comunes}
+Entradas m\'as utilizadas cuando se lee en asm.
+\begin{center}
+	\begin{tabular}{ |c|c| }
+		\hline
+		Entradas & Dispositivo\\
+		\hline	
+		20-21h & MasterPIC\\
+		A0-A1h & SlavePIC\\
+		60-64h & Keyboard\\
+		70-71h & RTC\\
+		\hline
+	\end{tabular}
+\end{center}
+
+\section*{Pasaje de Par\'ametros en 64 bits}
+Este es el orden en el que se pasan
+
+\begin{center}
+	\begin{enumerate}
+		\item rdi.
+		\item rsi.
+		\item rdx.
+		\item rcx.
+		\item r8.
+		\item r9.
+	\end{enumerate}
+\end{center}
+
+\section*{Modo de video}
+
+El modo de video es una forma distinta de leer la pantalla por parte del driver del monitor.
+
+El est\'andar VGA-VESA nos permite varios modos de video para elegir, los distintos est\'andares suelen estar compuesto por lo siguiente:
+
+	\begin{enumerate}
+		\item Aspect Ratio.
+		\item Display Size.
+		\item Display Resolution.
+		\item Color depth.
+		\item Refresh Rate
+	\end{enumerate}
+
+Cada est\'andar distinto provee distintas opciones para estos items.\\
+
+Para el TP, como tenemos que hacer un juego, voy a elegir el "Modo 13h" que fue bastante utilizado en videojuegos en su \'epoca por tener un f\'acil acceso a memoria ("Chunky Graphics").\\
+
+Siguiendo una documentaci\'on en internet, para cambiar el modo el modo 13, tengo que poner AH en 00h y en AL el modo que quiero, en este caso AX quedar\'ia: 0x0013h (o sino 4F02 en AX para el SVGA) \\
+
+\textbf{Para entrar en modo video tengo que cambiar el byte $"cfg_vesa"$ a 1 en Pure64/src/sysvar.asm}\\
+
+En el mismo archivo podemos encontrar toda la informaci\'on de VESA bajo el comentario del mismo nombre.
+
+Para cambiar el modo, hay que hard-codear la instrucci\'on en asm dentro de Pure64/src/Pure64.asm simplemente basta con poner:
+
+\begin{verbatim}
+;cambiar el modo 13h
+mov ax, 0x13
+int 0x10
+
+\end{verbatim}
+
+\textit{Una idea para testear:} El cambio de modo lo hacemos con la interrupci\'on 10h del BIOS que despu\'es nuestra IDT pisa.. se podr\'a cambiar de lugar esa interrupci\'on? Si efectivamente se puede cambiar de lugar el puntero de la rutina de ejecuci\'on de la entrada 10, podr\'ia cambiar de modo texto a modo video cuando quiera usando mi propia interrupci\'on.
+
+La pantalla generalmente puede ser descripta por los siguientes valores:\\
+
+\begin{tabular}{ |c|c|}
+	\hline
+	Width & Cuantos pixels hay en una linea horizontal\\
+	Height & Cuantas lineas horizontales hay\\
+	Pitch & Cuantos bytes en VRAM hay que saltear para ir un pixel abajo\\
+	Depth & Cuantos pixeles de colores se tiene\\
+	PixelWidth &  Cuantos bytes en VRAM hay que saltear para ir un pixel a la derecha\\
+	\hline
+\end{tabular}
+
+\subsection*{VGA Mode 13h}
+
+La resoluci\'on de este modo es 320x200px. Es importante recordar el n\'umero 320 (o 3200) ya que lo vamos a ver varias veces.\\
+
+Escribir al monitor es s\'implemente escribir de una forma espec\'ifica a una direcci\'on de memoria. En este caso la direcci\'on de memoria es 0xB8000 (sacada del manual de Pure64).
+
+
+\end{document}
