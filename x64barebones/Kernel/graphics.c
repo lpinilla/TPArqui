@@ -36,6 +36,12 @@ void draw_char(int x, int y, int c){
   }  
 }
 
+void draw_string(int x, int y, char * string){
+  int i = 0;
+  while(*(string + i)){
+    draw_char(x + i * CHAR_WIDTH, y, string[i++]);
+  }
+}
 
 
 

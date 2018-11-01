@@ -99,6 +99,7 @@ int main()
 	draw_pixel(100,100, 255,0,0);
 	//draw_fill_rect(255,255,255, 10);
 	draw_char(100, 10, '?');
+	draw_string(100,20, "AA");
 	while(1){}; //mantenerlo vivo
 
 	return 0;

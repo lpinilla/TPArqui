@@ -45,6 +45,7 @@ void draw_pixel(int x,int y, int r, int g, int b);
 void load_vga_info();
 void draw_fill_rect(unsigned char r, unsigned char g, unsigned   char b, unsigned char size);
 void draw_char(int x, int y, int c);
+void draw_string(int x, int y, char * string);
 
 char * screen;
 
