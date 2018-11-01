@@ -4,44 +4,64 @@
 #include <glyphs.h>
 
 
-void draw_pixel(int x,int y, int r, int g, int b) {
+void init_graphics(){
+  x_cursor = 0;
+  y_cursor = CHAR_HEIGHT;
+  //podría mostrar mensaje de bienvenida
+}
 
-	mode_info_block* infoBlock = (mode_info_block *) get_info_block();
+
+void draw_pixel(int x, int y, int r, int g, int b) {
 	screen = (char *) ((uint64_t) infoBlock->physbase + x*infoBlock->bpp / 8 + (int) y*infoBlock->pitch); //magic_number 8
-    screen[0] = b;              // BLUE
-    screen[1] = g;              // GREEN
-    screen[2] = r;              // RED
+  screen[0] = b;              // BLUE
+  screen[1] = g;              // GREEN
+  screen[2] = r;              // RED
 }
 
 //se podría usar con double buffering
 void draw_fill_rect(unsigned char r, unsigned char g, unsigned   char b, unsigned char size) {
-    mode_info_block* infoBlock = (mode_info_block *) get_info_block();
     unsigned char *where = infoBlock->physbase;
     for (int i = 0; i < size; i++) {
         for (int j = 0; j < size; j++) {
-            draw_pixel(j,i, r,g,b);       //ineficiente pintar de a 1 pixel a la vez, ver si podemos mejorar
+            draw_pixel(j,i, r,g,b);
         }
         where+=3200;
     }
 }
 
-
-void draw_char(int x, int y, int c){
+void draw_char_w_color(int x, int y, int c, int r, int g, int b){
   for(int i = 0; i < CHAR_HEIGHT; i++){
     for(int j = 0; j < CHAR_WIDTH; j++){
       if(*(&glyphs[(c-31) * CHAR_HEIGHT] + i * sizeof(uint8_t)) & 1<<j){
-        draw_pixel(CHAR_WIDTH -1 -j + x, i +y,0xFF,0xFF,0xFF); //siempre en blanco con fondo negro
+        draw_pixel(CHAR_WIDTH -1 -j + x, i +y,r,g,b);
+      }
+    }
+  }
+}
+
+
+//draw in black background and white letters
+void draw_char(char c){
+  for(int i = 0; i < CHAR_HEIGHT; i++){
+    for(int j = 0; j < CHAR_WIDTH; j++){
+      if(*(&glyphs[(c-31) * CHAR_HEIGHT] + i * sizeof(uint8_t)) & 1<<j){
+        draw_pixel(CHAR_WIDTH -1 -j + x_cursor, i + y_cursor,0xFF,0xFF,0xFF); //siempre en blanco con fondo negro
       }
     }
   }  
+  x_cursor += CHAR_WIDTH;
 }
 
-void draw_string(int x, int y, char * string){
+
+
+void draw_string(char * string){
   int i = 0;
   while(*(string + i)){
-    draw_char(x + i * CHAR_WIDTH, y, string[i++]);
+    draw_char(string[i++]);
   }
 }
+
+
 
 
 

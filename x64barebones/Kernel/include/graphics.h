@@ -30,9 +30,7 @@ typedef struct __attribute__((packed)) {
   uint16_t reserved2;
 } mode_info_block;
 
-mode_info_block* get_info_block() {
-	return (mode_info_block*)0x0000000000005C00;
-}
+mode_info_block* infoBlock = (mode_info_block*)0x0000000000005C00;
 
 typedef struct{
   uint8_t r,g,b;
@@ -44,9 +42,12 @@ color BLACK = {.r = 0x0, .g = 0x0, .b = 0x0};
 void draw_pixel(int x,int y, int r, int g, int b);
 void load_vga_info();
 void draw_fill_rect(unsigned char r, unsigned char g, unsigned   char b, unsigned char size);
-void draw_char(int x, int y, int c);
-void draw_string(int x, int y, char * string);
+void draw_char_w_color(int x, int y, int c, int r, int g, int b);
+void draw_char(char c);
+void draw_string(char * string);
 
-char * screen;
+char * screen; //creo que no se usa
+
+int x_cursor, y_cursor;
 
 #endif

@@ -239,6 +239,8 @@ int 0x10
 
 \end{verbatim}
 
+La resoluci\'on de este modo es 320x200px. Es importante recordar el n\'umero 320 (o 3200) ya que lo vamos a ver varias veces.\\
+
 \textit{Una idea para testear:} El cambio de modo lo hacemos con la interrupci\'on 10h del BIOS que despu\'es nuestra IDT pisa.. se podr\'a cambiar de lugar esa interrupci\'on? Si efectivamente se puede cambiar de lugar el puntero de la rutina de ejecuci\'on de la entrada 10, podr\'ia cambiar de modo texto a modo video cuando quiera usando mi propia interrupci\'on.
 
 La pantalla generalmente puede ser descripta por los siguientes valores:\\
@@ -253,11 +255,53 @@ La pantalla generalmente puede ser descripta por los siguientes valores:\\
 	\hline
 \end{tabular}
 
-\subsection*{VGA Mode 13h}
+\subsection*{Conocimiento General}
 
-La resoluci\'on de este modo es 320x200px. Es importante recordar el n\'umero 320 (o 3200) ya que lo vamos a ver varias veces.\\
+Escribir al monitor es s\'implemente escribir de una forma espec\'ifica a una direcci\'on de memoria. En este caso la direcci\'on de memoria es 0xB8000 (sacada del manual de Pure64).\\
 
-Escribir al monitor es s\'implemente escribir de una forma espec\'ifica a una direcci\'on de memoria. En este caso la direcci\'on de memoria es 0xB8000 (sacada del manual de Pure64).
+La forma en la que tenemos que escribir es B,R,G con las letras que corresponden a Blue, Red y Green. Si te preguntas por qu\'e ese formato y no el m\'as conocido (rgb) es por el \'orden en que se compone el n\'umero. El color originalmente es un n\'umero que tiene todo junto sus valores de rgb, por ejemplo el n\'umero puede que tenga esta forma 0x255255255. En este caso estar\'amos metiendo el color (255,255,255) que representa al 1.\\
 
+La forma en la que compacta el n\'umero es por medio de shifteos. Hace color \& 255 para obtener el azul, (color $<<$ 8) \& 255 para obtener el verde y (color $<<$ 16) \& 255 para obtener el rojo. Esto no es propio del mode 13h sino que todos los modos hacen esto
+
+\subsection*{Imprimir mis propios caracteres}
+Para imprimir mis propios tengo que tener el dibujo de cada caracter, ese dibujo se suele hacer en formato de bitmap. Esto funciona de la siguiente manera: \\
+
+la matriz de datos:\\
+\begin{center}
+1111\\
+1000\\
+1111\\
+\end{center}
+
+podría representar la forma del caracter "C". Entonces lo que tenemos que hacer es tener para cada caracter su mapa (bitmap) y hacer algo simple como:
+
+\begin{verbatim}
+for(int i = 0; i < altura_char; i++){
+for(int j = 0; j < ancho_char; j++){
+if( hay un 1){
+pintar_con_un_color(x,y,color);
+}
+}
+}
+\end{verbatim}
+
+
+Obviamente podemos ver que esto no es muy eficiente.\\
+
+\subsection*{Bitmap Encoding}
+Como se pudieron dar cuenta, lo anterior si bien funciona, puede ocupar mucho espacio en memoria. Entonces lo que podemos hacer es armar un tipo de codificaci\'on sencillo para codificar las filas del bitmap (este es uno de varios m\'etodos para codificar).\\
+
+Sabiendo que en realidad un char (est\'andar) ocupa 8 bits de largo y 16 bits de algo, eso significa que tenemos 16 filas de 8 bits (o 1 byte). Entonces si podemos codificar cada fila ya ser\'ia mejor.\\
+
+Siguiendo con el ejemplo anterior de la "C" (en este caso nuestro char ser\'ia de 4x3). Podr\'iamos codificar cada fila por el valor num\'erico que representan esos bits, en este caso ser\'ia:\\
+0xF\\
+0x8\\
+0xF\\
+Entonces de esta manera tenemos codificado el bitmap.
+
+\subsection*{Optimizaci\'on}
+Verificar de a 1 bit a la vez e imprimir 1 pixel es algo sumamente ineficiente, m\'as sabiendo que cada char ocupa 1 byte de largo, entonces nos podemos preguntar: Por que no ir copiando directamente de a bytes?\\
+
+Esto se puede hacer pero es mucho m\'as dif\'icil ya que se tendr\'ia que "empaquetar" (shifteando bits) el color deseado para que se imprima en todos los bits correspondientes
 
 \end{document}
