@@ -25,26 +25,17 @@ void draw_fill_rect(unsigned char r, unsigned char g, unsigned   char b, unsigne
     }
 }
 
-//auxiliar por si la necesitamos
-unsigned char * get_char_glyph_map(char c){
-  //el -31 es para tener el inicio de donde arrancan las letras
-  return &glyphs[(c-31) * CHAR_HEIGHT];
-}
 
 void draw_char(int x, int y, int c){
-  uint8_t * font_map = get_char_glyph_map(c);
   for(int i = 0; i < CHAR_HEIGHT; i++){
     for(int j = 0; j < CHAR_WIDTH; j++){
-      if(font_map[i] & 1<<j){
-        //paint
-        draw_pixel(CHAR_WIDTH -1 -j + x, i +y,0xFF,0xFF,0xFF);
-      }else{
-        draw_pixel(CHAR_WIDTH - 1 -j + x,i + y,0,0,0);
+      if(*(&glyphs[(c-31) * CHAR_HEIGHT] + i * sizeof(uint8_t)) & 1<<j){
+        draw_pixel(CHAR_WIDTH -1 -j + x, i +y,0xFF,0xFF,0xFF); //siempre en blanco con fondo negro
       }
     }
   }  
-  //mover el cursero para la derecha ?
 }
+
 
 
 
