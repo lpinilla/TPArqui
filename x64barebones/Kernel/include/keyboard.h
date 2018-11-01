@@ -7,7 +7,6 @@ char read_keyboard();
 void erase_buffer();
 void read_from_buffer(char * placeholder, int count);
 char get_char();
-int buffer_index = 0; //variable global
 
 #define KEYBOARD_STATUS_PORT    0x64
 #define KEYBOARD_DATA_PORT      0x60

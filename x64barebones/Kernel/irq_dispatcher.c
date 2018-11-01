@@ -6,6 +6,7 @@
 
 static void int_20();
 static void int_21();
+void keyboard_handler();
 
 typedef void (*func)();
 func f_pointers[] = {int_20, int_21};

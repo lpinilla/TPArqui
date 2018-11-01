@@ -2,7 +2,7 @@
 
 #include <naiveConsole.h>
 
-typedef struct ModeInfoBlock {
+typedef struct __attribute__((packed)) {
   uint16_t attributes;
   uint8_t winA,winB;
   uint16_t granularity;
@@ -25,19 +25,19 @@ typedef struct ModeInfoBlock {
   uint32_t physbase;  // your LFB (Linear Framebuffer) address ;)
   uint32_t reserved1;
   uint16_t reserved2;
-} ModeInfoBlock __attribute__((packed));
+} ModeInfoBlock;
 
 ModeInfoBlock* get_info_block() {
 	return (ModeInfoBlock*)0x0000000000005C00;
 }
 
-void print_pixel(int x,int y, int r, int g, int b);
+void draw_pixel(int x,int y, int r, int g, int b);
 void load_vga_info();
 
 char * screen;
 
-/* only valid for 800x600x16M */
-void print_pixel(int x,int y, int r, int g, int b) {
+
+void draw_pixel(int x,int y, int r, int g, int b) {
 
 	ModeInfoBlock* infoBlock = (ModeInfoBlock *) get_info_block();
 	screen = infoBlock->physbase + x*infoBlock->bpp / 8 + y*infoBlock->pitch; //magicnumber 8

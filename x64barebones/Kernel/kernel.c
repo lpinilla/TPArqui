@@ -20,7 +20,8 @@ static void * const sampleDataModuleAddress = (void*)0x500000;
 typedef int (*EntryPoint)();
 
 void initial_info(void);
-void print_pixel(int x,int y, int r, int g, int b);
+void draw_pixel(int x,int y, int r, int g, int b);
+void load_idt();
 
 
 void clearBSS(void * bssAddress, uint64_t bssSize)
@@ -96,16 +97,8 @@ int main()
 	ncNewline();
 	ncPrint("Ready..");
 	ncNewline();
-<<<<<<< HEAD
-	print_pixel(100,100, 255,0,0);
+	draw_pixel(100,100, 255,0,0);
 	while(1){}; //mantenerlo vivo
-=======
-	print_pixel();
-	while(1){
-		for(int i=0; i<buffer_index; i++)
-				ncPrintChar(buffer[i]);
-	}; //mantenerlo vivo
->>>>>>> 7514a03c0bd1f001232f73169febaf30d6433982
 
 	return 0;
 }

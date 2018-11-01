@@ -6,6 +6,7 @@
 #define KEYBOARD_PORT 0x60
 #define BUFFER_SIZE 80
 
+int buffer_index = 0; //variable global
 static char buffer[BUFFER_SIZE];
 
 unsigned char keycode_map[128] = {
@@ -21,9 +22,12 @@ unsigned char keycode_map[128] = {
     0,	/* All other keys are undefined */
 };
 
+char io_read(int a);
+
+
 void keyboard_handler(){
 	char key = io_read(KEYBOARD_PORT);
-	ncPrintChar(keycode_map[key]); //para testear
+	ncPrintChar((unsigned char) keycode_map[key]); //para testear
 	buffer[buffer_index++] = key;
 	if(buffer_index >= BUFFER_SIZE){
 		buffer_index = 0;
