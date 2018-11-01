@@ -84,7 +84,7 @@ char * letras[] = {
   "00000000"
 };
 
-void draw_char(int x, int y){
+/*void draw_char(int x, int y){
   char c, index = 0;
   while(letras){
     c = letras[0][index++];
@@ -93,9 +93,9 @@ void draw_char(int x, int y){
     }
     x++;
   }
-}
+}*/
 
-void draw_char2(int x, int y) {
+void draw_char(int x, int y) {
     char * where;
     mode_info_block* infoBlock = (mode_info_block *) get_info_block();
     where = (char *) ((uint64_t) infoBlock->physbase + x*infoBlock->bpp / 8 + (int) y*infoBlock->pitch); //magic_number 8
