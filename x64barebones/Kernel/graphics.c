@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <graphics.h>
 #include <bitmap.h>
+#include <glyphs.h>
 
 
 void draw_pixel(int x,int y, int r, int g, int b) {
@@ -24,60 +25,35 @@ void draw_fill_rect(unsigned char r, unsigned char g, unsigned   char b, unsigne
     }
 }
 
+//auxiliar por si la necesitamos
+unsigned char * get_char_glyph_map(char c){
+  //el -31 es para tener el inicio de donde arrancan las letras
+  return &glyphs[(c-31) * CHAR_HEIGHT];
+}
 
-unsigned char glyphs[] = {
-  ________,
-  ________,
-  ________,
-  _XX_XX__,
-  _XX_XX__,
-  XXXXXXX_,
-  _XX_XX__,
-  _XX_XX__,
-  _XX_XX__,
-  XXXXXXX_,
-  _XX_XX__,
-  _XX_XX__,
-  ________,
-  ________,
-  ________,
-________
-};
-
-
-//mascaras
-uint32_t font_data_lookup_table[16] = {
-    0x00000000,
-    0x000000FF,
-    0x0000FF00,
-    0x0000FFFF,
-    0x00FF0000,
-    0x00FF00FF,
-    0x00FFFF00,
-    0x00FFFFFF,
-    0xFF000000,
-    0xFF0000FF,
-    0xFF00FF00,
-    0xFF00FFFF,
-    0xFFFF0000,
-    0xFFFF00FF,
-    0xFFFFFF00,
-    0xFFFFFFFF
-};
-
-void draw_char(int x, int y){
-  char c, index = 0;
+void draw_char(int x, int y, int c){
+  uint8_t * font_map = get_char_glyph_map(c);
   for(int i = 0; i < CHAR_HEIGHT; i++){
     for(int j = 0; j < CHAR_WIDTH; j++){
-      if(glyphs[i] & 1<<j){
+      if(font_map[i] & 1<<j){
         //paint
         draw_pixel(CHAR_WIDTH -1 -j + x, i +y,0xFF,0xFF,0xFF);
       }else{
         draw_pixel(CHAR_WIDTH - 1 -j + x,i + y,0,0,0);
       }
     }
-  }
+  }  
+  //mover el cursero para la derecha ?
 }
+
+
+
+
+/*
+**Forma más eficiente de pintar chars, por cada fila del mapa de glyphs, 
+**se encarga de copiar "toda la fila entera" en vez de hacer putpixel
+**de cada caracter. 
+
 
 void draw_char2(int x, int y) {
     char * where;
@@ -99,4 +75,4 @@ void draw_char2(int x, int y) {
         //where += x + (y << 8) + (y << 6);
         where += infoBlock->pitch;
     }
-}
+}*/
