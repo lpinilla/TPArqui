@@ -3,6 +3,8 @@
 #include <naiveConsole.h>
 
 #define PIXEL_SIZE 100
+#define CHAR_HEIGHT 16
+#define CHAR_WIDTH 8
 
 typedef struct __attribute__((packed)) {
   uint16_t attributes;
@@ -43,12 +45,13 @@ char * screen;
 void draw_point(int x,int y, int r, int g, int b) {
 
 	mode_info_block* infoBlock = (mode_info_block *) get_info_block();
-	screen = infoBlock->physbase + x*infoBlock->bpp / 8 + y*infoBlock->pitch; //magicnumber 8
+	screen = infoBlock->physbase + x*infoBlock->bpp / 8 + y*infoBlock->pitch; //magic_number 8
     screen[0] = b;              // BLUE
     screen[1] = g;              // GREEN
     screen[2] = r;              // RED
 }
 
+//se podría usar con double buffering
 void draw_pixel(unsigned char r, unsigned char g, unsigned   char b) {
     mode_info_block* infoBlock = (mode_info_block *) get_info_block();
     unsigned char *where = infoBlock->physbase;
