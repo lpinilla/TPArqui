@@ -20,8 +20,9 @@ static void * const sampleDataModuleAddress = (void*)0x500000;
 typedef int (*EntryPoint)();
 
 void initial_info(void);
-void draw_pixel(int x,int y, int r, int g, int b);
 void load_idt();
+void draw_point(int x,int y, int r, int g, int b);
+void draw_pixel(unsigned char r, unsigned char g, unsigned   char b);
 
 
 void clearBSS(void * bssAddress, uint64_t bssSize)
@@ -97,7 +98,8 @@ int main()
 	ncNewline();
 	ncPrint("Ready..");
 	ncNewline();
-	draw_pixel(100,100, 255,0,0);
+	draw_point(100,100, 255,0,0);
+	draw_fill_rect(255,255,255);
 	while(1){}; //mantenerlo vivo
 
 	return 0;

@@ -2,6 +2,8 @@
 
 #include <naiveConsole.h>
 
+#define PIXEL_SIZE 100
+
 typedef struct __attribute__((packed)) {
   uint16_t attributes;
   uint8_t winA,winB;
@@ -25,23 +27,35 @@ typedef struct __attribute__((packed)) {
   uint32_t physbase;  // your LFB (Linear Framebuffer) address ;)
   uint32_t reserved1;
   uint16_t reserved2;
-} ModeInfoBlock;
+} mode_info_block;
 
-ModeInfoBlock* get_info_block() {
-	return (ModeInfoBlock*)0x0000000000005C00;
+mode_info_block* get_info_block() {
+	return (mode_info_block*)0x0000000000005C00;
 }
 
-void draw_pixel(int x,int y, int r, int g, int b);
+void draw_point(int x,int y, int r, int g, int b);
 void load_vga_info();
+void draw_pixel(unsigned char r, unsigned char g, unsigned   char b);
 
 char * screen;
 
 
-void draw_pixel(int x,int y, int r, int g, int b) {
+void draw_point(int x,int y, int r, int g, int b) {
 
-	ModeInfoBlock* infoBlock = (ModeInfoBlock *) get_info_block();
+	mode_info_block* infoBlock = (mode_info_block *) get_info_block();
 	screen = infoBlock->physbase + x*infoBlock->bpp / 8 + y*infoBlock->pitch; //magicnumber 8
     screen[0] = b;              // BLUE
     screen[1] = g;              // GREEN
     screen[2] = r;              // RED
+}
+
+void draw_pixel(unsigned char r, unsigned char g, unsigned   char b) {
+    mode_info_block* infoBlock = (mode_info_block *) get_info_block();
+    unsigned char *where = infoBlock->physbase;
+    for (int i = 0; i < PIXEL_SIZE; i++) {
+        for (int j = 0; j < PIXEL_SIZE; j++) {
+            draw_point(j,i, r,g,b);
+        }
+        where+=3200;
+    }
 }
