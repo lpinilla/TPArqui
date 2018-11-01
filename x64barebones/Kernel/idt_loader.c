@@ -10,11 +10,11 @@ void load_idt() {
 	
 	//exception
  	setup_IDT_entry (0x00, (uint64_t)&_exception0_handler);
-
+ 	//invalid opcode
  	//drivers
 	setup_IDT_entry (0x20, (uint64_t)&_irq00_handler); //timer tick
 	setup_IDT_entry(0x21, (uint64_t)&_irq01_handler); //teclado
-	
+	//interrupt 80 para llamar a las cosas
 
 
 	pic_master_mask(0xFC);  //timer tick && teclado

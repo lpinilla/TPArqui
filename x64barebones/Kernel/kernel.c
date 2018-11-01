@@ -19,6 +19,7 @@ static void * const sampleDataModuleAddress = (void*)0x500000;
 typedef int (*EntryPoint)();
 
 void initial_info(void);
+void print_pixel(int x,int y, int r, int g, int b);
 
 
 void clearBSS(void * bssAddress, uint64_t bssSize)
@@ -82,7 +83,6 @@ void * initializeKernelBinary()
 	return getStackBase();
 }
 
-void print_pixel();
 
 int main()
 {	
@@ -95,7 +95,7 @@ int main()
 	ncNewline();
 	ncPrint("Ready..");
 	ncNewline();
-	print_pixel();
+	print_pixel(100,100, 255,0,0);
 	while(1){}; //mantenerlo vivo
 
 	return 0;
