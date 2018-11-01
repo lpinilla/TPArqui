@@ -101,6 +101,7 @@ int main()
 	draw_char('?');
 	draw_string("Arqui");
 	draw_char('.');
+	erase_character();
 	while(1){}; //mantenerlo vivo
 
 	return 0;

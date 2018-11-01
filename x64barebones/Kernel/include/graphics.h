@@ -42,9 +42,10 @@ color BLACK = {.r = 0x0, .g = 0x0, .b = 0x0};
 void draw_pixel(int x,int y, int r, int g, int b);
 void load_vga_info();
 void draw_fill_rect(unsigned char r, unsigned char g, unsigned   char b, unsigned char size);
-void draw_char_w_color(int x, int y, int c, int r, int g, int b);
+void draw_char_w_color(int x, int y, char c, int r, int g, int b);
 void draw_char(char c);
 void draw_string(char * string);
+void erase_character();
 
 char * screen; //creo que no se usa
 

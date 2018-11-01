@@ -29,27 +29,23 @@ void draw_fill_rect(unsigned char r, unsigned char g, unsigned   char b, unsigne
     }
 }
 
-void draw_char_w_color(int x, int y, int c, int r, int g, int b){
+void draw_char_w_color(int x, int y, char c, int r, int g, int b){
   for(int i = 0; i < CHAR_HEIGHT; i++){
     for(int j = 0; j < CHAR_WIDTH; j++){
       if(*(&glyphs[(c-31) * CHAR_HEIGHT] + i * sizeof(uint8_t)) & 1<<j){
-        draw_pixel(CHAR_WIDTH -1 -j + x, i +y,r,g,b);
+        draw_pixel(CHAR_WIDTH -1 -j + x_cursor, i + y_cursor,r,g,b);
+      }else{
+        draw_pixel(CHAR_WIDTH -1 -j + x_cursor, i + y_cursor,0,0,0); //necesito esto para poder borrar
       }
     }
   }
+  x_cursor += CHAR_WIDTH;
 }
 
 
 //draw in black background and white letters
 void draw_char(char c){
-  for(int i = 0; i < CHAR_HEIGHT; i++){
-    for(int j = 0; j < CHAR_WIDTH; j++){
-      if(*(&glyphs[(c-31) * CHAR_HEIGHT] + i * sizeof(uint8_t)) & 1<<j){
-        draw_pixel(CHAR_WIDTH -1 -j + x_cursor, i + y_cursor,0xFF,0xFF,0xFF); //siempre en blanco con fondo negro
-      }
-    }
-  }  
-  x_cursor += CHAR_WIDTH;
+  draw_char_w_color(x_cursor, y_cursor, c, 0XFF, 0XFF, 0XFF);  
 }
 
 
@@ -62,6 +58,10 @@ void draw_string(char * string){
 }
 
 
+void erase_character(){
+  x_cursor -= CHAR_WIDTH;  
+  draw_char_w_color(x_cursor, y_cursor, ' ', 0xFF,0xFF,0xFF);
+}
 
 
 
