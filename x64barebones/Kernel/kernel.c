@@ -21,8 +21,6 @@ typedef int (*EntryPoint)();
 
 void initial_info(void);
 void load_idt();
-void draw_point(int x,int y, int r, int g, int b);
-void draw_pixel(unsigned char r, unsigned char g, unsigned   char b);
 
 
 void clearBSS(void * bssAddress, uint64_t bssSize)
@@ -98,8 +96,8 @@ int main()
 	ncNewline();
 	ncPrint("Ready..");
 	ncNewline();
-	draw_point(100,100, 255,0,0);
-	draw_fill_rect(255,255,255);
+	draw_pixel(100,100, 255,0,0);
+	draw_fill_rect(255,255,255, 10);
 	while(1){}; //mantenerlo vivo
 
 	return 0;
