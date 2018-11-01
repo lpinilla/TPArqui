@@ -1,11 +1,12 @@
 #include <stdio.h>
 #include <graphics.h>
+#include <bitmap.h>
 
 
 void draw_pixel(int x,int y, int r, int g, int b) {
 
 	mode_info_block* infoBlock = (mode_info_block *) get_info_block();
-	screen = infoBlock->physbase + x*infoBlock->bpp / 8 + y*infoBlock->pitch; //magic_number 8
+	screen = (char *) ((uint64_t) infoBlock->physbase + x*infoBlock->bpp / 8 + (int) y*infoBlock->pitch); //magic_number 8
     screen[0] = b;              // BLUE
     screen[1] = g;              // GREEN
     screen[2] = r;              // RED
@@ -23,7 +24,28 @@ void draw_fill_rect(unsigned char r, unsigned char g, unsigned   char b, unsigne
     }
 }
 
-/*
+
+unsigned char glyphs[] = {
+  ________,
+  ________,
+  ___XX___,
+  __XXXX__,
+  __XXXX__,
+  __XXXX__,
+  ___XX___,
+  ___XX___,
+  ___XX___,
+  ________,
+  ___XX___,
+  ___XX___,
+  ________,
+  ________,
+  ________,
+  ________
+};
+
+
+//mascaras
 uint32_t font_data_lookup_table[16] = {
     0x00000000,
     0x000000FF,
@@ -41,23 +63,56 @@ uint32_t font_data_lookup_table[16] = {
     0xFFFF00FF,
     0xFFFFFF00,
     0xFFFFFFFF
+};
+
+char * letras[] = {
+  "00000000",
+  "00000000",
+  "00011000",
+  "00111100",
+  "00111100",
+  "00111100",
+  "00011000",
+  "00011000",
+  "00011000",
+  "00000000",
+  "00011000",
+  "00011000",
+  "00000000",
+  "00000000",
+  "00000000",
+  "00000000"
+};
+
+void draw_char(int x, int y){
+  char c, index = 0;
+  while(letras){
+    c = letras[0][index++];
+    if(c){
+      draw_pixel(x,y,255,255,255);
+    }
+    x++;
+  }
 }
- 
-void draw_char(uint32_t character, uint8_t foreground_colour, uint8_t background_colour) {
-    where = screen;
-    int row;
+
+void draw_char2(int x, int y) {
+    char * where;
+    mode_info_block* infoBlock = (mode_info_block *) get_info_block();
+    where = (char *) ((uint64_t) infoBlock->physbase + x*infoBlock->bpp / 8 + (int) y*infoBlock->pitch); //magic_number 8
     uint8_t row_data;
     uint32_t mask1, mask2;
-    uint8_t *font_data_for_char = &system_font_data_address[character * 8];
-    uint32_t packed_foreground = (foreground << 24) | (foreground << 16) | (foreground << 8) | foreground;
-    uint32_t packed_background = (background << 24) | (background << 16) | (background << 8) | background;
+    uint32_t foreground_colour = (WHITE.r << 16) + (WHITE.g << 8) + WHITE.b;
+
+    uint8_t *font_data_for_char = glyphs;
+    uint32_t packed_foreground = (foreground_colour << 24) | (foreground_colour << 16) | (foreground_colour << 8) | foreground_colour;
  
-    for (row = 0; row < 8; row++) {
+    for (int row = 0; row < 16; row++) {
         row_data = font_data_for_char[row];
         mask1 = font_data_lookup_table[row_data / 16];
         mask2 = font_data_lookup_table[row_data & 0x0F];
-        *(uint32_t *)where = (packed_foreground & mask1) | (packed_background & ~mask1);
-        *(uint32_t *)(&where[4]) = (packed_foreground & mask2) | (packed_background & ~mask2);
-        where += bytes_per_line;
+        *(uint32_t *)where = (packed_foreground & mask1);
+        *(uint32_t *)(&where[4]) = (packed_foreground & mask2);
+        //where += x + (y << 8) + (y << 6);
+        where += infoBlock->pitch;
     }
-}*/
+}

@@ -97,7 +97,8 @@ int main()
 	ncPrint("Ready..");
 	ncNewline();
 	draw_pixel(100,100, 255,0,0);
-	draw_fill_rect(255,255,255, 10);
+	//draw_fill_rect(255,255,255, 10);
+	draw_char(100, 10);
 	while(1){}; //mantenerlo vivo
 
 	return 0;
