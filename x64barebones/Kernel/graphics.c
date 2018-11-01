@@ -49,7 +49,6 @@ void draw_char(char c){
 }
 
 
-
 void draw_string(char * string){
   int i = 0;
   while(*(string + i)){
