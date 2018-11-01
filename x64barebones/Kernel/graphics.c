@@ -28,20 +28,20 @@ void draw_fill_rect(unsigned char r, unsigned char g, unsigned   char b, unsigne
 unsigned char glyphs[] = {
   ________,
   ________,
-  ___XX___,
-  __XXXX__,
-  __XXXX__,
-  __XXXX__,
-  ___XX___,
-  ___XX___,
-  ___XX___,
   ________,
-  ___XX___,
-  ___XX___,
+  _XX_XX__,
+  _XX_XX__,
+  XXXXXXX_,
+  _XX_XX__,
+  _XX_XX__,
+  _XX_XX__,
+  XXXXXXX_,
+  _XX_XX__,
+  _XX_XX__,
   ________,
   ________,
   ________,
-  ________
+________
 };
 
 
@@ -65,45 +65,29 @@ uint32_t font_data_lookup_table[16] = {
     0xFFFFFFFF
 };
 
-char * letras[] = {
-  "00000000",
-  "00000000",
-  "00011000",
-  "00111100",
-  "00111100",
-  "00111100",
-  "00011000",
-  "00011000",
-  "00011000",
-  "00000000",
-  "00011000",
-  "00011000",
-  "00000000",
-  "00000000",
-  "00000000",
-  "00000000"
-};
-
-/*void draw_char(int x, int y){
+void draw_char(int x, int y){
   char c, index = 0;
-  while(letras){
-    c = letras[0][index++];
-    if(c){
-      draw_pixel(x,y,255,255,255);
+  for(int i = 0; i < CHAR_HEIGHT; i++){
+    for(int j = 0; j < CHAR_WIDTH; j++){
+      if(glyphs[i] & 1<<j){
+        //paint
+        draw_pixel(CHAR_WIDTH -1 -j + x, i +y,0xFF,0xFF,0xFF);
+      }else{
+        draw_pixel(CHAR_WIDTH - 1 -j + x,i + y,0,0,0);
+      }
     }
-    x++;
   }
-}*/
+}
 
-void draw_char(int x, int y) {
+void draw_char2(int x, int y) {
     char * where;
     mode_info_block* infoBlock = (mode_info_block *) get_info_block();
     where = (char *) ((uint64_t) infoBlock->physbase + x*infoBlock->bpp / 8 + (int) y*infoBlock->pitch); //magic_number 8
     uint8_t row_data;
     uint32_t mask1, mask2;
-    uint32_t foreground_colour = (WHITE.r << 16) + (WHITE.g << 8) + WHITE.b;
+    uint8_t foreground_colour = (WHITE.r << 16) + (WHITE.g << 8) + WHITE.b;
 
-    uint8_t *font_data_for_char = glyphs;
+    uint8_t *font_data_for_char = &glyphs[0];
     uint32_t packed_foreground = (foreground_colour << 24) | (foreground_colour << 16) | (foreground_colour << 8) | foreground_colour;
  
     for (int row = 0; row < 16; row++) {
