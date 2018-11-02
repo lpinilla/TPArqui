@@ -23,7 +23,12 @@ void syscall_dispacher(uint64_t number, ...) {
         break;
       case DRAW_PIXEL:
         va_start(ap,5);
-        draw_pixel(va_arg(ap,int),va_arg(ap,int), va_arg(ap,int),va_arg(ap,int),va_arg(ap,int));
+        int arg1 = va_arg(ap,uint64_t);
+        int arg2 = va_arg(ap,uint64_t);
+        int arg3 = va_arg(ap,uint64_t);
+        int arg4 = va_arg(ap,uint64_t);
+        int arg5 = va_arg(ap,uint64_t);
+        draw_pixel(arg1,arg2,arg3,arg4,arg5);
         break;
       default:
         va_start(ap,1);

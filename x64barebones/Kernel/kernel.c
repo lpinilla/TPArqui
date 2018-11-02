@@ -5,6 +5,7 @@
 #include <naiveConsole.h>
 #include <keyboard.h>
 #include <graphics.h>
+#include <syscall_dispacher.h>
 
 extern uint8_t text;
 extern uint8_t rodata;
@@ -135,6 +136,7 @@ void video_tests(){
 	draw_char('>');
 	draw_string("TPArqui");
 	draw_char(':');
+	syscall_dispacher(3, 100,100, 255, 0, 0);
 	//draw_fill_rect(300,300, 255,0,255, 100);
 	//draw_number(22);
 	//clear_screen();
@@ -146,7 +148,7 @@ void video_tests(){
 	}
 	for(int i = 0; i < 1000; i++){
 		for(int j = 0; j < number_of_digits(i); j++){
-			erase_character();	
+			erase_character();
 		}
 	}
 	draw_string("Erased!");
