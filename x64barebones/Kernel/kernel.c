@@ -102,6 +102,7 @@ int main()
 	draw_string("Arqui");
 	draw_char('.');
 	draw_number(22);
+	clear_screen();
 	//erase_character();
 	while(1){}; //mantenerlo vivo
 

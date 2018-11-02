@@ -48,6 +48,7 @@ void draw_string(char * string);
 void erase_character();
 int number_of_digits(int n);
 void draw_number(int n);
+void clear_screen();
 
 char * screen; //creo que no se usa
 

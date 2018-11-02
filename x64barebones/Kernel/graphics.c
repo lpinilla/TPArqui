@@ -64,9 +64,7 @@ void erase_character(){
 
 //testeable
 int number_of_digits(int n){
-  if(n == 0){
-    return 0;
-  }
+  if(n == 0)  return 0;
   return 1 + number_of_digits(n/10);
 }
 
@@ -80,6 +78,14 @@ void draw_number(int n){
   }
   for(int i = 0; i < count; i++){
     draw_char(array[i] + '0');
+  }
+}
+
+void clear_screen(){
+  for(int i = 0; i < infoBlock->y_res; i++){
+    for(int j = 0; j < infoBlock->x_res; j++){
+      draw_char_w_color(i,j," ",0,0,0);
+    }
   }
 }
 
