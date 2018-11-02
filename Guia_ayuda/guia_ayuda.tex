@@ -1,6 +1,6 @@
 \documentclass[]{article}
-
-
+\usepackage{graphicx}
+\usepackage{subfig}
 %opening
 \title{Gu\'ia de creaci\'on de Kernel - TP ARQUI - ITBA}
 \author{Lpinilla}
@@ -304,5 +304,46 @@ Entonces de esta manera tenemos codificado el bitmap.
 Verificar de a 1 bit a la vez e imprimir 1 pixel es algo sumamente ineficiente, m\'as sabiendo que cada char ocupa 1 byte de largo, entonces nos podemos preguntar: Por que no ir copiando directamente de a bytes?\\
 
 Esto se puede hacer pero es mucho m\'as dif\'icil ya que se tendr\'ia que "empaquetar" (shifteando bits) el color deseado para que se imprima en todos los bits correspondientes
+
+
+\section*{Programaci\'on de videojuegos en bajo nivel}
+En nuestra consigna de TP nos toc\'o realizar el juego PONG pero las t\'ecnicas que vamos a explicar sirven otros tipos de juegos tambi\'en.\\
+
+Antes (80's 90's) los juegos se hac\'ian en Assembler porque las computadoras (y despu\'es las consolas) no pod\'ian procesar algo de alto nivel como C o no era conveniente (solo hab\'ia 40kb de RAM) , a medida que mejoraron las tecnolog\'ias, les permitieron a los desarrolladores poder programar en Assembler pero cuando deb\'ian realizar alguna configurac\'ion como por ejemplo cambiar el color de texto, ten\'ian que cambiar par\'ametros mediante llamadas a ASM.\\
+
+Con el TP tenemos un caso parecido, podemos programar toda la l\'ogica en C pero para poder graficar tenemos que hacerlo mediante syscalls (o creando una librer\'ia que se maneja con las syscalls) para no toca la memoria directamente.\\
+
+Las distintas "partes" de un juego de este estilo son
+\begin{enumerate}
+	\item Ciclos del juego.
+	\item L\'ogica del juego.
+	\item Parte gr\'afica del juego.
+\end{enumerate}
+
+El o los ciclos del juego es el ciclo principal que va a estar corriendo mientras se est\'e ejecutando el programa. Adentro de este ciclo puede existir una m\'aquina de estados para guiar al jugador mientras se ejecute ("men\'u", "en juego", "fin del juego").\\
+
+La l\'ogica del juego es donde va a estar toda la programaci\'on de la jugabilidad, en nuestro caso, el puntaje, el control de las teclas para jugar y la "f\'isica" de la pelotita que rebota.\\
+
+La parte gr\'afica es la que se encarga de dibujar todo. En bajo nivel, dependiendo el juego, esto podr\'ia a llegar a ser m'as complicado que la l\'ogica del juego ya que tenemos que recordar que no tenemos forma de "pintar" cosas m\'as que llamando a las syscalls y recordando que si cambiamos lo que el usuario esta viendo mientras lo esta viendo, puede generar errores conocidos como "tearing" o "flickering".
+
+\subsection*{Double Buffering o Page Flipping}
+
+\begin{figure}
+	\centering
+	\subfloat[Double Buffering]{\label{ref_label1}\includegraphics[width=0.5\textwidth]{screenshot001}}
+	\subfloat[Page Flipping]{\label{ref_label2}\includegraphics[width=0.4\textwidth]{screenshot002}}
+	\caption{\label{ref_label_overall}Overall caption}
+\end{figure}
+
+
+El Double Buffering y el Page Flipping son dos t\'ecnicas conocidas que se encargan de hacer lo mismo de manera distinta. La idea es que en vez de modificar la pantalla mientras se esta mostrando, se utilice una zona de memoria auxiliar para que ser\'ia nuestra "segunda" pantalla.\\
+
+En Page Flipping, si la memoria es lo suficientemente grande, podr\'iamos llegar a tener parte de la memoria que el monitor no esta "viendo", entonces cuando este se llena o queremos cambiarlo, podemos decirle que "mire" a la otra parte que cambiamos.\\
+
+Nosotros vamos a implementar Double Buffering porque VGA Mode 13h no tiene espacio suficiente asignado para "m'as de una pantalla", as\'i que lo primero que hacemos es declarar un array de char[] del tamaño de la resoluci\'on (en nuestro caso, 320 * 200) que va a actuar como nuestro segundo buffer o "shadow\_buffer".\\
+
+Dependiendo de las especificaciones, podemos hacer las cosas m\'as o menos eficiente. Mode 13h no nos deja simplemente cambiar el puntero a su direcci\'on de memoria as\'i que tenemos uqe copiar todo el buffer cuando queremos "cambiarlos". Con Page Flipping habr\'ia que ver si el modo nos deja cambiar el puntero o hay que tambi\'en copiar de una zona de memoria a otra.
+
+
 
 \end{document}

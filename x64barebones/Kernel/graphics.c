@@ -49,6 +49,9 @@ void shadow_pixel(int x, int y, int r, int g, int b) {
   screen[2] = r;              // RED
 }
 
+//para mi deben ser funciones separadas porque el double buffering es opcional, el que lo conoce
+//y lo quiere usar, que use los métodos específicos.
+
 void shadow_fill_rect(int x, int y, unsigned char r, unsigned char g, unsigned   char b, unsigned char size) {
     for (int i = y; i < size + y; i++) {
         for (int j = x; j < size + x; j++) {
