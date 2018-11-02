@@ -135,6 +135,7 @@ void video_tests(){
 	draw_char('>');
 	draw_string("TPArqui");
 	draw_char(':');
+	//draw_fill_rect(300,300, 255,0,255, 100);
 	//draw_number(22);
 	//clear_screen();
 	//erase_character();

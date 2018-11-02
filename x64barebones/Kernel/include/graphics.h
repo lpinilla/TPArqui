@@ -3,6 +3,7 @@
 
 #define CHAR_HEIGHT 16
 #define CHAR_WIDTH 8
+#define VIDEO_START_ADDRESS 0xB8000
 
 typedef struct __attribute__((packed)) {
   uint16_t attributes;
@@ -35,7 +36,7 @@ typedef struct{
 
 void draw_pixel(int x,int y, int r, int g, int b);
 void load_vga_info(void);
-void draw_fill_rect(unsigned char r, unsigned char g, unsigned   char b, unsigned char size);
+void draw_fill_rect(int x, int y, unsigned char r, unsigned char g, unsigned   char b, unsigned char size);
 void draw_char_w_color(int x, int y, char c, int r, int g, int b);
 void draw_char(char c);
 void draw_string(char * string);
@@ -44,5 +45,9 @@ int number_of_digits(int n);
 void draw_number(int n);
 void clear_screen(void);
 void init_graphics(void);
+void draw_pixel2(int x, int y, int r, int g, int b);
+void draw_fill_rect2(int x, int y, unsigned char r, unsigned char g, unsigned   char b, unsigned char size);
+void swap_buffers();
+
 
 #endif

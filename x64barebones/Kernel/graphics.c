@@ -4,11 +4,11 @@
 #include <bitmap.h>
 #include <glyphs.h>
 
+//resolucion 1024*768
 
 //-----------------Variables locales
 unsigned char * screen; //se usa para no estar creandolo todo el tiempo
 int x_cursor, y_cursor;
-unsigned char *shadow_buffer;
 mode_info_block* info_block;
 //-----------------Fin variables locales
 
@@ -18,7 +18,7 @@ void init_graphics(){
   y_cursor = CHAR_HEIGHT;
   /*color WHITE = {.r = 0xFF, .g = 0xFF, .b = 0xFF};
   color BLACK = {.r = 0x0, .g = 0x0, .b = 0x0};*/
-  
+  memset(shadow_buffer, 0, info_block->x_res * info_block->y_res);
   //podría mostrar mensaje de bienvenida
 }
 
@@ -30,10 +30,9 @@ void draw_pixel(int x, int y, int r, int g, int b) {
   screen[2] = r;              // RED
 }
 
-//se podría usar con double buffering
-void draw_fill_rect(unsigned char r, unsigned char g, unsigned   char b, unsigned char size) {
-    for (int i = 0; i < size; i++) {
-        for (int j = 0; j < size; j++) {
+void draw_fill_rect(int x, int y, unsigned char r, unsigned char g, unsigned   char b, unsigned char size) {
+    for (int i = y; i < size + y; i++) {
+        for (int j = x; j < size + x; j++) {
             draw_pixel(j,i, r,g,b);
         }
     }
@@ -111,12 +110,9 @@ void draw_number(int n){
 }
 
 void clear_screen(){
-  for(int i = 0; i < info_block->y_res; i++){
-    for(int j = 0; j < info_block->x_res; j++){
-      draw_char_w_color(i,j,' ',0,0,0);
-    }
-  }
+  memset(info_block->physbase, 0, info_block->y_res * info_block->x_res);
 }
+
 
 
 
