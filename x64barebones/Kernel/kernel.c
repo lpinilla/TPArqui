@@ -140,8 +140,8 @@ void video_tests(){
 	/*for(int i = 0; i < 50; i++){
 		draw_number(i);
 		new_line();
-	}
-	move_everything_up();*/
+	}*/
+	//move_everything_up3();
 	//draw_fill_rect(300,300, 255,0,255, 100);
 	//draw_number(22);
 	//clear_screen();
@@ -158,4 +158,8 @@ void video_tests(){
 	}
 	draw_string("Erased!");
 	*/
+	shadow_fill_rect(300,300, 0xFF, 0x0, 0xFF, 100);
+	swap_buffers();
+	//shadow_fill_rect(500,500, 0x0, 0xFF, 0x0, 100);
+	//swap_buffers();
 }

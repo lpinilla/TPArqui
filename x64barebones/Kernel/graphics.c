@@ -8,6 +8,7 @@
 
 //-----------------Variables locales
 unsigned char * screen; //se usa para no estar creandolo todo el tiempo
+static char shadow_buffer[64] = {'0'}; //64k = 320 * 200
 int x_cursor, y_cursor;
 mode_info_block* info_block;
 
@@ -30,7 +31,6 @@ void init_graphics(){
     draw_string(title[i]);
     new_line();
   }
-  /* memset(shadow_buffer, 0, info_block->x_res * info_block->y_res); */
   //podría mostrar mensaje de bienvenida
 }
 
@@ -40,6 +40,21 @@ void draw_pixel(int x, int y, int r, int g, int b) {
   screen[0] = b;              // BLUE
   screen[1] = g;              // GREEN
   screen[2] = r;              // RED
+}
+
+void shadow_pixel(int x, int y, int r, int g, int b) {
+  screen = (char *) ((uint64_t) shadow_buffer + x*info_block->bpp / 8 + (int) y*info_block->pitch);
+  screen[0] = b;              // BLUE
+  screen[1] = g;              // GREEN
+  screen[2] = r;              // RED
+}
+
+void shadow_fill_rect(int x, int y, unsigned char r, unsigned char g, unsigned   char b, unsigned char size) {
+    for (int i = y; i < size + y; i++) {
+        for (int j = x; j < size + x; j++) {
+            shadow_pixel(j,i, r,g,b);
+        }
+    }
 }
 
 void draw_fill_rect(int x, int y, unsigned char r, unsigned char g, unsigned   char b, unsigned char size) {
@@ -159,24 +174,16 @@ void new_line(){
   x_cursor = 0;
 }
 
-//ver si podemos usar memcpy
 void move_everything_up(){
-  for(int i = 0; i < info_block->y_res; i++){
-    for(int j = 0; j < info_block->x_res; j++){
-      copy_pixel(i,j, i, j + CHAR_HEIGHT);
-    }
-  }
+  memcpy(info_block->physbase, info_block->physbase + info_block->pitch * CHAR_HEIGHT,
+           (info_block->x_res * info_block->bpp / 8 * CHAR_WIDTH * 2) * info_block->y_res / CHAR_HEIGHT);
 }
 
-
-void copy_pixel(int x1,int y1,int x2,int y2){
-  unsigned char* src = (char *) ((uint64_t)(info_block->physbase + info_block->pitch * y2 + x2 * (int)(info_block->bpp/8)));
-  unsigned char* dst = (char *) ((uint64_t)(info_block->physbase + info_block->pitch * y1 + x1 * (int)(info_block->bpp/8)));
-  dst[0] = src[0];
-  dst[1] = src[1];
-  dst[2] = src[2];
+//si no anda bien, copiar la cantidad de bytes del move_everything_up
+void swap_buffers(){
+  memcpy(info_block->physbase - info_block->pitch * CHAR_HEIGHT, shadow_buffer,
+         info_block->x_res * info_block->y_res * info_block->bpp/8);
 }
-
 
 
 /*
