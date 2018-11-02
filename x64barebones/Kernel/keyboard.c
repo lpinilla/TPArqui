@@ -1,3 +1,4 @@
+
 #include <keyboard.h>
 #include <naiveConsole.h> //para testear
 //preguntar como se maneja esto
@@ -5,13 +6,16 @@
 extern uint8_t io_read(uint16_t port);
 
 static char buffer[BUFFER_SIZE];
-static int buffer_index; //variable global
+static int head; //variable global
+static int tail;
+static int full=FALSE;
 static int caps_lock_pressed = FALSE;
 static int l_shift_pressed= FALSE;
 static int r_shitf_pressed= FALSE;
 
 int is_alpha(unsigned char c);
 void add_buffer(char);
+int buffer_empty();
 #define CHECKBYTE(binary, index) (binary & 1<<(index)) // macro que checkea si el byte en la posicion index esta prendido
 
 unsigned char keycode_map[128] = {
@@ -42,13 +46,13 @@ void keyboard_handler(){
 		key = io_read(KEYBOARD_DATA_PORT);
 	else
 		return;
-	if(key<0){ // nos fijamos si es una tecla soltada y por ahora solo tenemos en cuenta que los caracteres combinacion son los shift
-		if(keycode_map[key+BREAK_CODE_DIF] == LEFT_SHIFT)
-			l_shift_pressed=FALSE;
-		if(keycode_map[key+BREAK_CODE_DIF] == RIGHT_SHIFT)
-			r_shitf_pressed=FALSE;
-		return;
-	}
+  if(key<0){
+    	if(keycode_map[key+BREAK_CODE_DIF] == LEFT_SHIFT)// nos fijamos si es una tecla soltada y por ahora solo tenemos en cuenta que los caracteres combinacion son los shift
+  		l_shift_pressed=FALSE;
+  	if(keycode_map[key+BREAK_CODE_DIF] == RIGHT_SHIFT)
+  		r_shitf_pressed=FALSE;
+  	return;
+  }
 	if(keycode_map[key]==CAPS_LOCK){
 		caps_lock_pressed=(caps_lock_pressed?FALSE:TRUE);
 		return;
@@ -70,19 +74,25 @@ void keyboard_handler(){
 }
 
 void add_buffer(char c){
-  buffer[buffer_index++] = c;
-  if(buffer_index >= BUFFER_SIZE){
-    buffer_index = 0;
+  buffer[head]=c;
+  if(full==TRUE){
+    tail = (tail+1) % BUFFER_SIZE;
+  }
+  head = (head+1) % BUFFER_SIZE;
+  if(head==tail){
+    full=TRUE;
   }
 }
 
 void erase_buffer(){ //set all buffer to 0
-	memset(buffer, 0, BUFFER_SIZE * sizeof(char));
+	tail==head;
+  full=FALSE;
 }
 
-/*Salvo verificar si es null, no se verifica nada de placeholder
-**Se lee siempre desde el principio y después se mueve el index*/
+/*
+
 void read_from_buffer(char * placeholder, int count){
+Salvo verificar si es null, no se verifica nada de placeholder
 	if(count < 0 || placeholder == NULL){
 		return;
 	}
@@ -95,17 +105,20 @@ void read_from_buffer(char * placeholder, int count){
 	memset(buffer + desp, 0, count);
 }
 
+*/
 char get_char(){
-	unsigned char c = buffer[buffer_index++];
-	if(buffer_index >= BUFFER_SIZE){
-		buffer_index = 0;
-	}
-	return keycode_map[c];
+  int aux = EOF;
+  if(!buffer_empty()){
+    aux=buffer[tail];
+    full=FALSE;
+    tail=(tail+1) % BUFFER_SIZE;
+  }
+  return aux;
 }
 int is_alpha(unsigned char c) {
     return ((c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z'));
 }
 
 int buffer_empty(){
-  return buffer_index==0;
+  return head==tail;
 }

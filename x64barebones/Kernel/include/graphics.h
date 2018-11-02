@@ -5,6 +5,8 @@
 #define CHAR_WIDTH 8
 #define VIDEO_START_ADDRESS 0xB8000
 
+#include <stdint.h>
+
 typedef struct __attribute__((packed)) {
   uint16_t attributes;
   uint8_t win_A,win_B;
