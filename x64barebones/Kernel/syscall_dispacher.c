@@ -3,37 +3,26 @@
 #include <stdarg.h>
 #include <graphics.h>
 
-#define READ 1
-#define WRITE 2
-#define DRAW_PIXEL 3
+#define READ 3
+#define WRITE 4
+#define DRAW_PIXEL 5
 
 void read(uint64_t param1, uint64_t param2, uint64_t param3);
-void write(uint64_t param1, uint64_t param2, uint64_t param3);
+void write(int param1, char * param2, int param3);
 
-void syscall_dispacher(uint64_t number, ...) {
-  va_list ap;
-  switch(number){
+// usamos la convencion de linux y c para los parametros de las syscalls
+void syscall_dispacher(uint64_t rdi, uint64_t rsi, uint64_t rdx, uint64_t rcx, uint64_t r8, uint64_t r9) {
+  switch(rdi){
       case READ:
-        va_start(ap, 3);
-        read(va_arg(ap,int),va_arg(ap,int),va_arg(ap,int));
+        //read(va_arg(ap,int),va_arg(ap,int),va_arg(ap,int));
         break;
       case WRITE:
-        va_start(ap,3);
-        read(va_arg(ap,int),va_arg(ap,int), va_arg(ap,int));
+        write(rsi,(char *) rdx, rcx);
         break;
       case DRAW_PIXEL:
-        va_start(ap,5);
-        int arg1 = va_arg(ap,uint64_t);
-        int arg2 = va_arg(ap,uint64_t);
-        int arg3 = va_arg(ap,uint64_t);
-        int arg4 = va_arg(ap,uint64_t);
-        int arg5 = va_arg(ap,uint64_t);
-        draw_pixel(arg1,arg2,arg3,arg4,arg5);
+        draw_pixel(rsi,rdx,rcx,r8,r9);
         break;
-      default:
-        va_start(ap,1);
   }
-  va_end(ap);
 	return;
 }
 
@@ -41,6 +30,8 @@ void read(uint64_t param1, uint64_t param2, uint64_t param3) {
   /*cosas de read*/
 }
 
-void write(uint64_t param1, uint64_t param2, uint64_t param3) {
-	/* cosas de write*/
+void write(int fd, char * pointer, int size) {
+	if(fd!=1) // por ahora solo implementamos por salida estandar (en nuestro caso pantalla), y el numero de salida estandar es 1
+    return;
+  draw_n_chars(pointer,size);
 }

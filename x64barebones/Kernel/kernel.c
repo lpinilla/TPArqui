@@ -137,7 +137,8 @@ void video_tests(){
 	draw_string("TPArqui");
 	draw_char(':');
 //<<<<<<< HEAD
-	syscall_dispacher(3, 100,100, 255, 0, 0);
+	syscall_dispacher(5, 300,300, 255, 0, 0);
+	syscall_dispacher(4, 1, "Hola", 3);
 //=======
 	draw_number(0);
 	/*for(int i = 0; i < 50; i++){
