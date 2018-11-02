@@ -43,11 +43,11 @@ void draw_string(char * string);
 void erase_character(void);
 int number_of_digits(int n);
 void draw_number(int n);
-void clear_screen(void);
 void init_graphics(void);
-void draw_pixel2(int x, int y, int r, int g, int b);
-void draw_fill_rect2(int x, int y, unsigned char r, unsigned char g, unsigned   char b, unsigned char size);
-void swap_buffers();
+void clear_screen(void);
+void new_line(void);
+void move_everything_up(void);
+void copy_pixel(int a, int b, int c, int d);
 
 
 #endif
