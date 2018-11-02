@@ -11,7 +11,7 @@ static int l_shift_pressed= FALSE;
 static int r_shitf_pressed= FALSE;
 
 int is_alpha(unsigned char c);
-
+void add_buffer(char);
 #define CHECKBYTE(binary, index) (binary & 1<<(index)) // macro que checkea si el byte en la posicion index esta prendido
 
 unsigned char keycode_map[128] = {
@@ -26,6 +26,15 @@ unsigned char keycode_map[128] = {
     DOWN_ARROW/* Down Arrow */,0/* Page Down */, 0/* Insert Key */, 0/* Delete Key */, 0,   0,   0,  0/* F11 Key */, 0/* F12 Key */,
     0,	/* All other keys are undefined */
 };
+unsigned char alternative_keycode_map[128] = {
+  0,0,'!','@','#','$','%%','^', '&', '*', '(', ')', '_','+', BACKSPACE, '\t' /* shift + tab not defined in normal aasci*/,
+  'Q','W','E','R','T','Y', 'U', 'I', 'O', 'P', '{', '}', ENTER_KEY, 0,
+  'A', 'B', 'C', 'D', 'F', 'G', 'H', 'J', 'K', 'L', ':',
+  '\"', LEFT_SHIFT, '|', 'Z', 'X', 'C', 'V', 'B', 'N',
+  'M', '<', '>', '?', RIGHT_SHIFT, '*', 0, ' ', CAPS_LOCK, 0,
+  0,0,0,0,0,0,0,0,0,
+  DOWN_ARROW,0,0,0,0,0,0,0,0,
+  0,};
 
 void keyboard_handler(){
 	char key;
@@ -44,16 +53,27 @@ void keyboard_handler(){
 		caps_lock_pressed=(caps_lock_pressed?FALSE:TRUE);
 		return;
 	}
-	char c=keycode_map[key];
-	if(caps_lock_pressed==TRUE){
-		if(is_alpha(c))
-				c-=32;
-	}
-	ncPrintChar(c); //para testear
-	buffer[buffer_index++] = c;
-	if(buffer_index >= BUFFER_SIZE){
-		buffer_index = 0;
-	}
+	unsigned char c=keycode_map[key];
+  if(is_alpha(c)){
+  	if(caps_lock_pressed==TRUE && (l_shift_pressed==FALSE || r_shitf_pressed==FALSE)){
+  				c-=32;
+  	}
+    else if(caps_lock_pressed==FALSE&& (l_shift_pressed==TRUE || r_shitf_pressed==TRUE))
+          c-=32;
+  }
+  else{
+    if(l_shift_pressed==TRUE || (l_shift_pressed==TRUE))
+      c=alternative_keycode_map[key];
+  }
+  add_buffer(c);
+  return;
+}
+
+void add_buffer(char c){
+  buffer[buffer_index++] = c;
+  if(buffer_index >= BUFFER_SIZE){
+    buffer_index = 0;
+  }
 }
 
 void erase_buffer(){ //set all buffer to 0
@@ -84,4 +104,8 @@ char get_char(){
 }
 int is_alpha(unsigned char c) {
     return ((c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z'));
+}
+
+int buffer_empty(){
+  return buffer_index==0;
 }
