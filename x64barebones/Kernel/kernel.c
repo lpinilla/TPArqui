@@ -20,6 +20,7 @@ static void * const sampleDataModuleAddress = (void*)0x500000;
 typedef int (*EntryPoint)();
 
 void initial_info(void);
+void video_tests(void);
 
 
 void clearBSS(void * bssAddress, uint64_t bssSize)
@@ -95,15 +96,7 @@ int main()
 	ncNewline();
 	ncPrint("Ready..");
 	ncNewline();
-	//draw_pixel(100,100, 255,0,0);
-	//draw_fill_rect(255,255,255, 10);
-	init_graphics();
-	draw_char('>');
-	draw_string("Arqui");
-	draw_char('.');
-	draw_number(22);
-	clear_screen();
-	//erase_character();
+	video_tests();
 	while(1){}; //mantenerlo vivo
 
 	return 0;
@@ -129,4 +122,28 @@ void initial_info(){
 
 	ncPrint("[Finished]");
 	ncClear();
+}
+
+void video_tests(){
+	init_graphics();
+	//draw_pixel(100,100, 255,0,0);
+	//draw_fill_rect(255,255,255, 10);
+	draw_char('>');
+	draw_string("TPArqui");
+	draw_char(':');
+	//draw_number(22);
+	//clear_screen();
+	//erase_character();
+	//Writing test
+	/*
+	for(int i = 0; i < 1000; i++){
+		draw_number(i);
+	}
+	for(int i = 0; i < 1000; i++){
+		for(int j = 0; j < number_of_digits(i); j++){
+			erase_character();	
+		}
+	}
+	draw_string("Erased!");
+	*/
 }

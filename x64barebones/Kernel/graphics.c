@@ -12,7 +12,7 @@ void init_graphics(){
 
 
 void draw_pixel(int x, int y, int r, int g, int b) {
-	screen = (char *) ((uint64_t) infoBlock->physbase + x*infoBlock->bpp / 8 + (int) y*infoBlock->pitch); //magic_number 8
+	screen = (char *) ((uint64_t) info_block->physbase + x*info_block->bpp / 8 + (int) y*info_block->pitch); //magic_number 8
   screen[0] = b;              // BLUE
   screen[1] = g;              // GREEN
   screen[2] = r;              // RED
@@ -20,7 +20,7 @@ void draw_pixel(int x, int y, int r, int g, int b) {
 
 //se podría usar con double buffering
 void draw_fill_rect(unsigned char r, unsigned char g, unsigned   char b, unsigned char size) {
-    unsigned char *where = infoBlock->physbase;
+    unsigned char *where = info_block->physbase;
     for (int i = 0; i < size; i++) {
         for (int j = 0; j < size; j++) {
             draw_pixel(j,i, r,g,b);
@@ -30,6 +30,14 @@ void draw_fill_rect(unsigned char r, unsigned char g, unsigned   char b, unsigne
 }
 
 void draw_char_w_color(int x, int y, char c, int r, int g, int b){
+  if(x_cursor >= info_block->x_res){
+    x_cursor = 0;
+    if(y_cursor >= info_block->y_res - CHAR_HEIGHT){
+      //mover todo para arriba
+    }else{
+      y_cursor += CHAR_HEIGHT;
+    }
+  }
   for(int i = 0; i < CHAR_HEIGHT; i++){
     for(int j = 0; j < CHAR_WIDTH; j++){
       if(*(&glyphs[(c-31) * CHAR_HEIGHT] + i * sizeof(uint8_t)) & 1<<j){
@@ -58,8 +66,19 @@ void draw_string(char * string){
 
 //verificar los límites
 void erase_character(){
+  if(x_cursor == 0){
+    if(y_cursor == 0){
+      draw_char_w_color(x_cursor, y_cursor, ' ', 0xFF,0xFF,0xFF);
+    }else{
+      y_cursor -= CHAR_HEIGHT;
+      x_cursor = info_block->x_res - CHAR_WIDTH;
+      draw_char_w_color(x_cursor, y_cursor, ' ', 0xFF,0xFF,0xFF);
+    }
+  }else{
+    x_cursor -= CHAR_WIDTH;  
+    draw_char_w_color(x_cursor, y_cursor, ' ', 0xFF,0xFF,0xFF);    
+  }
   x_cursor -= CHAR_WIDTH;  
-  draw_char_w_color(x_cursor, y_cursor, ' ', 0xFF,0xFF,0xFF);
 }
 
 //testeable
@@ -82,8 +101,8 @@ void draw_number(int n){
 }
 
 void clear_screen(){
-  for(int i = 0; i < infoBlock->y_res; i++){
-    for(int j = 0; j < infoBlock->x_res; j++){
+  for(int i = 0; i < info_block->y_res; i++){
+    for(int j = 0; j < info_block->x_res; j++){
       draw_char_w_color(i,j," ",0,0,0);
     }
   }
@@ -100,8 +119,8 @@ void clear_screen(){
 
 void draw_char2(int x, int y) {
     char * where;
-    mode_info_block* infoBlock = (mode_info_block *) get_info_block();
-    where = (char *) ((uint64_t) infoBlock->physbase + x*infoBlock->bpp / 8 + (int) y*infoBlock->pitch); //magic_number 8
+    mode_info_block* info_block = (mode_info_block *) get_info_block();
+    where = (char *) ((uint64_t) info_block->physbase + x*info_block->bpp / 8 + (int) y*info_block->pitch); //magic_number 8
     uint8_t row_data;
     uint32_t mask1, mask2;
     uint8_t foreground_colour = (WHITE.r << 16) + (WHITE.g << 8) + WHITE.b;
@@ -116,6 +135,6 @@ void draw_char2(int x, int y) {
         *(uint32_t *)where = (packed_foreground & mask1);
         *(uint32_t *)(&where[4]) = (packed_foreground & mask2);
         //where += x + (y << 8) + (y << 6);
-        where += infoBlock->pitch;
+        where += info_block->pitch;
     }
 }*/

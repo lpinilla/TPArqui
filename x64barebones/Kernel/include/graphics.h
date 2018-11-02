@@ -30,7 +30,7 @@ typedef struct __attribute__((packed)) {
   uint16_t reserved2;
 } mode_info_block;
 
-mode_info_block* infoBlock = (mode_info_block*)0x0000000000005C00;
+mode_info_block* info_block = (mode_info_block*)0x0000000000005C00;
 
 typedef struct{
   uint8_t r,g,b;
@@ -49,6 +49,7 @@ void erase_character();
 int number_of_digits(int n);
 void draw_number(int n);
 void clear_screen();
+void init_graphics();
 
 char * screen; //creo que no se usa
 
