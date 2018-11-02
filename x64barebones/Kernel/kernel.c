@@ -4,6 +4,7 @@
 #include <moduleLoader.h>
 #include <naiveConsole.h>
 #include <keyboard.h>
+#include <graphics.h>
 
 extern uint8_t text;
 extern uint8_t rodata;
@@ -96,9 +97,12 @@ int main()
 	ncNewline();
 	ncPrint("Ready..");
 	ncNewline();
-	video_tests();
-	while(1){}; //mantenerlo vivo
 
+
+	video_tests();
+
+
+	while(1){}; //mantenerlo vivo
 	return 0;
 }
 

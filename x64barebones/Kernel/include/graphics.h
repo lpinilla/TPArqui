@@ -1,6 +1,5 @@
 #ifndef _GRAPHICS_H_
 #define _GRAPHICS_H_
-#include <stdint.h>
 
 #define CHAR_HEIGHT 16
 #define CHAR_WIDTH 8
@@ -30,29 +29,20 @@ typedef struct __attribute__((packed)) {
   uint16_t reserved2;
 } mode_info_block;
 
-mode_info_block* info_block = (mode_info_block*)0x0000000000005C00;
-
 typedef struct{
   uint8_t r,g,b;
 } color; //podría hacer punteros
 
-color WHITE = {.r = 0xFF, .g = 0xFF, .b = 0xFF};
-color BLACK = {.r = 0x0, .g = 0x0, .b = 0x0};
-
 void draw_pixel(int x,int y, int r, int g, int b);
-void load_vga_info();
+void load_vga_info(void);
 void draw_fill_rect(unsigned char r, unsigned char g, unsigned   char b, unsigned char size);
 void draw_char_w_color(int x, int y, char c, int r, int g, int b);
 void draw_char(char c);
 void draw_string(char * string);
-void erase_character();
+void erase_character(void);
 int number_of_digits(int n);
 void draw_number(int n);
-void clear_screen();
-void init_graphics();
-
-char * screen; //creo que no se usa
-
-int x_cursor, y_cursor;
+void clear_screen(void);
+void init_graphics(void);
 
 #endif

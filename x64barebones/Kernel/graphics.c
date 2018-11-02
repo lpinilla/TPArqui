@@ -1,12 +1,24 @@
 #include <stdio.h>
+#include <stdint.h>
 #include <graphics.h>
 #include <bitmap.h>
 #include <glyphs.h>
 
 
+//-----------------Variables locales
+unsigned char * screen; //se usa para no estar creandolo todo el tiempo
+int x_cursor, y_cursor;
+unsigned char *shadow_buffer;
+mode_info_block* info_block;
+//-----------------Fin variables locales
+
 void init_graphics(){
+  info_block = (mode_info_block*)0x0000000000005C00;
   x_cursor = 0;
   y_cursor = CHAR_HEIGHT;
+  /*color WHITE = {.r = 0xFF, .g = 0xFF, .b = 0xFF};
+  color BLACK = {.r = 0x0, .g = 0x0, .b = 0x0};*/
+  
   //podría mostrar mensaje de bienvenida
 }
 
@@ -20,12 +32,10 @@ void draw_pixel(int x, int y, int r, int g, int b) {
 
 //se podría usar con double buffering
 void draw_fill_rect(unsigned char r, unsigned char g, unsigned   char b, unsigned char size) {
-    unsigned char *where = info_block->physbase;
     for (int i = 0; i < size; i++) {
         for (int j = 0; j < size; j++) {
             draw_pixel(j,i, r,g,b);
         }
-        where+=3200;
     }
 }
 
@@ -103,7 +113,7 @@ void draw_number(int n){
 void clear_screen(){
   for(int i = 0; i < info_block->y_res; i++){
     for(int j = 0; j < info_block->x_res; j++){
-      draw_char_w_color(i,j," ",0,0,0);
+      draw_char_w_color(i,j,' ',0,0,0);
     }
   }
 }

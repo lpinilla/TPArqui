@@ -1,7 +1,7 @@
 #ifndef INTERRUPS_H_
 #define INTERRUPS_H_
 
-#include <idt_loader.h>
+#include <idt_loader.h> //sacar de aca
 
 void _irq00_handler(void);
 void _irq01_handler(void);
