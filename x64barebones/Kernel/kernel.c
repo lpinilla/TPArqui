@@ -23,6 +23,7 @@ typedef int (*EntryPoint)();
 
 void initial_info(void);
 void video_tests(void);
+void init_game();
 
 
 void clearBSS(void * bssAddress, uint64_t bssSize)
@@ -100,8 +101,9 @@ int main()
 	ncNewline();
 
 
-	video_tests();
-
+	init_graphics();
+	//video_tests();
+	init_game();
 	while(1){
 		if(!buffer_empty())
 			draw_char(get_char());
@@ -132,9 +134,8 @@ void initial_info(){
 }
 
 void video_tests(){
-	init_graphics();
 	//draw_pixel(100,100, 255,0,0);
-	//draw_fill_rect(0,0,255,255,255, 10);
+	//draw_fill_square(0,0,255,255,255, 10);
 	draw_char('>');
 	draw_string("TPArqui");
 	draw_char(':');
@@ -145,9 +146,7 @@ void video_tests(){
 		new_line();
 	}*/
 	//move_everything_up3();
-	//draw_fill_rect(300,300, 255,0,255, 100);
-	//draw_number(22);
-	//clear_screen();
+	//draw_fill_square(300,300, 255,0,255, 100);
 	//erase_character();
 	//Writing test
 	/*
@@ -161,8 +160,7 @@ void video_tests(){
 	}
 	draw_string("Erased!");
 	*/
-	shadow_fill_rect(300,300, 0xFF, 0x0, 0xFF, 100);
-	swap_buffers();
-	//shadow_fill_rect(500,500, 0x0, 0xFF, 0x0, 100);
+	//shadow_fill_square(300,300, 0xFF, 0x0, 0xFF, 100);
 	//swap_buffers();
+
 }

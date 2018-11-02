@@ -52,7 +52,7 @@ void shadow_pixel(int x, int y, int r, int g, int b) {
 //para mi deben ser funciones separadas porque el double buffering es opcional, el que lo conoce
 //y lo quiere usar, que use los métodos específicos.
 
-void shadow_fill_rect(int x, int y, unsigned char r, unsigned char g, unsigned   char b, unsigned char size) {
+void shadow_fill_square(int x, int y, unsigned char r, unsigned char g, unsigned   char b, unsigned char size) {
     for (int i = y; i < size + y; i++) {
         for (int j = x; j < size + x; j++) {
             shadow_pixel(j,i, r,g,b);
@@ -60,10 +60,28 @@ void shadow_fill_rect(int x, int y, unsigned char r, unsigned char g, unsigned  
     }
 }
 
-void draw_fill_rect(int x, int y, unsigned char r, unsigned char g, unsigned   char b, unsigned char size) {
+void draw_fill_square(int x, int y, unsigned char r, unsigned char g, unsigned   char b, unsigned char size) {
     for (int i = y; i < size + y; i++) {
         for (int j = x; j < size + x; j++) {
             draw_pixel(j,i, r,g,b);
+        }
+    }
+}
+
+void draw_fill_rect(int x, int y, unsigned char r, unsigned char g, unsigned   char b,
+                     unsigned char base, unsigned char height) {
+    for (int i = y; i < height + y; i++) {
+        for (int j = x; j < base + x; j++) {
+            draw_pixel(j,i, r,g,b);
+        }
+    }
+}
+
+void shadow_fill_rect(int x, int y, unsigned char r, unsigned char g, unsigned   char b,
+                     unsigned char base, unsigned char height) {
+    for (int i = y; i < height + y; i++) {
+        for (int j = x; j < base + x; j++) {
+            shadow_pixel(j,i, r,g,b);
         }
     }
 }
@@ -165,7 +183,9 @@ void draw_number(int n){
 }
 
 void clear_screen(){
-  memset(info_block->physbase, 0, info_block->y_res * info_block->x_res);
+  //memset(info_block->physbase, 0, info_block->y_res * info_block->x_res * info_block->bpp/8);
+  memset(shadow_buffer, 0, 64 * sizeof(char));
+  swap_buffers();
 }
 
 void new_line(){
@@ -186,6 +206,14 @@ void move_everything_up(){
 void swap_buffers(){
   memcpy(info_block->physbase - info_block->pitch * CHAR_HEIGHT, shadow_buffer,
          info_block->x_res * info_block->y_res * info_block->bpp/8);
+}
+
+int get_x_res(){
+  return info_block->x_res;
+}
+
+int get_y_res(){
+  return info_block->y_res;
 }
 
 

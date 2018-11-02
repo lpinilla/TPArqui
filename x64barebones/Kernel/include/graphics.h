@@ -35,8 +35,8 @@ typedef struct __attribute__((packed)) {
 //dibujar
 void draw_pixel(int x,int y, int r, int g, int b);
 void shadow_pixel(int x,int y, int r, int g, int b);
-void draw_fill_rect(int x, int y, unsigned char r, unsigned char g, unsigned   char b, unsigned char size);
-void shadow_fill_rect(int x, int y, unsigned char r, unsigned char g, unsigned   char b, unsigned char size);
+void draw_fill_square(int x, int y, unsigned char r, unsigned char g, unsigned   char b, unsigned char size);
+void shadow_fill_square(int x, int y, unsigned char r, unsigned char g, unsigned   char b, unsigned char size);
 
 //escribir
 void draw_free_char(char c, int front_r, int front_g, int front_b, int back_r, int back_g, int back_b);
@@ -59,5 +59,7 @@ void copy_pixel(int a, int b, int c, int d);
 int number_of_digits(int n);
 void load_vga_info(void);
 void swap_buffers(void);
+int get_x_res(void);
+int get_y_res(void);
 
 #endif
