@@ -56,10 +56,31 @@ void draw_string(char * string){
   }
 }
 
-
+//verificar los límites
 void erase_character(){
   x_cursor -= CHAR_WIDTH;  
   draw_char_w_color(x_cursor, y_cursor, ' ', 0xFF,0xFF,0xFF);
+}
+
+//testeable
+int number_of_digits(int n){
+  if(n == 0){
+    return 0;
+  }
+  return 1 + number_of_digits(n/10);
+}
+
+//testeable
+void draw_number(int n){
+  int count = number_of_digits(n);
+  int array[count];
+  for(int i = 0; i < count; i++){
+    array[count-1-i] = n % 10;
+    n /= 10;
+  }
+  for(int i = 0; i < count; i++){
+    draw_char(array[i] + '0');
+  }
 }
 
 

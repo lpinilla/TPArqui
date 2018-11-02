@@ -46,6 +46,8 @@ void draw_char_w_color(int x, int y, char c, int r, int g, int b);
 void draw_char(char c);
 void draw_string(char * string);
 void erase_character();
+int number_of_digits(int n);
+void draw_number(int n);
 
 char * screen; //creo que no se usa
 

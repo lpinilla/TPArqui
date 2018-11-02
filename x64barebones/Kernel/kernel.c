@@ -20,7 +20,6 @@ static void * const sampleDataModuleAddress = (void*)0x500000;
 typedef int (*EntryPoint)();
 
 void initial_info(void);
-void load_idt();
 
 
 void clearBSS(void * bssAddress, uint64_t bssSize)
@@ -96,12 +95,14 @@ int main()
 	ncNewline();
 	ncPrint("Ready..");
 	ncNewline();
-	draw_pixel(100,100, 255,0,0);
+	//draw_pixel(100,100, 255,0,0);
 	//draw_fill_rect(255,255,255, 10);
-	draw_char('?');
+	init_graphics();
+	draw_char('>');
 	draw_string("Arqui");
 	draw_char('.');
-	erase_character();
+	draw_number(22);
+	//erase_character();
 	while(1){}; //mantenerlo vivo
 
 	return 0;
