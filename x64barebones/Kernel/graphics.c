@@ -10,21 +10,34 @@
 unsigned char * screen; //se usa para no estar creandolo todo el tiempo
 int x_cursor, y_cursor;
 mode_info_block* info_block;
+
+char * title[9] = {"      ##      ##                           ",
+                   "      ##      ##                TP DE ARQUI",
+                   "    ##############                         ",
+                   "  ####  ######  ####                       ",        
+                   "######################                     ",      
+                   "##  ##############  ##                     ",     
+                   "##  ##          ##  ##                     ",      
+                   "      ####  ####                           ",
+                   "Pls profes aprueben el TP                  "};
 //-----------------Fin variables locales
 
 void init_graphics(){
   info_block = (mode_info_block*)0x0000000000005C00;
   x_cursor = 0;
   y_cursor = CHAR_HEIGHT;
+  for(int i = 0; i < 9; i++){
+    draw_string(title[i]);
+    new_line();
+  }
   /*color WHITE = {.r = 0xFF, .g = 0xFF, .b = 0xFF};
   color BLACK = {.r = 0x0, .g = 0x0, .b = 0x0};*/
-  memset(shadow_buffer, 0, info_block->x_res * info_block->y_res);
   //podría mostrar mensaje de bienvenida
 }
 
 
 void draw_pixel(int x, int y, int r, int g, int b) {
-	screen = (char *) ((uint64_t) info_block->physbase + x*info_block->bpp / 8 + (int) y*info_block->pitch); //magic_number 8
+	screen = (char *) ((uint64_t) info_block->physbase + x*info_block->bpp / 8 + (int) y*info_block->pitch);
   screen[0] = b;              // BLUE
   screen[1] = g;              // GREEN
   screen[2] = r;              // RED
@@ -43,6 +56,7 @@ void draw_char_w_color(int x, int y, char c, int r, int g, int b){
     x_cursor = 0;
     if(y_cursor >= info_block->y_res - CHAR_HEIGHT){
       //mover todo para arriba
+      move_everything_up();
     }else{
       y_cursor += CHAR_HEIGHT;
     }
@@ -98,6 +112,10 @@ int number_of_digits(int n){
 
 //testeable
 void draw_number(int n){
+  if (n == 0){
+   draw_char('0');
+   return;
+  }  
   int count = number_of_digits(n);
   int array[count];
   for(int i = 0; i < count; i++){
@@ -113,7 +131,30 @@ void clear_screen(){
   memset(info_block->physbase, 0, info_block->y_res * info_block->x_res);
 }
 
+void new_line(){
+  if(y_cursor != info_block->y_res){
+    y_cursor += CHAR_HEIGHT;
+  }
+  x_cursor = 0;
+}
 
+//ver si podemos usar memcpy
+void move_everything_up(){
+  for(int i = 0; i < info_block->y_res; i++){
+    for(int j = 0; j < info_block->x_res; j++){
+      copy_pixel(i,j, i, j + CHAR_HEIGHT);
+    }
+  }
+}
+
+
+void copy_pixel(int x1,int y1,int x2,int y2){
+  unsigned char* src = (char *) ((uint64_t)(info_block->physbase + info_block->pitch * y2 + x2 * (int)(info_block->bpp/8)));
+  unsigned char* dst = (char *) ((uint64_t)(info_block->physbase + info_block->pitch * y1 + x1 * (int)(info_block->bpp/8)));
+  dst[0] = src[0];
+  dst[1] = src[1];
+  dst[2] = src[2];
+}
 
 
 
@@ -126,13 +167,14 @@ void clear_screen(){
 void draw_char2(int x, int y) {
     char * where;
     mode_info_block* info_block = (mode_info_block *) get_info_block();
-    where = (char *) ((uint64_t) info_block->physbase + x*info_block->bpp / 8 + (int) y*info_block->pitch); //magic_number 8
+    where = (char *) ((uint64_t) info_block->physbase + x*info_block->bpp / 8 + (int) y*info_block->pitch);
     uint8_t row_data;
     uint32_t mask1, mask2;
     uint8_t foreground_colour = (WHITE.r << 16) + (WHITE.g << 8) + WHITE.b;
 
     uint8_t *font_data_for_char = &glyphs[0];
-    uint32_t packed_foreground = (foreground_colour << 24) | (foreground_colour << 16) | (foreground_colour << 8) | foreground_colour;
+    uint32_t packed_foreground = 
+    (foreground_colour << 24) | (foreground_colour << 16) | (foreground_colour << 8) | foreground_colour;
  
     for (int row = 0; row < 16; row++) {
         row_data = font_data_for_char[row];

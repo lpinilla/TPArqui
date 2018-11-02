@@ -131,10 +131,16 @@ void initial_info(){
 void video_tests(){
 	init_graphics();
 	//draw_pixel(100,100, 255,0,0);
-	//draw_fill_rect(255,255,255, 10);
+	//draw_fill_rect(0,0,255,255,255, 10);
 	draw_char('>');
 	draw_string("TPArqui");
 	draw_char(':');
+	draw_number(0);
+	/*for(int i = 0; i < 50; i++){
+		draw_number(i);
+		new_line();
+	}
+	move_everything_up();*/
 	//draw_fill_rect(300,300, 255,0,255, 100);
 	//draw_number(22);
 	//clear_screen();
