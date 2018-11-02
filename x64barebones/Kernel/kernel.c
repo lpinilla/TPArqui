@@ -136,16 +136,16 @@ void video_tests(){
 	draw_char('>');
 	draw_string("TPArqui");
 	draw_char(':');
-<<<<<<< HEAD
+//<<<<<<< HEAD
 	syscall_dispacher(3, 100,100, 255, 0, 0);
-=======
+//=======
 	draw_number(0);
 	/*for(int i = 0; i < 50; i++){
 		draw_number(i);
 		new_line();
 	}
 	move_everything_up();*/
->>>>>>> e0868d6b2624bfbf9e0c33c9c3627413d7fd2b62
+//>>>>>>> e0868d6b2624bfbf9e0c33c9c3627413d7fd2b62
 	//draw_fill_rect(300,300, 255,0,255, 100);
 	//draw_number(22);
 	//clear_screen();
