@@ -30,25 +30,29 @@ typedef struct __attribute__((packed)) {
   uint16_t reserved2;
 } mode_info_block;
 
-typedef struct{
-  uint8_t r,g,b;
-} color; //podría hacer punteros
-
+//dibujar
 void draw_pixel(int x,int y, int r, int g, int b);
-void load_vga_info(void);
 void draw_fill_rect(int x, int y, unsigned char r, unsigned char g, unsigned   char b, unsigned char size);
-void draw_char_w_color(int x, int y, char c, int r, int g, int b);
+
+//escribir
+void draw_free_char(char c, int front_r, int front_g, int front_b, int back_r, int back_g, int back_b);
+void draw_free_string(char * string, int front_r, int front_g, int front_b, int back_r, int back_g, int back_b);
+void draw_color_char(char c, int r, int g, int b);
 void draw_char(char c);
 void draw_string(char * string);
 void draw_n_chars(char * string, int size);
 void erase_character(void);
 int number_of_digits(int n);
 void draw_number(int n);
+void erase_character(void);
+
+//aux
 void init_graphics(void);
 void clear_screen(void);
 void new_line(void);
 void move_everything_up(void);
 void copy_pixel(int a, int b, int c, int d);
-
+int number_of_digits(int n);
+void load_vga_info(void);
 
 #endif
