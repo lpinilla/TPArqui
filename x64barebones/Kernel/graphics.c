@@ -14,10 +14,10 @@ mode_info_block* info_block;
 char * title[9] = {"      ##      ##                           ",
                    "      ##      ##                TP DE ARQUI",
                    "    ##############                         ",
-                   "  ####  ######  ####                       ",        
-                   "######################                     ",      
-                   "##  ##############  ##                     ",     
-                   "##  ##          ##  ##                     ",      
+                   "  ####  ######  ####                       ",
+                   "######################                     ",
+                   "##  ##############  ##                     ",
+                   "##  ##          ##  ##                     ",
                    "      ####  ####                           ",
                    "Pls profes aprueben el TP                  "};
 //-----------------Fin variables locales
@@ -98,6 +98,11 @@ void draw_char(char c){
 void draw_string(char * string){
   draw_free_string(string, 0xFF, 0XFF, 0XFF, 0x0,0x0,0x0);
 }
+void draw_n_chars(char * s, int index){
+  for(int i = 0 ; i< index; i++){
+    draw_char(s[i]);
+  }
+}
 
 
 
@@ -129,7 +134,7 @@ void draw_number(int n){
   if (n == 0){
    draw_char('0');
    return;
-  }  
+  }
   int count = number_of_digits(n);
   int array[count];
   for(int i = 0; i < count; i++){
@@ -190,9 +195,9 @@ void draw_char2(int x, int y) {
 
     uint8_t *font_data_for_char = &glyphs[0];
 <<<<<<< HEAD
-    uint32_t packed_foreground = 
+    uint32_t packed_foreground =
     (foreground_colour << 24) | (foreground_colour << 16) | (foreground_colour << 8) | foreground_colour;
- 
+
 =======
     uint32_t packed_foreground = (foreground_colour << 24) | (foreground_colour << 16) | (foreground_colour << 8) | foreground_colour;
 

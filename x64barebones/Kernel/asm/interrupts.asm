@@ -8,6 +8,7 @@ GLOBAL _hlt
 GLOBAL _irq00_handler
 GLOBAL _irq01_handler
 GLOBAL _exception0_handler
+GLOBAL _exception6_handler
 GLOBAL _syscall_handler
 
 EXTERN irq_dispatcher
@@ -69,7 +70,6 @@ EXTERN syscall_dispacher
 
 	mov rdi, %1 				; pasaje de parametro
 	call exception_dispatcher
-
 	popState
 	iretq
 %endmacro
@@ -116,6 +116,9 @@ _irq01_handler:					;Teclado
 								;Zero Division Exception
 _exception0_handler:
 	exception_handler 0
+
+_exception6_handler:
+	exception_handler 6
 
 _syscall_handler:
 	call syscall_dispacher
