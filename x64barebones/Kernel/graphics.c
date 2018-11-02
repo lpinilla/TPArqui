@@ -18,7 +18,7 @@ void init_graphics(){
   y_cursor = CHAR_HEIGHT;
   /*color WHITE = {.r = 0xFF, .g = 0xFF, .b = 0xFF};
   color BLACK = {.r = 0x0, .g = 0x0, .b = 0x0};*/
-  memset(shadow_buffer, 0, info_block->x_res * info_block->y_res);
+  /* memset(shadow_buffer, 0, info_block->x_res * info_block->y_res); */
   //podría mostrar mensaje de bienvenida
 }
 
@@ -62,7 +62,7 @@ void draw_char_w_color(int x, int y, char c, int r, int g, int b){
 
 //draw in black background and white letters
 void draw_char(char c){
-  draw_char_w_color(x_cursor, y_cursor, c, 0XFF, 0XFF, 0XFF);  
+  draw_char_w_color(x_cursor, y_cursor, c, 0XFF, 0XFF, 0XFF);
 }
 
 
@@ -84,10 +84,10 @@ void erase_character(){
       draw_char_w_color(x_cursor, y_cursor, ' ', 0xFF,0xFF,0xFF);
     }
   }else{
-    x_cursor -= CHAR_WIDTH;  
-    draw_char_w_color(x_cursor, y_cursor, ' ', 0xFF,0xFF,0xFF);    
+    x_cursor -= CHAR_WIDTH;
+    draw_char_w_color(x_cursor, y_cursor, ' ', 0xFF,0xFF,0xFF);
   }
-  x_cursor -= CHAR_WIDTH;  
+  x_cursor -= CHAR_WIDTH;
 }
 
 //testeable
@@ -118,9 +118,9 @@ void clear_screen(){
 
 
 /*
-**Forma más eficiente de pintar chars, por cada fila del mapa de glyphs, 
+**Forma más eficiente de pintar chars, por cada fila del mapa de glyphs,
 **se encarga de copiar "toda la fila entera" en vez de hacer putpixel
-**de cada caracter. 
+**de cada caracter.
 
 
 void draw_char2(int x, int y) {
@@ -133,7 +133,7 @@ void draw_char2(int x, int y) {
 
     uint8_t *font_data_for_char = &glyphs[0];
     uint32_t packed_foreground = (foreground_colour << 24) | (foreground_colour << 16) | (foreground_colour << 8) | foreground_colour;
- 
+
     for (int row = 0; row < 16; row++) {
         row_data = font_data_for_char[row];
         mask1 = font_data_lookup_table[row_data / 16];
