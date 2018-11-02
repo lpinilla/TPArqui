@@ -102,7 +102,10 @@ int main()
 
 	video_tests();
 
-	while(1){}; //mantenerlo vivo
+	while(1){
+		if(!buffer_empty())
+			draw_char(get_char());
+	}; //mantenerlo vivo
 	return 0;
 }
 
