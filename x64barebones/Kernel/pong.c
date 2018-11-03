@@ -1,8 +1,12 @@
 #include <graphics.h> //después cambiar para usar la librería de video
+#include <keyboard.h>
 
-#define PLAYER_SPEED 10
-#define PLAYER_HEIGHT 125
+#define PLAYER_SPEED 3
+#define PLAYER_HEIGHT 120
 #define PLAYER_WIDTH 25
+#define PLAYER_TOP 30
+#define PLAYER_BOTTOM 640
+
 enum STATE {GAME_OVER = 0,PLAYING }; //tal vez agregar un estado más para cuando se carga por 1era vez
 enum DIRECTION {DOWN = 0, UP};
 void draw_board(void);
@@ -32,7 +36,7 @@ void init_game(){
 	game_state = PLAYING;
 	clear_screen();
 	draw_game(); //esto en realidad no iría acá
-	player_move(1, UP);
+	game_loop();
 } 
 
 void game_loop(){
@@ -41,7 +45,8 @@ void game_loop(){
 			case GAME_OVER:
 				break;
 			case PLAYING:
-
+				play();
+				draw_game();
 				break;
 		}
 	}
@@ -50,7 +55,7 @@ void game_loop(){
 void draw_game(){
 	draw_board(); //creo que esto se puede dibujar solo la primera vez
 	draw_players();
-	swap_buffers();
+	swap_buffers(); //vblank;
 }
 
 //todo negro salvo la linea del medio
@@ -67,15 +72,34 @@ void draw_players(){
 
 void player_move(int player_n, enum DIRECTION dir){
 	for(int i = 0; i < 10 ; i++){
-		if(dir == DOWN){
+		if(dir == DOWN && players[player_n].y <= PLAYER_BOTTOM){
 			players[player_n].y += PLAYER_SPEED;
 			shadow_fill_rect(players[player_n].x, players[player_n].y - PLAYER_SPEED * 2,
 							 0x0, 0x0, 0x0, PLAYER_WIDTH, PLAYER_SPEED);
-		}else{
+		}else if(dir == UP && players[player_n].y >= PLAYER_TOP){
 			players[player_n].y -= PLAYER_SPEED;
 			shadow_fill_rect(players[player_n].x, players[player_n].y + PLAYER_HEIGHT,
 							 0x0, 0x00, 0x0, PLAYER_WIDTH, PLAYER_SPEED);
 		}
-		draw_game(); //hardcoded
+	}
+}
+
+void play(){
+	char c = get_char();
+	switch(c){
+		case 'w':
+			player_move(0, UP);
+			break;
+		case 's':
+			player_move(0, DOWN);
+			break;
+		case 'p':
+			player_move(1, UP);
+			break;
+		case 'l':
+			player_move(1, DOWN);
+			break;
+		default:
+			break;
 	}
 }
