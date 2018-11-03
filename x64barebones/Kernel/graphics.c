@@ -27,11 +27,11 @@ void init_graphics(){
   info_block = (mode_info_block*)0x0000000000005C00;
   x_cursor = 0;
   y_cursor = CHAR_HEIGHT;
+  //mensaje de bienvenida
   for(int i = 0; i < 9; i++){
     draw_string(title[i]);
     new_line();
   }
-  //podría mostrar mensaje de bienvenida
 }
 
 
@@ -139,8 +139,6 @@ void draw_n_chars(char * s, int index){
     draw_char(s[i]);
   }
 }
-
-
 
 //verificar los límites
 void erase_character(){
