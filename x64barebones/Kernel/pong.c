@@ -10,7 +10,7 @@
 #define SCORE_WIDTH 4
 #define SCORE_HEIGHT 5
 #define BALL_SIZE 20
-#define BALL_SPEED 5
+#define BALL_SPEED 3 //4 para testar, 3 original y 5 para apurar el juego
 
 enum STATE {GAME_OVER = 0,PLAYING }; //tal vez agregar un estado más para cuando se carga por 1era vez
 enum DIRECTION {DOWN = 0, UP};
@@ -77,8 +77,8 @@ void game_loop(){
 void draw_game(){
 	draw_board(); //creo que esto se puede dibujar solo la primera vez
 	draw_scores();
-	draw_players();
 	draw_ball();
+	draw_players();
 	swap_buffers(); //vblank;
 }
 
@@ -166,13 +166,27 @@ void move_ball(){
 	//colisiones
 	//colisiona con alguna barra si la distancia desde el centro de la barra hasta la pelota
 	//es menor o igual al tamaño del ancho de la barra
-	if(ball.x <= PLAYER_WIDTH){
-		ball.right = 1;
-		ball.down ? ball.down = 0 : ball.down;
-	}
-	if(ball.x >= 999 - PLAYER_WIDTH){
-		ball.right = 0;
-		ball.down ? ball.down = 0 : ball.down;
+
+	//jugador de la izq
+	if(ball.x >= 1 && ball.x <= PLAYER_WIDTH){
+		if((ball.y >= players[0].y) && (ball.y <= (players[0].y + PLAYER_HEIGHT) )){
+			if(ball.y >= ((players[0].y + PLAYER_HEIGHT) / 2)){
+				ball.down = 0;
+			}else{
+				ball.down = 1;
+			}
+			ball.right = 1;
+			
+		}
+	}else if(ball.x >= (999 - PLAYER_WIDTH)){
+		if((ball.y >= players[1].y) && (ball.y <= (players[1].y + PLAYER_HEIGHT) )){
+			if(ball.y >= (players[1].y + PLAYER_HEIGHT) / 2){
+				ball.down = 0;
+			}else{
+				ball.down = 1;
+			}
+			ball.right = 0;
+		}
 	}
 }
 
