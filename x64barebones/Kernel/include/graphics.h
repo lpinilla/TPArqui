@@ -37,8 +37,13 @@ void draw_pixel(int x,int y, int r, int g, int b);
 void shadow_pixel(int x,int y, int r, int g, int b);
 void draw_fill_square(int x, int y, unsigned char r, unsigned char g, unsigned   char b, unsigned char size);
 void shadow_fill_square(int x, int y, unsigned char r, unsigned char g, unsigned   char b, unsigned char size);
+void shadow_fill_rect(int x, int y, unsigned char r, unsigned char g, unsigned   char b,
+                     unsigned char base, unsigned char height);
+void draw_fill_rect(int x, int y, unsigned char r, unsigned char g, unsigned   char b,
+                     unsigned char base, unsigned char height);
 
 //escribir
+void draw_char_w_front_and_back_color(int x, int y, char c, int r, int g, int b, int r2, int g2, int b2);
 void draw_free_char(char c, int front_r, int front_g, int front_b, int back_r, int back_g, int back_b);
 void draw_free_string(char * string, int front_r, int front_g, int front_b, int back_r, int back_g, int back_b);
 void draw_color_char(char c, int r, int g, int b);

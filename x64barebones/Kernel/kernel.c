@@ -103,7 +103,7 @@ int main()
 
 	init_graphics();
 	//video_tests();
-	// init_game();
+	init_game();
 	while(1){
 		if(!buffer_empty())
 			draw_char(get_char());
