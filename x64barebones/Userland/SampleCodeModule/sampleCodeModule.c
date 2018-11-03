@@ -23,8 +23,11 @@ int main() {
 	char b='b';
 	put_char(c);
 	put_char(b);
+<<<<<<< HEAD
 	clear_console();
 	put_char('c');
 	//while(1){};
+=======
+>>>>>>> refs/remotes/origin/master
 	return 0xDEADBEEF;
 }
