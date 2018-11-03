@@ -162,5 +162,4 @@ void video_tests(){
 	*/
 	//shadow_fill_square(300,300, 0xFF, 0x0, 0xFF, 100);
 	//swap_buffers();
-
 }

@@ -64,7 +64,6 @@ void copy_pixel(int a, int b, int c, int d);
 int number_of_digits(int n);
 void load_vga_info(void);
 void swap_buffers(void);
-int get_x_res(void);
-int get_y_res(void);
+void clean_shadow_buffer(void);
 
 #endif
