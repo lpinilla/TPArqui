@@ -1,7 +1,9 @@
 #ifndef _KEYBOARD_H_
 #define _KEYBOARD_H_
 
-#include <string.h>
+#include <string.h> //sacar de aca
+
+#define BUFFER_SIZE 80
 
 char read_keyboard();
 void erase_buffer();
@@ -10,6 +12,9 @@ char get_char();
 
 #define KEYBOARD_STATUS_PORT    0x64
 #define KEYBOARD_DATA_PORT      0x60
+
+
+#define BREAK_CODE_DIF          128
 #define BACKSPACE               128
 #define ENTER_KEY               129
 #define LEFT_SHIFT              130
@@ -21,10 +26,6 @@ char get_char();
 #define RIGHT_ARROW             136
 #define TRUE                    1
 #define FALSE                   0
-#define MAXCODE                 128
-#define IS_LOWERCASE ((caps_lock && (left_shift || right_shift)) || (!caps_lock && !left_shift && !right_shift))
-#define SHIFT_PRESSED (left_shift || right_shift)
-#define IS_ARROW(k) (k == UP_ARROW || k == DOWN_ARROW || k == RIGHT_ARROW || k == LEFT_ARROW)
 #define MAX_BUFF_SIZE           512
 #define EOF -1
 

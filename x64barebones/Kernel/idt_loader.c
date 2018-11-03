@@ -6,20 +6,22 @@
 
 void load_idt() {
 
-	//_cli();
-	
+	_cli();
+
 	//exception
  	setup_IDT_entry (0x00, (uint64_t)&_exception0_handler);
  	//invalid opcode
+	setup_IDT_entry (0x06, (uint64_t)&_exception6_handler);
+
  	//drivers
 	setup_IDT_entry (0x20, (uint64_t)&_irq00_handler); //timer tick
 	setup_IDT_entry(0x21, (uint64_t)&_irq01_handler); //teclado
-	//interrupt 80 para llamar a las cosas
+	setup_IDT_entry(0x80, (uint64_t)&_syscall_handler); //syscalls
 
 
 	pic_master_mask(0xFC);  //timer tick && teclado
 	pic_slave_mask(0xFF); //todo des-habilitado
-    
+
 	_sti();
 }
 

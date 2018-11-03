@@ -1,7 +1,7 @@
 #ifndef NAIVE_CONSOLE_H
 #define NAIVE_CONSOLE_H
 
-#include <stdint.h>
+#include <stdint.h> //sacar de aca
 
 void ncPrint(const char * string);
 void ncPrintChar(char character);

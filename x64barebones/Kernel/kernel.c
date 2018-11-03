@@ -4,6 +4,10 @@
 #include <moduleLoader.h>
 #include <naiveConsole.h>
 #include <keyboard.h>
+#include <graphics.h>
+#include <syscall_dispacher.h>
+#include <sound.h>
+#include <rtc.h>
 
 extern uint8_t text;
 extern uint8_t rodata;
@@ -20,9 +24,8 @@ static void * const sampleDataModuleAddress = (void*)0x500000;
 typedef int (*EntryPoint)();
 
 void initial_info(void);
-void load_idt();
-void draw_point(int x,int y, int r, int g, int b);
-void draw_pixel(unsigned char r, unsigned char g, unsigned   char b);
+void video_tests(void);
+void init_game();
 
 
 void clearBSS(void * bssAddress, uint64_t bssSize)
@@ -98,10 +101,16 @@ int main()
 	ncNewline();
 	ncPrint("Ready..");
 	ncNewline();
-	draw_point(100,100, 255,0,0);
-	draw_fill_rect(255,255,255);
-	while(1){}; //mantenerlo vivo
 
+
+	init_graphics();
+	//video_tests();
+	//init_game();
+	while(1){
+		if(!buffer_empty()){
+			draw_char(get_char());
+		}
+	}; //mantenerlo vivo
 	return 0;
 }
 
@@ -125,4 +134,36 @@ void initial_info(){
 
 	ncPrint("[Finished]");
 	ncClear();
+}
+
+void video_tests(){
+	//draw_pixel(100,100, 255,0,0);
+	//draw_fill_square(0,0,255,255,255, 10);
+	draw_char('>');
+	draw_string("TPArqui");
+	draw_char(':');
+	syscall_dispacher(5, 300,300, 255, 0, 0);
+	syscall_dispacher(4, 1, "Hola", 3);
+	/*for(int i = 0; i < 50; i++){
+		draw_number(i);
+		new_line();
+	}*/
+	//move_everything_up3();
+	//draw_fill_square(300,300, 255,0,255, 100);
+	//erase_character();
+	//Writing test
+	/*
+	for(int i = 0; i < 1000; i++){
+		draw_number(i);
+	}
+	for(int i = 0; i < 1000; i++){
+		for(int j = 0; j < number_of_digits(i); j++){
+			erase_character();
+		}
+	}
+	draw_string("Erased!");
+	*/
+	//shadow_fill_square(300,300, 0xFF, 0x0, 0xFF, 100);
+	//swap_buffers();
+
 }
