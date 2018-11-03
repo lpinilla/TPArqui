@@ -2,6 +2,7 @@
 #include <stdint.h>
 #include <stdarg.h>
 #include <graphics.h>
+#include <rtc.h>
 
 #define READ 3
 #define WRITE 4
@@ -9,12 +10,13 @@
 #define X_RES 6
 #define Y_RES 7
 #define CLEAR_SCREEN 8
+#define TIME 13
 
 int read(int param1, char * param2, int param3);
 void write(int param1, char * param2, int param3);
 
 // usamos la convencion de linux y c para los parametros de las syscalls
-void syscall_dispacher(uint64_t rdi, uint64_t rsi, uint64_t rdx, uint64_t rcx, uint64_t r8, uint64_t r9) {
+uint64_t syscall_dispacher(uint64_t rdi, uint64_t rsi, uint64_t rdx, uint64_t rcx, uint64_t r8, uint64_t r9) {
   switch(rdi){
       case READ:
         read(rsi,(char *)rdx,rcx);
@@ -26,16 +28,16 @@ void syscall_dispacher(uint64_t rdi, uint64_t rsi, uint64_t rdx, uint64_t rcx, u
         draw_pixel(rsi,rdx,rcx,r8,r9);
         break;
       case X_RES:
-        get_x_res();
-        break;
+        return get_x_res();
       case Y_RES:
-        get_y_res();
-        break;
+        return get_y_res();
       case CLEAR_SCREEN:
         clear_screen();
         break;
+      case TIME:
+        return get_time(rsi);
   }
-	return;
+	return 0;
 }
 
 int read(int fd, char * pointer, int size) {

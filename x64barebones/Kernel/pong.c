@@ -1,57 +1,26 @@
 #include <graphics.h> //después cambiar para usar la librería de video
 #include <keyboard.h>
-
-#define PLAYER_SPEED 3
-#define PLAYER_HEIGHT 120
-#define PLAYER_WIDTH 25
-#define PLAYER_TOP 30
-#define PLAYER_BOTTOM 640
-#define MAX_SCORE 3
-#define SCORE_WIDTH 4
-#define SCORE_HEIGHT 5
-#define BALL_SIZE 20
-#define BALL_SPEED 3 //4 para testar, 3 original y 5 para apurar el juego
-
-enum STATE {GAME_OVER = 0,PLAYING };
-enum DIRECTION {DOWN = 0, UP};
-void draw_board(void);
-void draw_game(void);
-void draw_players(void);
-void draw_scores(void);
-void draw_player_n_score(int n, int x, int y);
-void draw_ball();
-void player_move(int n, enum DIRECTION dir);
-void play(void);
-void init_game(void);
-void game_loop(void);
-void player_score(int n);
-void restart_game(void);
-
-typedef struct{
-	int x,y, score;
-} player_position;
-
-typedef struct{
-	int x,y, down, right;
-} ball_t;
-
-//fin del .h
+#include <pong.h>
+#include <sound.h>
 
 player_position players[2];
 ball_t ball;
 
 enum STATE game_state;
 enum DIRECTION dir;
+int scored = 0;
 
 
 //se llama 1 sola vez para que limpie la pantalla y corra las demás cosas
 void init_game(){
 	players[0].score = players[1].score = 0;
 	restart_game();
+	draw_game();
+	game_loop();
 } 
 
 void game_loop(){
-	while(1){
+	while(game_state != GAME_OVER){
 		switch(game_state){
 			case GAME_OVER:
 				break;
@@ -59,17 +28,27 @@ void game_loop(){
 				play();
 				move_ball();
 				draw_game();
-				break;
+			break;
 		}
 	}
+	//acá ya salimos del juego y estamos por volver al kernel
+	if(players[0].score == 3){
+		draw_free_string("                          Ha ganado el jugador 1!", 0xFF, 0x0, 0x0, 0x0, 0x0, 0x0);
+	}else{
+		draw_free_string("                          Ha ganado el jugador 2!", 0xFF, 0x0, 0x0, 0x0, 0x0, 0x0);
+	}
+	draw_string("Saliendo del juego en 3 segundos");
+	time_wait(3 * 18);
+	clear_screen();
+	init_graphics(); //dejarlo?
 }
 
 void draw_game(){
-	draw_board(); //creo que esto se puede dibujar solo la primera vez
+	draw_board();
 	draw_scores();
 	draw_ball();
 	draw_players();
-	swap_buffers(); //vblank;
+	swap_buffers(); //vblank
 }
 
 //todo negro salvo la linea del medio
@@ -169,7 +148,7 @@ void move_ball(){
 		}else{ //score
 			player_score(1);
 		}
-	}else if(ball.x >= (999 - PLAYER_WIDTH)){
+	}else if(ball.x >= (999 - PLAYER_WIDTH)){ //jugador de la derecha
 		if((ball.y >= players[1].y) && (ball.y <= (players[1].y + PLAYER_HEIGHT) )){
 			if(ball.y >= players[1].y + PLAYER_HEIGHT / 2){
 				ball.down = 0;
@@ -184,9 +163,12 @@ void move_ball(){
 }
 
 void player_score(int player_n){
-	//play_beep();
-	if(players[player_n].score == MAX_SCORE){
+	beep();
+	if(players[player_n].score == MAX_SCORE - 1){
 		game_state = GAME_OVER;
+		clear_screen();
+		delete_ball();
+		delete_players();
 		//llevar a pantalla de game_over;
 	}else{
 		players[player_n].score++;
@@ -194,20 +176,30 @@ void player_score(int player_n){
 	}
 }
 
+void delete_ball(){
+	shadow_fill_square(ball.x, ball.y, 0x0, 0x0, 0x0, BALL_SIZE);
+}
+
+void delete_players(){
+	for(int i = 0; i < 2; i++){
+		shadow_fill_rect(players[i].x, players[i].y, 0x00, 0x00, 0x0, PLAYER_WIDTH, PLAYER_HEIGHT);
+	}
+}
+
 void restart_game(){
 	clear_screen();
+	delete_ball();
+	delete_players();
 	players[0].x = 1;
 	players[1].x = 999;
 	players[0].y = players[1].y = 300;
-	ball.x = 550; //esto debería cambiar pedir tiempo de ms (hacer biblioteca rand?)
-	ball.y = 300; //esto tambien
+	ball.x = 550;
+	ball.y = 300;
 	ball.down = 0; //rand
 	ball.right = 0; //rand
-	game_state = PLAYING;	
-	draw_game();
-	game_loop();
+	game_state = PLAYING;
+	scored = 0;	
 }
-
 
 char *numbers[SCORE_HEIGHT * 10] = {
 	"1111",		//0

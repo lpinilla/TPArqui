@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdint.h>
+#include <string.h>
 #include <graphics.h>
 #include <bitmap.h>
 #include <glyphs.h>
@@ -181,9 +182,13 @@ void draw_number(int n){
 }
 
 void clear_screen(){
-  //memset(info_block->physbase, 0, info_block->y_res * info_block->x_res * info_block->bpp/8);
-  memset(shadow_buffer, 0, 64 * sizeof(char));
-  swap_buffers();
+  memset(info_block->physbase, 0, info_block->y_res * info_block->x_res * info_block->bpp/8);
+  //memset(shadow_buffer, 0x0, sizeof(shadow_buffer));
+  //swap_buffers();
+}
+
+void clean_shadow_buffer(){
+  memset(shadow_buffer, 0x0, sizeof(shadow_buffer));
 }
 
 void new_line(){
@@ -213,7 +218,6 @@ int get_x_res(){
 int get_y_res(){
   return info_block->y_res;
 }
-
 
 /*
 **Forma más eficiente de pintar chars, por cada fila del mapa de glyphs,
