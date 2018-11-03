@@ -13,7 +13,7 @@
 #define SHADOW_PIXEL 9
 #define MOVE_EVERYTHING_UP 10
 #define SWAP_BUFFERS 11
-#define CLEAN_SHADOW_BUFFER 12
+#define CLEAR_SHADOW_BUFFER 12
 #define TIME 13
 
 int read(int param1, char * param2, int param3);
@@ -49,8 +49,8 @@ uint64_t syscall_dispacher(uint64_t rdi, uint64_t rsi, uint64_t rdx, uint64_t rc
       case SWAP_BUFFERS:
         swap_buffers();
         break;
-      case CLEAN_SHADOW_BUFFER:
-        clean_shadow_buffer();
+      case CLEAR_SHADOW_BUFFER:
+        clear_shadow_buffer();
         break;
   }
 	return 0;

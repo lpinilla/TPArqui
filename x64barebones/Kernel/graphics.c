@@ -196,7 +196,7 @@ void clear_screen(){
 }
 
 //limpiar todo el buffer auxiliar
-void clean_shadow_buffer(){
+void clear_shadow_buffer(){
   memset(shadow_buffer, 0x0, sizeof(shadow_buffer));
 }
 
