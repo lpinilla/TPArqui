@@ -1,6 +1,8 @@
 #ifndef _IDT_LOADER_H_
 #define _IDT_LOADER_H_
 
+#include <stdint.h>
+
 #pragma pack(push)		/* Push de la alineación actual */
 #pragma pack (1) 		/* Alinear las siguiente estructuras a 1 byte */
 

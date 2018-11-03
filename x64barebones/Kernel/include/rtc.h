@@ -2,6 +2,7 @@
 #define _RTC_H
 
 #include <stdint.h>
+#include <interrupts.h>
 
 #define RTC_REGISTER_SELECTOR 0x70
 #define RTC_DATA 0x71
@@ -18,8 +19,6 @@
 #define STATUS_B_REGISTER 0x0B
 
 void set_binary_time();
-int get_hour();
-int get_minutes();
-int get_seconds();
+int get_time(int selector);
 
 #endif

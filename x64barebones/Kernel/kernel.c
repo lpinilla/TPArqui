@@ -5,9 +5,10 @@
 #include <naiveConsole.h>
 #include <keyboard.h>
 #include <graphics.h>
-#include <syscall_dispacher.h>
 #include <sound.h>
 #include <rtc.h>
+#include <time.h>
+#include <syscall.h>
 
 extern uint8_t text;
 extern uint8_t rodata;
@@ -15,7 +16,6 @@ extern uint8_t data;
 extern uint8_t bss;
 extern uint8_t endOfKernelBinary;
 extern uint8_t endOfKernel;
-
 static const uint64_t PageSize = 0x1000;
 
 static void * const sampleCodeModuleAddress = (void*)0x400000;
@@ -108,7 +108,7 @@ int main()
 	//init_game();
 	while(1){
 		if(!buffer_empty()){
-			draw_char(get_char());
+			draw_number(syscall(13,0,0,0,0,0));
 		}
 	}; //mantenerlo vivo
 	return 0;
@@ -142,8 +142,6 @@ void video_tests(){
 	draw_char('>');
 	draw_string("TPArqui");
 	draw_char(':');
-	syscall_dispacher(5, 300,300, 255, 0, 0);
-	syscall_dispacher(4, 1, "Hola", 3);
 	/*for(int i = 0; i < 50; i++){
 		draw_number(i);
 		new_line();
