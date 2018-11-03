@@ -1,6 +1,8 @@
 #ifndef _SYSCALL_H
 #define _SYSCALL_H
 
+#include <stdint.h>
+
 #define READ 3
 #define WRITE 4
 #define DRAW_PIXEL 5
