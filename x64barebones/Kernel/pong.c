@@ -39,7 +39,7 @@ void init_game(){
 	players[0].x = 1;
 	players[1].x = 999;
 	players[0].y = players[1].y = 300;
-	players[0].score = players[1].score = 0;
+	players[0].score = players[1].score = 1;
 	x_res = get_x_res();
 	y_res = get_y_res();
 	game_state = PLAYING;
@@ -100,7 +100,7 @@ void player_move(int player_n, enum DIRECTION dir){
 	}
 }
 
-char *numbers[SCORE_HEIGHT * 3] = {
+char *numbers[SCORE_HEIGHT * 10] = {
 	"1111",		//0
 	"1001",
 	"1001",
@@ -111,11 +111,46 @@ char *numbers[SCORE_HEIGHT * 3] = {
 	"0001",
 	"0001",
 	"0001",
-	"1111",		//1
+	"1111",		//2
 	"0001",
 	"1111",
 	"1000",
 	"1111",
+	"1111",		//3
+	"0001",
+	"1111",
+	"0001",
+	"1111",
+	"1001",		//4
+	"1001",
+	"1111",
+	"0001",
+	"0001",
+	"1111",		//5
+	"1000",
+	"1111",
+	"0001",
+	"1111",
+	"1111",		//6
+	"1000",
+	"1111",
+	"1001",
+	"1111",
+	"0111",		//7
+	"0001",
+	"0001",
+	"0001",
+	"0001",
+	"1111",		//8
+	"1001",
+	"1111",
+	"1001",
+	"1111",
+	"1111",		//9
+	"1001",
+	"1111",
+	"0001",
+	"0001",
 };
 
 void draw_scores(){
