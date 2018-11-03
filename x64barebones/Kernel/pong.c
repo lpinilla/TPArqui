@@ -170,23 +170,26 @@ void move_ball(){
 	//jugador de la izq
 	if(ball.x >= 1 && ball.x <= PLAYER_WIDTH){
 		if((ball.y >= players[0].y) && (ball.y <= (players[0].y + PLAYER_HEIGHT) )){
-			if(ball.y >= ((players[0].y + PLAYER_HEIGHT) / 2)){
+			if(ball.y <= (players[0].y + PLAYER_HEIGHT / 2)){
 				ball.down = 0;
 			}else{
 				ball.down = 1;
 			}
 			ball.right = 1;
-			
 		}
+
+
 	}else if(ball.x >= (999 - PLAYER_WIDTH)){
 		if((ball.y >= players[1].y) && (ball.y <= (players[1].y + PLAYER_HEIGHT) )){
-			if(ball.y >= (players[1].y + PLAYER_HEIGHT) / 2){
+			if(ball.y >= players[1].y + PLAYER_HEIGHT / 2){
 				ball.down = 0;
 			}else{
 				ball.down = 1;
 			}
 			ball.right = 0;
 		}
+
+
 	}
 }
 
