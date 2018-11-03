@@ -6,6 +6,9 @@ static int var1 = 0;
 static int var2 = 0;
 
 */
+
+#include <utilities.h>
+
 int main() {
 	/*
 	//All the following code may be removed
@@ -16,9 +19,7 @@ int main() {
 	if (var1 == 0 && var2 == 0)
 		return 0xDEADC0DE;
 	*/
-	while(1){
-
-	}
+	bash();
 
 	return 0xDEADBEEF;
 }
