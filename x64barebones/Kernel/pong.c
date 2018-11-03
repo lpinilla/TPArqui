@@ -9,6 +9,8 @@
 #define MAX_SCORE 3
 #define SCORE_WIDTH 4
 #define SCORE_HEIGHT 5
+#define BALL_SIZE 20
+#define BALL_SPEED 5
 
 enum STATE {GAME_OVER = 0,PLAYING }; //tal vez agregar un estado más para cuando se carga por 1era vez
 enum DIRECTION {DOWN = 0, UP};
@@ -17,6 +19,7 @@ void draw_game(void);
 void draw_players(void);
 void draw_scores(void);
 void draw_player_n_score(int n, int x, int y);
+void draw_ball();
 void player_move(int n, enum DIRECTION dir);
 void play(void);
 void init_game(void);
@@ -26,7 +29,12 @@ typedef struct{
 	int x,y, score;
 } player_position;
 
+typedef struct{
+	int x,y, down, right;
+} ball_t;
+
 player_position players[2];
+ball_t ball;
 
 enum STATE game_state;
 enum DIRECTION dir;
@@ -39,7 +47,11 @@ void init_game(){
 	players[0].x = 1;
 	players[1].x = 999;
 	players[0].y = players[1].y = 300;
-	players[0].score = players[1].score = 1;
+	players[0].score = players[1].score = 0;
+	ball.x = 550; //esto debería cambiar pedir tiempo de ms (hacer biblioteca rand?)
+	ball.y = 300; //esto tambien
+	ball.down = 0; //rand
+	ball.right = 0; //rand
 	x_res = get_x_res();
 	y_res = get_y_res();
 	game_state = PLAYING;
@@ -55,6 +67,7 @@ void game_loop(){
 				break;
 			case PLAYING:
 				play();
+				move_ball();
 				draw_game();
 				break;
 		}
@@ -65,6 +78,7 @@ void draw_game(){
 	draw_board(); //creo que esto se puede dibujar solo la primera vez
 	draw_scores();
 	draw_players();
+	draw_ball();
 	swap_buffers(); //vblank;
 }
 
@@ -81,6 +95,10 @@ void draw_board(){
 	}
 }
 
+void draw_ball(){
+	shadow_fill_square(ball.x, ball.y ,0xFF, 0xFF, 0xFF, BALL_SIZE);
+}
+
 void draw_players(){
 	shadow_fill_rect(players[0].x, players[0].y, 0xFF, 0xFF, 0xFF, PLAYER_WIDTH, PLAYER_HEIGHT);
 	shadow_fill_rect(players[1].x, players[1].y, 0xFF, 0xFF, 0xFF, PLAYER_WIDTH, PLAYER_HEIGHT);
@@ -95,8 +113,66 @@ void player_move(int player_n, enum DIRECTION dir){
 		}else if(dir == UP && players[player_n].y >= PLAYER_TOP){
 			players[player_n].y -= PLAYER_SPEED;
 			shadow_fill_rect(players[player_n].x, players[player_n].y + PLAYER_HEIGHT,
-							 0x0, 0x00, 0x0, PLAYER_WIDTH, PLAYER_SPEED);
+							 0x0, 0x0, 0x0, PLAYER_WIDTH, PLAYER_SPEED);
 		}
+	}
+}
+
+void play(){
+	char c = get_char();
+	switch(c){
+		case 'w':
+			player_move(0, UP);
+			break;
+		case 's':
+			player_move(0, DOWN);
+			break;
+		case 'p':
+			player_move(1, UP);
+			break;
+		case 'l':
+			player_move(1, DOWN);
+			break;
+		default:
+			break;
+	}
+}
+
+void move_ball(){
+	//ver si esta tocando algún borde
+	//borde de arriba
+	if(ball.y <= PLAYER_TOP){
+		ball.down = 1;
+	}
+	//borde de abajo
+	if(ball.y >= PLAYER_BOTTOM + PLAYER_HEIGHT - BALL_SIZE){
+		ball.down = 0;
+	}
+	//movimientos
+	if(ball.down){
+		ball.y += BALL_SPEED;
+		shadow_fill_rect(ball.x, ball.y - BALL_SPEED, 0x0, 0x0, 0x0, BALL_SIZE, BALL_SPEED);
+	}else{
+		ball.y -= BALL_SPEED;
+		shadow_fill_rect(ball.x, ball.y + BALL_SIZE, 0x0, 0x0, 0x0, BALL_SIZE, BALL_SPEED);
+	}
+	if(ball.right){
+		ball.x += BALL_SPEED;
+		shadow_fill_rect(ball.x - BALL_SPEED, ball.y, 0x0, 0x0, 0x0, BALL_SPEED, BALL_SIZE);
+	}else{
+		ball.x -= BALL_SPEED;
+		shadow_fill_rect(ball.x + BALL_SIZE, ball.y, 0x0, 0x0, 0x0, BALL_SPEED, BALL_SIZE);	
+	}
+	//colisiones
+	//colisiona con alguna barra si la distancia desde el centro de la barra hasta la pelota
+	//es menor o igual al tamaño del ancho de la barra
+	if(ball.x <= PLAYER_WIDTH){
+		ball.right = 1;
+		ball.down ? ball.down = 0 : ball.down;
+	}
+	if(ball.x >= 999 - PLAYER_WIDTH){
+		ball.right = 0;
+		ball.down ? ball.down = 0 : ball.down;
 	}
 }
 
@@ -171,25 +247,5 @@ void draw_player_n_score(int player_n, int init_x, int init_y){
 				shadow_fill_square(init_x + 10 * j,init_y + 10 * t, 0x0, 0x0, 0x0, 10);
 			}
 		}
-	}
-}
-
-void play(){
-	char c = get_char();
-	switch(c){
-		case 'w':
-			player_move(0, UP);
-			break;
-		case 's':
-			player_move(0, DOWN);
-			break;
-		case 'p':
-			player_move(1, UP);
-			break;
-		case 'l':
-			player_move(1, DOWN);
-			break;
-		default:
-			break;
 	}
 }
