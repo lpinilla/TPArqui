@@ -7,6 +7,7 @@
 #include <graphics.h>
 #include <syscall_dispacher.h>
 #include <sound.h>
+#include <rtc.h>
 
 extern uint8_t text;
 extern uint8_t rodata;
@@ -108,7 +109,6 @@ int main()
 	while(1){
 		if(!buffer_empty()){
 			draw_char(get_char());
-			beep();
 		}
 	}; //mantenerlo vivo
 	return 0;
