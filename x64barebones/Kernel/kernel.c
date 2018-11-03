@@ -91,8 +91,8 @@ void * initializeKernelBinary()
 	ncPrint("Done IDT");
 	init_graphics();
 
-	//to_userland();
-	video_tests();
+	to_userland();
+	//video_tests();
 	//clear_screen();
 	//init_game();
 	while(1){}; //mantenerlo vivo

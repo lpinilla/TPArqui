@@ -18,5 +18,6 @@
 
 void sys_write(char * string, int size);
 char sys_read(char * string, int size);
+void sys_clear_console();
 
 #endif

@@ -23,3 +23,7 @@ void bash(){
   }
   return;
 }
+
+void clear_console(){
+  sys_clear_console();
+}

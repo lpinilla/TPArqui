@@ -19,10 +19,12 @@ int main() {
 	if (var1 == 0 && var2 == 0)
 		return 0xDEADC0DE;
 	*/
-	char c="a";
+	char c='a';
 	char b='b';
 	put_char(c);
 	put_char(b);
-	while(1);
+	clear_console();
+	put_char('c');
+	//while(1){};
 	return 0xDEADBEEF;
 }
