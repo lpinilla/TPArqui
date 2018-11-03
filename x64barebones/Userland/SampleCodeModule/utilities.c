@@ -16,5 +16,10 @@ char get_char(){
 }
 
 void bash(){
-  while(1);
+    char c;
+  while(1){
+    c=get_char();
+    put_char(c);
+  }
+  return;
 }
