@@ -107,9 +107,6 @@ int main()
 	//video_tests();
 	//init_game();
 	while(1){
-		if(!buffer_empty()){
-			draw_number(syscall(13,0,0,0,0,0));
-		}
 	}; //mantenerlo vivo
 	return 0;
 }
