@@ -6,6 +6,7 @@
 #include <keyboard.h>
 #include <graphics.h>
 #include <syscall_dispacher.h>
+#include <sound.h>
 
 extern uint8_t text;
 extern uint8_t rodata;
@@ -103,10 +104,12 @@ int main()
 
 	init_graphics();
 	//video_tests();
-	init_game();
+	//init_game();
 	while(1){
-		if(!buffer_empty())
+		if(!buffer_empty()){
 			draw_char(get_char());
+			beep();
+		}
 	}; //mantenerlo vivo
 	return 0;
 }

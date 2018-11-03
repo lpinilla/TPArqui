@@ -118,7 +118,7 @@ void draw_free_string(char * string, int front_r, int front_g, int front_b, int 
   int i = 0;
   while(*(string + i)){
     draw_free_char(string[i++], front_r, front_g, front_b, back_r, back_g, back_b);
-  } 
+  }
 }
 
 //vos solo elegis color de frente (fondo negro)
