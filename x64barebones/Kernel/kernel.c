@@ -91,10 +91,7 @@ void * initializeKernelBinary()
 	ncPrint("Done IDT");
 	init_graphics();
 
-<<<<<<< HEAD
 	to_userland();
-=======
->>>>>>> refs/remotes/origin/master
 	//video_tests();
 	//clear_screen();
 	//init_game();
