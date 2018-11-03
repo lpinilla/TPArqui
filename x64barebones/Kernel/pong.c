@@ -6,6 +6,7 @@
 #define PLAYER_WIDTH 25
 #define PLAYER_TOP 30
 #define PLAYER_BOTTOM 640
+#define MAX_SCORE 3
 
 enum STATE {GAME_OVER = 0,PLAYING }; //tal vez agregar un estado más para cuando se carga por 1era vez
 enum DIRECTION {DOWN = 0, UP};
@@ -60,8 +61,14 @@ void draw_game(){
 
 //todo negro salvo la linea del medio
 void draw_board(){
+	for(int i = 0; i < 12; i++){
+		shadow_fill_rect( 90 * i, 20, 0xFF, 0xFF, 0xFF, 30, 10);	
+	}
 	for(int i = 0; i < 10; i++){
 		shadow_fill_rect(500, 20 + 90 * i, 0xFF, 0xFF, 0xFF, 15, 30);	
+	}
+	for(int i = 0; i < 12; i++){
+		shadow_fill_rect( 90 * i, 760, 0xFF, 0xFF, 0xFF, 30, 10);	
 	}
 }
 
