@@ -86,6 +86,8 @@ void * initializeKernelBinary()
 	ncPrint("[Done]");
 	ncNewline();
 	ncNewline();
+	((EntryPoint)sampleCodeModuleAddress)(); //ACA ES DONDE SALTA A USERLAND, COMENTAR ESTA LINEA SI QUEREMOS PROBAR COSAS DE KERNEL
+
 	return getStackBase();
 }
 
@@ -106,8 +108,6 @@ int main()
 	init_graphics();
 	//video_tests();
 	//init_game();
-	while(1){
-	}; //mantenerlo vivo
 	return 0;
 }
 
