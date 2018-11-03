@@ -1,6 +1,7 @@
 #include <graphics.h> //después cambiar para usar la librería de video
 #include <keyboard.h>
-
+#include <pong.h>
+#include <sound.h>
 
 player_position players[2];
 ball_t ball;
@@ -162,7 +163,7 @@ void move_ball(){
 }
 
 void player_score(int player_n){
-	//play_beep();
+	beep();
 	if(players[player_n].score == MAX_SCORE - 1){
 		game_state = GAME_OVER;
 		clear_screen();

@@ -119,7 +119,7 @@ void draw_free_string(char * string, int front_r, int front_g, int front_b, int 
   int i = 0;
   while(*(string + i)){
     draw_free_char(string[i++], front_r, front_g, front_b, back_r, back_g, back_b);
-  } 
+  }
 }
 
 //vos solo elegis color de frente (fondo negro)
@@ -211,6 +211,13 @@ void swap_buffers(){
          info_block->x_res * info_block->y_res * info_block->bpp/8);
 }
 
+int get_x_res(){
+  return info_block->x_res;
+}
+
+int get_y_res(){
+  return info_block->y_res;
+}
 
 /*
 **Forma más eficiente de pintar chars, por cada fila del mapa de glyphs,
