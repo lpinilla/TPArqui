@@ -105,9 +105,9 @@ int main()
 
 	init_graphics();
 	//video_tests();
+	//clear_screen();
 	init_game();
-	while(1){
-	}; //mantenerlo vivo
+	while(1){}; //mantenerlo vivo
 	return 0;
 }
 

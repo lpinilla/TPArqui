@@ -31,16 +31,7 @@ void game_loop(){
 			break;
 		}
 	}
-	//acá ya salimos del juego y estamos por volver al kernel
-	if(players[0].score == 3){
-		draw_free_string("                          Ha ganado el jugador 1!", 0xFF, 0x0, 0x0, 0x0, 0x0, 0x0);
-	}else{
-		draw_free_string("                          Ha ganado el jugador 2!", 0xFF, 0x0, 0x0, 0x0, 0x0, 0x0);
-	}
-	draw_string("Saliendo del juego en 3 segundos");
-	time_wait(3 * 18);
-	clear_screen();
-	init_graphics(); //dejarlo?
+	game_over();
 }
 
 void draw_game(){
@@ -199,6 +190,19 @@ void restart_game(){
 	ball.right = 0; //rand
 	game_state = PLAYING;
 	scored = 0;	
+}
+
+void game_over(){
+	//acá ya salimos del juego y estamos por volver al kernel
+	if(players[0].score == 3){
+		draw_free_string("                          Ha ganado el jugador 1!", 0xFF, 0x0, 0x0, 0x0, 0x0, 0x0);
+	}else{
+		draw_free_string("                          Ha ganado el jugador 2!", 0xFF, 0x0, 0x0, 0x0, 0x0, 0x0);
+	}
+	draw_string("  Saliendo del juego en 3 segundos");
+	time_wait(3 * 18);
+	clear_screen();
+	draw_welcome_screen();
 }
 
 char *numbers[SCORE_HEIGHT * 10] = {
