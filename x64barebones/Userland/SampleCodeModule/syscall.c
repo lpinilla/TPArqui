@@ -7,3 +7,5 @@ void sys_write(char * string, int size){
 char sys_read(char * string, int size){
   return syscall(READ,string,size,0,0,0);
 }
+
+void sys_draw_pixel()
