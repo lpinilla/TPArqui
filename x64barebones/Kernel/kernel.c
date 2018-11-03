@@ -107,7 +107,13 @@ int main()
 
 	init_graphics();
 	//video_tests();
+<<<<<<< HEAD
 	//init_game();
+=======
+	init_game();
+	while(1){
+	}; //mantenerlo vivo
+>>>>>>> 54d8e9a08b3e68391899245771c8909df366d9e1
 	return 0;
 }
 
@@ -160,5 +166,4 @@ void video_tests(){
 	*/
 	//shadow_fill_square(300,300, 0xFF, 0x0, 0xFF, 100);
 	//swap_buffers();
-
 }
