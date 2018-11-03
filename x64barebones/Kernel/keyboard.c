@@ -10,8 +10,7 @@ static int head; //variable global
 static int tail;
 static int full=FALSE;
 static int caps_lock_pressed = FALSE;
-static int l_shift_pressed= FALSE;
-static int r_shitf_pressed= FALSE;
+static int shift= FALSE;
 
 int is_alpha(unsigned char c);
 void add_buffer(char);
@@ -47,26 +46,28 @@ void keyboard_handler(){
 	else
 		return;
   if(key<0){
-    	if(keycode_map[key+BREAK_CODE_DIF] == LEFT_SHIFT)// nos fijamos si es una tecla soltada y por ahora solo tenemos en cuenta que los caracteres combinacion son los shift
-  		l_shift_pressed=FALSE;
-  	if(keycode_map[key+BREAK_CODE_DIF] == RIGHT_SHIFT)
-  		r_shitf_pressed=FALSE;
+    	if(keycode_map[key+BREAK_CODE_DIF] == LEFT_SHIFT || keycode_map[key+BREAK_CODE_DIF] == RIGHT_SHIFT)// nos fijamos si es una tecla soltada y por ahora solo tenemos en cuenta que los caracteres combinacion son los shift
+  		shift=FALSE;
   	return;
   }
 	if(keycode_map[key]==CAPS_LOCK){
 		caps_lock_pressed=(caps_lock_pressed?FALSE:TRUE);
 		return;
 	}
+  if(keycode_map[key]==LEFT_SHIFT || keycode_map[key]==RIGHT_SHIFT){
+    shift=TRUE;
+    return;
+  }
 	unsigned char c=keycode_map[key];
   if(is_alpha(c)){
-  	if(caps_lock_pressed==TRUE && (l_shift_pressed==FALSE || r_shitf_pressed==FALSE)){
+  	if(caps_lock_pressed==TRUE && shift==FALSE){
   				c-=32;
   	}
-    else if(caps_lock_pressed==FALSE&& (l_shift_pressed==TRUE || r_shitf_pressed==TRUE))
+    else if(caps_lock_pressed==FALSE && shift==TRUE)
           c-=32;
   }
   else{
-    if(l_shift_pressed==TRUE || (l_shift_pressed==TRUE))
+    if(shift==TRUE)
       c=alternative_keycode_map[key];
   }
   add_buffer(c);
