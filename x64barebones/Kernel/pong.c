@@ -12,7 +12,7 @@
 #define BALL_SIZE 20
 #define BALL_SPEED 3 //4 para testar, 3 original y 5 para apurar el juego
 
-enum STATE {GAME_OVER = 0,PLAYING }; //tal vez agregar un estado más para cuando se carga por 1era vez
+enum STATE {GAME_OVER = 0,PLAYING };
 enum DIRECTION {DOWN = 0, UP};
 void draw_board(void);
 void draw_game(void);
@@ -24,6 +24,8 @@ void player_move(int n, enum DIRECTION dir);
 void play(void);
 void init_game(void);
 void game_loop(void);
+void player_score(int n);
+void restart_game(void);
 
 typedef struct{
 	int x,y, score;
@@ -33,31 +35,19 @@ typedef struct{
 	int x,y, down, right;
 } ball_t;
 
+//fin del .h
+
 player_position players[2];
 ball_t ball;
 
 enum STATE game_state;
 enum DIRECTION dir;
 
-int x_res, y_res; //resolutions
 
 //se llama 1 sola vez para que limpie la pantalla y corra las demás cosas
 void init_game(){
-
-	players[0].x = 1;
-	players[1].x = 999;
-	players[0].y = players[1].y = 300;
 	players[0].score = players[1].score = 0;
-	ball.x = 550; //esto debería cambiar pedir tiempo de ms (hacer biblioteca rand?)
-	ball.y = 300; //esto tambien
-	ball.down = 0; //rand
-	ball.right = 0; //rand
-	x_res = get_x_res();
-	y_res = get_y_res();
-	game_state = PLAYING;
-	clear_screen();
-	draw_game(); //esto en realidad no iría acá
-	game_loop();
+	restart_game();
 } 
 
 void game_loop(){
@@ -176,9 +166,9 @@ void move_ball(){
 				ball.down = 1;
 			}
 			ball.right = 1;
+		}else{ //score
+			player_score(1);
 		}
-
-
 	}else if(ball.x >= (999 - PLAYER_WIDTH)){
 		if((ball.y >= players[1].y) && (ball.y <= (players[1].y + PLAYER_HEIGHT) )){
 			if(ball.y >= players[1].y + PLAYER_HEIGHT / 2){
@@ -187,11 +177,37 @@ void move_ball(){
 				ball.down = 1;
 			}
 			ball.right = 0;
+		}else{
+			player_score(0);
 		}
-
-
 	}
 }
+
+void player_score(int player_n){
+	//play_beep();
+	if(players[player_n].score == MAX_SCORE){
+		game_state = GAME_OVER;
+		//llevar a pantalla de game_over;
+	}else{
+		players[player_n].score++;
+		restart_game();
+	}
+}
+
+void restart_game(){
+	clear_screen();
+	players[0].x = 1;
+	players[1].x = 999;
+	players[0].y = players[1].y = 300;
+	ball.x = 550; //esto debería cambiar pedir tiempo de ms (hacer biblioteca rand?)
+	ball.y = 300; //esto tambien
+	ball.down = 0; //rand
+	ball.right = 0; //rand
+	game_state = PLAYING;	
+	draw_game();
+	game_loop();
+}
+
 
 char *numbers[SCORE_HEIGHT * 10] = {
 	"1111",		//0
