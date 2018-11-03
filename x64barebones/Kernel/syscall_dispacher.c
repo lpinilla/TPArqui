@@ -10,6 +10,10 @@
 #define X_RES 6
 #define Y_RES 7
 #define CLEAR_SCREEN 8
+#define SHADOW_PIXEL 9
+#define MOVE_EVERYTHING_UP 10
+#define SWAP_BUFFERS 11
+#define CLEAR_SHADOW_BUFFER 12
 #define TIME 13
 
 int read(int param1, char * param2, int param3);
@@ -37,6 +41,18 @@ uint64_t syscall_dispacher(uint64_t rdi, uint64_t rsi, uint64_t rdx, uint64_t rc
         break;
       case TIME:
         return get_time(rsi);
+      case SHADOW_PIXEL:
+        shadow_pixel(rsi, rdx, rcx, r8, r9);
+        break;
+      case MOVE_EVERYTHING_UP:
+        move_everything_up();
+        break;
+      case SWAP_BUFFERS:
+        swap_buffers();
+        break;
+      case CLEAR_SHADOW_BUFFER:
+        clear_shadow_buffer();
+        break;
   }
 	return 0;
 }

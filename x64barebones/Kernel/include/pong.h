@@ -29,6 +29,7 @@ void restart_game(void);
 void move_ball(void);
 void delete_players(void);
 void delete_ball(void);
+void game_over(void);
 
 typedef struct{
 	int x,y, score;

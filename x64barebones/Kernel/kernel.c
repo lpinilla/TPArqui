@@ -91,8 +91,11 @@ void * initializeKernelBinary()
 	ncPrint("Done IDT");
 	init_graphics();
 
-	to_userland();
-
+	//to_userland();
+	video_tests();
+	//clear_screen();
+	//init_game();
+	while(1){}; //mantenerlo vivo
 	return getStackBase();
 }
 
@@ -101,7 +104,7 @@ void * initializeKernelBinary()
 	}
 
 int main()
-{
+{	
 	return 0;
 }
 

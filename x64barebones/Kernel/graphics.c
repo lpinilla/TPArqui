@@ -26,6 +26,13 @@ char * title[9] = {"      ##      ##                           ",
 
 void init_graphics(){
   info_block = (mode_info_block*)0x0000000000005C00;
+  draw_welcome_screen();
+}
+
+void draw_welcome_screen(){
+  //clear_screen();
+  new_line();
+  new_line();
   x_cursor = 0;
   y_cursor = CHAR_HEIGHT;
   //mensaje de bienvenida
@@ -89,9 +96,9 @@ void shadow_fill_rect(int x, int y, unsigned char r, unsigned char g, unsigned  
 
 //se puede especificar color de frente y de fondo
 void draw_char_w_front_and_back_color(int x, int y, char c, int r, int g, int b, int r2, int g2, int b2){
-  if(x_cursor >= info_block->x_res){
+  if(x_cursor >= get_x_res()){
     x_cursor = 0;
-    if(y_cursor >= info_block->y_res - CHAR_HEIGHT){
+    if(y_cursor >= get_y_res() - CHAR_HEIGHT){
       move_everything_up();
     }else{
       y_cursor += CHAR_HEIGHT;
@@ -148,7 +155,7 @@ void erase_character(){
       draw_color_char(' ', 0xFF,0xFF,0xFF);
     }else{
       y_cursor -= CHAR_HEIGHT;
-      x_cursor = info_block->x_res - CHAR_WIDTH;
+      x_cursor = get_x_res() - CHAR_WIDTH;
       draw_color_char(' ', 0xFF,0xFF,0xFF);
     }
   }else{
@@ -181,18 +188,20 @@ void draw_number(int n){
   }
 }
 
+//limpiar la pantalla principal
 void clear_screen(){
   memset(info_block->physbase, 0, info_block->y_res * info_block->x_res * info_block->bpp/8);
   //memset(shadow_buffer, 0x0, sizeof(shadow_buffer));
   //swap_buffers();
 }
 
-void clean_shadow_buffer(){
+//limpiar todo el buffer auxiliar
+void clear_shadow_buffer(){
   memset(shadow_buffer, 0x0, sizeof(shadow_buffer));
 }
 
 void new_line(){
-  if(y_cursor != info_block->y_res){
+  if(y_cursor != get_y_res()){
     y_cursor += CHAR_HEIGHT;
   }else{
     move_everything_up();
@@ -210,6 +219,7 @@ void swap_buffers(){
   memcpy(info_block->physbase - info_block->pitch * CHAR_HEIGHT, shadow_buffer,
          info_block->x_res * info_block->y_res * info_block->bpp/8);
 }
+
 
 int get_x_res(){
   return info_block->x_res;
