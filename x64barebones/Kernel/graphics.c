@@ -188,10 +188,16 @@ void draw_number(int n){
   }
 }
 
+//limpiar la pantalla principal
 void clear_screen(){
   memset(info_block->physbase, 0, info_block->y_res * info_block->x_res * info_block->bpp/8);
   //memset(shadow_buffer, 0x0, sizeof(shadow_buffer));
   //swap_buffers();
+}
+
+//limpiar todo el buffer auxiliar
+void clean_shadow_buffer(){
+  memset(shadow_buffer, 0x0, sizeof(shadow_buffer));
 }
 
 void new_line(){
@@ -213,6 +219,7 @@ void swap_buffers(){
   memcpy(info_block->physbase - info_block->pitch * CHAR_HEIGHT, shadow_buffer,
          info_block->x_res * info_block->y_res * info_block->bpp/8);
 }
+
 
 int get_x_res(){
   return info_block->x_res;

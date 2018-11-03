@@ -3,12 +3,8 @@
 #include <lib.h>
 #include <moduleLoader.h>
 #include <naiveConsole.h>
-#include <keyboard.h>
 #include <graphics.h>
-#include <sound.h>
-#include <rtc.h>
 #include <time.h>
-#include <syscall.h>
 
 extern uint8_t text;
 extern uint8_t rodata;
@@ -70,6 +66,7 @@ void * initializeKernelBinary()
 
 	clearBSS(&bss, &endOfKernel - &bss);
 
+
 	ncPrint("  text: 0x");
 	ncPrintHex((uint64_t)&text);
 	ncNewline();
@@ -82,32 +79,32 @@ void * initializeKernelBinary()
 	ncPrint("  bss: 0x");
 	ncPrintHex((uint64_t)&bss);
 	ncNewline();
-
 	ncPrint("[Done]");
 	ncNewline();
 	ncNewline();
-	return getStackBase();
-}
 
-
-int main()
-{
 	initial_info();
 	ncPrint("Loading IDT");
 	ncNewline();
+	ncNewline();
 	load_idt();
-	ncNewline();
 	ncPrint("Done IDT");
-	ncNewline();
-	ncPrint("Ready..");
-	ncNewline();
-
-
 	init_graphics();
-	//video_tests();
+
+	//to_userland();
+	video_tests();
 	//clear_screen();
-	init_game();
+	//init_game();
 	while(1){}; //mantenerlo vivo
+	return getStackBase();
+}
+
+	void to_userland(){
+		((EntryPoint)sampleCodeModuleAddress)(); //ACA ES DONDE SALTA A USERLAND, COMENTAR ESTA LINEA SI QUEREMOS PROBAR COSAS DE KERNEL
+	}
+
+int main()
+{	
 	return 0;
 }
 
@@ -160,4 +157,5 @@ void video_tests(){
 	*/
 	//shadow_fill_square(300,300, 0xFF, 0x0, 0xFF, 100);
 	//swap_buffers();
+
 }

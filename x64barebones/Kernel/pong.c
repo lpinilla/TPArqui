@@ -202,6 +202,7 @@ void game_over(){
 	draw_string("  Saliendo del juego en 3 segundos");
 	time_wait(3 * 18);
 	clear_screen();
+	clear_shadow_buffer();
 	draw_welcome_screen();
 }
 
