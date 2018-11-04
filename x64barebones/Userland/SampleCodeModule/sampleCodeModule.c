@@ -20,9 +20,7 @@ int main() {
 		return 0xDEADC0DE;
 	*/
 	put_char('a');
-	put_char('b');
-	clear_console();
-	put_char('c');
-	return shell();
+
+	return;
 
 }

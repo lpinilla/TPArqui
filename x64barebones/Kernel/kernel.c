@@ -110,8 +110,7 @@ int main()
 {
 	load_idt();
 	init_graphics();
-	draw_char('a');
-	//to_userland();
+	to_userland();
 	return 0;
 }
 
