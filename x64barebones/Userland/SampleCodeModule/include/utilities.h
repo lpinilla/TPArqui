@@ -8,6 +8,8 @@ void print_f(char * format, ...);
 void put_char(char c);
 char get_char();
 void clear_console(void);
+int get_digits(int number);
+void print_number(number);
 uint64_t * shell();
 
 #endif
