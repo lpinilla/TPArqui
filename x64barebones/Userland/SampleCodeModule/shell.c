@@ -1,11 +1,12 @@
 #include <utilities.h>
 
+#define RETURN_ADRESS 0xDEADC0DE
+
 uint64_t * shell();
 
 uint64_t * shell(void){
-	put_char('h');
-	for(int i=0; i<10000; i++){
-		put_char('h');
+	while(1){
+		put_char('s');
 	}
-	return (uint64_t *) 0xDEADC0DE;
+	return (uint64_t *) RETURN_ADRESS;
 }

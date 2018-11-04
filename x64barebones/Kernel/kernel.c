@@ -60,13 +60,11 @@ void * initializeKernelBinary(){
 
 int main()
 {
-	draw_string("Back to kernel");
 	to_userland();
 	return 0;
 }
 
 void initial_info(){
-	/*
 	ncPrint("[Kernel Main]");
 	ncNewline();
 	ncPrint("  Sample code module at 0x");
@@ -89,20 +87,20 @@ void initial_info(){
 }
 
 void video_tests(){
-	//draw_pixel(100,100, 255,0,0);
-	//draw_fill_square(0,0,255,255,255, 10);
+	draw_pixel(100,100, 255,0,0);
+	draw_fill_square(0,0,255,255,255, 10);
 	draw_char('>');
 	draw_string("TPArqui");
 	draw_char(':');
-	/*for(int i = 0; i < 50; i++){
+	for(int i = 0; i < 50; i++){
 		draw_number(i);
 		new_line();
-	}*/
+	}
 	//move_everything_up3();
-	//draw_fill_square(300,300, 255,0,255, 100);
-	//erase_character();
+	draw_fill_square(300,300, 255,0,255, 100);
+	erase_character();
 	//Writing test
-	/*
+
 	for(int i = 0; i < 1000; i++){
 		draw_number(i);
 	}
@@ -112,8 +110,7 @@ void video_tests(){
 		}
 	}
 	draw_string("Erased!");
-	*/
-	//shadow_fill_square(300,300, 0xFF, 0x0, 0xFF, 100);
-	//swap_buffers();
+	shadow_fill_square(300,300, 0xFF, 0x0, 0xFF, 100);
+	swap_buffers();
 
 }
