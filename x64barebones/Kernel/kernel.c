@@ -39,66 +39,17 @@ void * getStackBase()
 	);
 }
 
-void * initializeKernelBinary()
-{
+void * initializeKernelBinary(){
 	char buffer[10];
-
-	ncPrint("[x64BareBones]");
-	ncNewline();
-
-	ncPrint("CPU Vendor:");
-	ncPrint(cpuVendor(buffer));
-	ncNewline();
-
-	ncPrint("[Loading modules]");
-	ncNewline();
+	(cpuVendor(buffer));
 	void * moduleAddresses[] = {
 		sampleCodeModuleAddress,
 		sampleDataModuleAddress
 	};
-
 	loadModules(&endOfKernelBinary, moduleAddresses);
-	ncPrint("[Done]");
-	ncNewline();
-	ncNewline();
-
-	ncPrint("[Initializing kernel's binary]");
-	ncNewline();
-
 	clearBSS(&bss, &endOfKernel - &bss);
-
-
-	ncPrint("  text: 0x");
-	ncPrintHex((uint64_t)&text);
-	ncNewline();
-	ncPrint("  rodata: 0x");
-	ncPrintHex((uint64_t)&rodata);
-	ncNewline();
-	ncPrint("  data: 0x");
-	ncPrintHex((uint64_t)&data);
-	ncNewline();
-	ncPrint("  bss: 0x");
-	ncPrintHex((uint64_t)&bss);
-	ncNewline();
-	ncPrint("[Done]");
-	ncNewline();
-	ncNewline();
-
-	initial_info();
-	ncPrint("Loading IDT");
-	ncNewline();
-	ncNewline();
-	//load_idt();
-	ncPrint("Done IDT");
-
-	//init_graphics();
-
-	//to_userland();
-	video_tests();
-	//clear_screen();
-	//init_game();
-	//to_userland();
-	 //mantenerlo vivo
+	init_graphics();
+	load_idt();
 	return getStackBase();
 }
 
@@ -108,16 +59,14 @@ void * initializeKernelBinary()
 	}
 
 int main()
-{	
-	//to_userland();
+{
 	draw_string("Back to kernel");
-	load_idt();
-	init_graphics();
 	to_userland();
 	return 0;
 }
 
 void initial_info(){
+	/*
 	ncPrint("[Kernel Main]");
 	ncNewline();
 	ncPrint("  Sample code module at 0x");

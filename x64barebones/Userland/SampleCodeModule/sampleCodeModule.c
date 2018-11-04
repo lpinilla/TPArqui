@@ -19,17 +19,13 @@ uint64_t main() {
 	if (var1 == 0 && var2 == 0)
 		return 0xDEADC0DE;
 	*/
-<<<<<<< HEAD
-	for(int i = 0; i< 100000000; i++)
-	_call_int_80(4,1,"Holas",3,0,0);
-
-	return 0;
-=======
-	put_char('a');
-	put_char('b');
-	clear_console();
-	put_char('c');
-	return (uint64_t) (shell());
->>>>>>> dc3656691d0db7838e4c718dc4ee23c5ded6c3c6
+	while (1) {
+		put_char('v');
+		put_char('a');
+		put_char('m');
+		put_char('o');
+	}
+	return;
+	// (uint64_t) (shell());
 
 }
