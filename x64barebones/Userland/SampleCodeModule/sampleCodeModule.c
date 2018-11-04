@@ -6,8 +6,8 @@ static int var1 = 0;
 static int var2 = 0;
 */
 
-
-#include <utilities.h>
+#include <syscall.h>
+#include <call_int_80.h>
 
 int main() {
 	/*
@@ -19,8 +19,9 @@ int main() {
 	if (var1 == 0 && var2 == 0)
 		return 0xDEADC0DE;
 	*/
-	put_char('a');
+	for(int i = 0; i< 100000000; i++)
+	_call_int_80(4,1,"Holas",3,0,0);
 
-	return;
+	return 0;
 
 }
