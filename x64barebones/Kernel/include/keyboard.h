@@ -15,8 +15,7 @@ char get_char();
 
 
 #define BREAK_CODE_DIF          128
-#define BACKSPACE               128
-#define ENTER_KEY               129
+
 #define LEFT_SHIFT              130
 #define RIGHT_SHIFT             131
 #define CAPS_LOCK               132

@@ -4,8 +4,6 @@ clean:
 	cd Kernel; make clean
 	cd Userland; make clean
 
-
-
 all:  bootloader kernel userland image
 
 bootloader:

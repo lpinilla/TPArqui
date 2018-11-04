@@ -9,20 +9,16 @@ void put_char(char c){
 void print_f(char * format, ...){
   if(format==NULL)
     return;
+  int i;
+  while(format[i]!=0){
+    put_char(format[i]);
+  }
   //parsing format
 }
 char get_char(){
   char c;
-  return sys_read(&c,1);
-}
-
-void bash(){
-    char c;
-  while(1){
-    c=get_char();
-    put_char(c);
-  }
-  return;
+  sys_read(&c,1);
+  return c;
 }
 
 void clear_console(){

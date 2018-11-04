@@ -76,6 +76,34 @@ void shadow_fill_rect(int x, int y, unsigned char r, unsigned char g, unsigned  
     }
 }
 
+<<<<<<< HEAD
+=======
+//se puede especificar color de frente y de fondo
+void draw_char_w_front_and_back_color(int x, int y, char c, int r, int g, int b, int r2, int g2, int b2){
+  if(c=='\n')
+    return new_line();
+  if(c=='\b')
+    return erase_character();
+  if(x_cursor >= get_x_res()){
+    x_cursor = 0;
+    if(y_cursor >= get_y_res() - CHAR_HEIGHT){
+      move_everything_up();
+    }else{
+      y_cursor += CHAR_HEIGHT;
+    }
+  }
+  for(int i = 0; i < CHAR_HEIGHT; i++){
+    for(int j = 0; j < CHAR_WIDTH; j++){
+      if(*(&glyphs[(c-31) * CHAR_HEIGHT] + i * sizeof(uint8_t)) & 1<<j){
+        draw_pixel(CHAR_WIDTH -1 -j + x_cursor, i + y_cursor,r,g,b);
+      }else{
+        draw_pixel(CHAR_WIDTH -1 -j + x_cursor, i + y_cursor,r2,g2,b2); //necesito esto para poder borrar
+      }
+    }
+  }
+  x_cursor += CHAR_WIDTH;
+}
+>>>>>>> 526d47a5772574140a7180bc72fd61c69fb15f26
 
 //vos le especificas color de frente y de fondo
 void draw_free_char(char c, int front_r, int front_g, int front_b, int back_r, int back_g, int back_b){
