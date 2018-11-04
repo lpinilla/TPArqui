@@ -1,10 +1,8 @@
 void shell();
 
-int i = 0;
-
 void shell(void){
 	put_char('h');
-	/*while(1){
+	for(int i=0; i<10000; i++){
 		put_char('h');
-	}*/
+	}
 }
