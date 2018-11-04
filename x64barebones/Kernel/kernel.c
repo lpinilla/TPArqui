@@ -60,7 +60,11 @@ void * initializeKernelBinary(){
 
 int main()
 {
-	to_userland();
+	//to_userland();
+	while(1){
+		if(!buffer_empty())
+			draw_char(get_char());
+	}
 	return 0;
 }
 

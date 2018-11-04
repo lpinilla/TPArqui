@@ -13,14 +13,15 @@ static int caps_lock_pressed = FALSE;
 static int shift= FALSE;
 
 int is_alpha(unsigned char c);
+int is_cntrl(unsigned char c);
 void add_buffer(char);
 int buffer_empty();
 #define CHECKBYTE(binary, index) (binary & 1<<(index)) // macro que checkea si el byte en la posicion index esta prendido
 
 unsigned char keycode_map[128] = {
     0,  27, '1', '2', '3', '4', '5', '6', '7', '8', /* INDEX: 0 - 9 */
-    '9','0', '-', '=', BACKSPACE, '\t' /* Tab */,'q', 'w', 'e', 'r',	/* INDEX: 10 - 19 */
-  't', 'y', 'u', 'i', 'o', 'p', '[', ']', ENTER_KEY, 0 /* Control */, /* INDEX: 20 - 29 */
+    '9','0', '-', '=','\b', '\t' /* Tab */,'q', 'w', 'e', 'r',	/* INDEX: 10 - 19 */
+  't', 'y', 'u', 'i', 'o', 'p', '[', ']', '\n', 0 /* Control */, /* INDEX: 20 - 29 */
   'a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l', ';',	/* INDEX: 30 - 39 */
  '\'', '`',  LEFT_SHIFT,'\\', 'z', 'x', 'c', 'v', 'b', 'n', /* INDEX: 40 - 49 */
   'm', ',', '.', '/', RIGHT_SHIFT,'*',0/* Alt */,' '/* Space bar */, CAPS_LOCK, 0 /* F1 */, /* INDEX: 50 - 59 */
@@ -30,8 +31,8 @@ unsigned char keycode_map[128] = {
     0,	/* All other keys are undefined */
 };
 unsigned char alternative_keycode_map[128] = {
-  0,0,'!','@','#','$','%%','^', '&', '*', '(', ')', '_','+', BACKSPACE, '\t', /* shift + tab not defined in normal aasci*/
-  'Q','W','E','R','T','Y', 'U', 'I', 'O', 'P', '{', '}', ENTER_KEY, 0,
+  0,0,'!','@','#','$','%%','^', '&', '*', '(', ')', '_','+', '\b', '\t', /* shift + tab not defined in normal aasci*/
+  'Q','W','E','R','T','Y', 'U', 'I', 'O', 'P', '{', '}', '\n', 0,
   'A', 'B', 'C', 'D', 'F', 'G', 'H', 'J', 'K', 'L', ':',
   '\"', LEFT_SHIFT, '|', 'Z', 'X', 'C', 'V', 'B', 'N',
   'M', '<', '>', '?', RIGHT_SHIFT, '*', 0, ' ', CAPS_LOCK, 0,
@@ -59,7 +60,7 @@ void keyboard_handler(){
     return;
   }
 	unsigned char c=keycode_map[key];
-  if(is_alpha(c)){
+  if(is_alpha(c) /*|| is_cntrl(c)*/){
   	if(caps_lock_pressed==TRUE && shift==FALSE){
   				c-=32;
   	}
@@ -70,6 +71,7 @@ void keyboard_handler(){
     if(shift==TRUE)
       c = alternative_keycode_map[key];
   }
+  draw_char('a');
   add_buffer(c);
   return;
 }
@@ -118,6 +120,9 @@ char get_char(){
 }
 int is_alpha(unsigned char c) {
     return ((c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z'));
+}
+int is_cntrl(unsigned char c){
+  return ((c == '\n' || c == '\t'));
 }
 
 int buffer_empty(){

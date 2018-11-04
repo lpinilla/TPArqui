@@ -96,6 +96,8 @@ void shadow_fill_rect(int x, int y, unsigned char r, unsigned char g, unsigned  
 
 //se puede especificar color de frente y de fondo
 void draw_char_w_front_and_back_color(int x, int y, char c, int r, int g, int b, int r2, int g2, int b2){
+  //if(c=='\n')
+    //return new_line();
   if(x_cursor >= get_x_res()){
     x_cursor = 0;
     if(y_cursor >= get_y_res() - CHAR_HEIGHT){
