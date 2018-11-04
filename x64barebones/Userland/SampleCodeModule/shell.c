@@ -8,8 +8,8 @@ uint64_t * shell(void){
 	put_char('l');
 	put_char('a');	
 
-	/*while(1){
+	while(1){
 		put_char('g');
-	}*/
-	return (uint64_t *) 0xDEADC0DE;
+	}
+	return;
 }

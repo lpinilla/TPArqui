@@ -6,8 +6,8 @@ static int var1 = 0;
 static int var2 = 0;
 */
 
-
-#include <utilities.h>
+#include <syscall.h>
+#include <call_int_80.h>
 
 uint64_t main() {
 	/*
@@ -21,5 +21,12 @@ uint64_t main() {
 	*/
 	put_char('s');
 	return (uint64_t) (shell());
+	/*while (1) {
+		put_char('v');
+		put_char('a');
+		put_char('m');
+		put_char('o');
+	}*/
+	// (uint64_t) (shell());
 
 }

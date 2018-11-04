@@ -70,7 +70,7 @@ int read(int fd, char * pointer, int size) {
 
 void write(int fd, char * pointer, int size) {
   // por ahora solo implementamos por salida estandar (en nuestro caso pantalla), y el numero de salida estandar es 1
-	if(fd!=1) 
+	if(fd!=1)
     return;
   draw_n_chars(pointer,size);
 }

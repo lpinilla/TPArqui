@@ -39,32 +39,14 @@ void * getStackBase()
 	);
 }
 
-void * initializeKernelBinary()
-{
+void * initializeKernelBinary(){
 	char buffer[10];
-
-	ncPrint("[x64BareBones]");
-	ncNewline();
-
-	ncPrint("CPU Vendor:");
-	ncPrint(cpuVendor(buffer));
-	ncNewline();
-
-	ncPrint("[Loading modules]");
-	ncNewline();
+	(cpuVendor(buffer));
 	void * moduleAddresses[] = {
 		sampleCodeModuleAddress,
 		sampleDataModuleAddress
 	};
-
 	loadModules(&endOfKernelBinary, moduleAddresses);
-	ncPrint("[Done]");
-	ncNewline();
-	ncNewline();
-
-	ncPrint("[Initializing kernel's binary]");
-	ncNewline();
-
 	clearBSS(&bss, &endOfKernel - &bss);
 
 
@@ -94,7 +76,7 @@ void * initializeKernelBinary()
 	init_graphics();
 
 
-	//to_userland();
+	to_userland();
 	//video_tests();
 	//clear_screen();
 	//init_game();
@@ -107,14 +89,14 @@ void * initializeKernelBinary()
 	}
 
 int main()
-{	
-	//to_userland();
+{
 	draw_string("Back to kernel");
 	//to_userland();
 	return 0;
 }
 
 void initial_info(){
+	/*
 	ncPrint("[Kernel Main]");
 	ncNewline();
 	ncPrint("  Sample code module at 0x");
