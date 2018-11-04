@@ -92,7 +92,7 @@ void * initializeKernelBinary()
 
 	init_graphics();
 
-	to_userland();
+	//to_userland();
 	//video_tests();
 	//clear_screen();
 	//init_game();
@@ -107,7 +107,8 @@ void * initializeKernelBinary()
 
 int main()
 {
-	//to_userland();
+	to_userland();
+	draw_string("Back to kernel");
 	return 0;
 }
 
