@@ -19,10 +19,7 @@ uint64_t main() {
 	if (var1 == 0 && var2 == 0)
 		return 0xDEADC0DE;
 	*/
-	put_char('a');
-	put_char('b');
-	clear_console();
-	put_char('c');
+	put_char('s');
 	return (uint64_t) (shell());
 
 }

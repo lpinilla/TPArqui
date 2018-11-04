@@ -33,8 +33,8 @@ void draw_welcome_screen(){
   //clear_screen();
   new_line();
   new_line();
-  x_cursor = 0;
-  y_cursor = CHAR_HEIGHT;
+  //x_cursor = 0;
+  //y_cursor = CHAR_HEIGHT;
   //mensaje de bienvenida
   for(int i = 0; i < 9; i++){
     draw_string(title[i]);
