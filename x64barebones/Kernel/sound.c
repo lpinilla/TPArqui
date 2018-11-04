@@ -5,7 +5,6 @@ extern uint8_t io_read(uint16_t port);
 
 void activate_sound(int frequence_div) {
  int freq;
- uint8_t read_data;
  uint8_t aux;
  freq = 1193180 / frequence_div;
  io_write(PIT_CONFIGURE_PORT, 0xb6);

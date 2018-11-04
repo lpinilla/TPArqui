@@ -9,7 +9,7 @@ static int var2 = 0;
 
 #include <utilities.h>
 
-int main() {
+uint64_t main() {
 	/*
 	//All the following code may be removed
 	*v = 'X';
@@ -23,6 +23,6 @@ int main() {
 	put_char('b');
 	clear_console();
 	put_char('c');
-	return shell();
+	return (uint64_t) (shell());
 
 }

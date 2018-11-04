@@ -5,6 +5,7 @@
 #include <naiveConsole.h>
 #include <graphics.h>
 #include <time.h>
+#include <idt_loader.h>
 
 extern uint8_t text;
 extern uint8_t rodata;
@@ -93,7 +94,7 @@ void * initializeKernelBinary()
 	init_graphics();
 
 	//to_userland();
-	//video_tests();
+	video_tests();
 	//clear_screen();
 	//init_game();
 	//while(1){}; //mantenerlo vivo
@@ -106,8 +107,8 @@ void * initializeKernelBinary()
 	}
 
 int main()
-{
-	to_userland();
+{	
+	//to_userland();
 	draw_string("Back to kernel");
 	return 0;
 }
