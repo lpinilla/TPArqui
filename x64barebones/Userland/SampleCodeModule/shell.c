@@ -1,13 +1,11 @@
 #include <utilities.h>
 #include <string.h>
 
-#define TRUE 1
-#define FALSE 0
-
 #define EOF -1
 
 #define RETURN_ADRESS 0xDEADC0DE
 
+#define INVALID 0
 #define PONG 1
 #define TIME 2
 #define SHUTDOWN 3
@@ -24,22 +22,48 @@ void show_time();
 void shutdown();
 
 static func execute_command[]={play_pong,show_time,shutdown};
-
+const char * commands[] = {"pong", "time","shutdown"};
 
 uint64_t * shell();
 
 uint64_t * shell(void){
+	int i=0;
+	char command[MAX_LENGTH];
 	char c;
-	int flag=TRUE;
-	while(flag){
+	int flag=0;
+	while(flag!=SHUTDOWN){
 		c=get_char();
 		put_char(c);
+		if(i<MAX_LENGTH){
+			command[i]=c;
+		}
+		if(c=='\n' && i<MAX_LENGTH){
+			command[i]='\0';
+			print_f(command);
+			flag=command_handler(command);
+			i=0;
+		}
+		else if(c=='\n' && i>=MAX_LENGTH){
+			invalid_command();
+			i=0;
+		}
+		else
+			i++;
 	}
+	return (uint64_t *) RETURN_ADRESS;
+}
+int command_handler(char * command){
+	for(int i=0; i<COMMANDS; i++){
+		if(str_cmp(command, commands[i])==0){
+			execute_command[i]();
+			return i;
+		}
+	}
+	invalid_command();
+	return INVALID;
 
-
-	/*
-	const char * commands = {"pong", "time","shutdown"};
-	char command[MAX_LENGTH];
+}
+/*
 	int flag = TRUE;
 	char c;
 	int i;
@@ -66,19 +90,17 @@ uint64_t * shell(void){
 		}
 	}
 	*/
-	return (uint64_t *) RETURN_ADRESS;
-}
 
 void invalid_command(){
 	print_f("Invalid command \n");
 }
 
 void shutdown(){
-	print_f("Thank you, powering off");
+	print_f("Thank you, powering off \n");
 }
 void play_pong(){
-	print_f("Aca jugamos al pong");
+	print_f("Aca jugamos al pong \n");
 }
 void show_time(){
-	print_f("Aca mostramos el tiempo");
+	print_f("Aca mostramos el tiempo \n");
 }

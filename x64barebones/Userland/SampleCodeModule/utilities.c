@@ -12,6 +12,7 @@ void print_f(char * format, ...){
   int i;
   while(format[i]!=0){
     put_char(format[i]);
+    i++;
   }
   //parsing format
 }
