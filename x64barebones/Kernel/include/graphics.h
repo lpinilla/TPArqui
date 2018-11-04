@@ -68,6 +68,7 @@ int get_x_res(void);
 int get_y_res(void);
 void draw_welcome_screen(void);
 void clear_shadow_buffer(void);
+void reset_cursor(void);
 
 
 #endif

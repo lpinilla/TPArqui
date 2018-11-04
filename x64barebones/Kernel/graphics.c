@@ -27,11 +27,7 @@ char * title[9] = {"      ##      ##                           ",
 
 
 void draw_welcome_screen(){
-  //clear_screen();
-  new_line();
-  new_line();
-  x_cursor = 0;
-  y_cursor = CHAR_HEIGHT;
+  reset_cursor();
   //mensaje de bienvenida
   for(int i = 0; i < 9; i++){
     draw_string(title[i]);
@@ -39,47 +35,20 @@ void draw_welcome_screen(){
   }
 }
 
-//para mi deben ser funciones separadas porque el double buffering es opcional, el que lo conoce
-//y lo quiere usar, que use los métodos específicos.
 
-void shadow_fill_square(int x, int y, unsigned char r, unsigned char g, unsigned   char b, unsigned char size) {
-    for (int i = y; i < size + y; i++) {
-        for (int j = x; j < size + x; j++) {
-            shadow_pixel(j,i, r,g,b);
-        }
-    }
+void reset_cursor(){
+  clear_screen();
+  new_line();
+  new_line();
+  x_cursor = 0;
+  y_cursor = CHAR_HEIGHT;
 }
 
-void draw_fill_square(int x, int y, unsigned char r, unsigned char g, unsigned   char b, unsigned char size) {
-    for (int i = y; i < size + y; i++) {
-        for (int j = x; j < size + x; j++) {
-            draw_pixel(j,i, r,g,b);
-        }
-    }
-}
 
-void draw_fill_rect(int x, int y, unsigned char r, unsigned char g, unsigned   char b,
-                     unsigned char base, unsigned char height) {
-    for (int i = y; i < height + y; i++) {
-        for (int j = x; j < base + x; j++) {
-            draw_pixel(j,i, r,g,b);
-        }
-    }
-}
+//-----------------------------------------------------------------ESCRITURA
 
-void shadow_fill_rect(int x, int y, unsigned char r, unsigned char g, unsigned   char b,
-                     unsigned char base, unsigned char height) {
-    for (int i = y; i < height + y; i++) {
-        for (int j = x; j < base + x; j++) {
-            shadow_pixel(j,i, r,g,b);
-        }
-    }
-}
-
-<<<<<<< HEAD
-=======
 //se puede especificar color de frente y de fondo
-void draw_char_w_front_and_back_color(int x, int y, char c, int r, int g, int b, int r2, int g2, int b2){
+void draw_char_w_front_and_back_color(int x, int y, char c, int foreground_color, int background_color){
   if(c=='\n')
     return new_line();
   if(c=='\b')
@@ -95,41 +64,42 @@ void draw_char_w_front_and_back_color(int x, int y, char c, int r, int g, int b,
   for(int i = 0; i < CHAR_HEIGHT; i++){
     for(int j = 0; j < CHAR_WIDTH; j++){
       if(*(&glyphs[(c-31) * CHAR_HEIGHT] + i * sizeof(uint8_t)) & 1<<j){
-        draw_pixel(CHAR_WIDTH -1 -j + x_cursor, i + y_cursor,r,g,b);
+        draw_pixel(CHAR_WIDTH -1 -j + x_cursor, i + y_cursor,
+                  (foreground_color << 16) & 0xFF, (foreground_color << 8) & 0xFF, foreground_color & 0xFF);
       }else{
-        draw_pixel(CHAR_WIDTH -1 -j + x_cursor, i + y_cursor,r2,g2,b2); //necesito esto para poder borrar
+        draw_pixel(CHAR_WIDTH -1 -j + x_cursor, i + y_cursor,
+                  (background_color << 16) & 0xFF, (background_color << 8) & 0xFF, background_color & 0xFF); //necesito esto para poder borrar
       }
     }
   }
   x_cursor += CHAR_WIDTH;
 }
->>>>>>> 526d47a5772574140a7180bc72fd61c69fb15f26
 
 //vos le especificas color de frente y de fondo
-void draw_free_char(char c, int front_r, int front_g, int front_b, int back_r, int back_g, int back_b){
-  draw_char_w_front_and_back_color(x_cursor, y_cursor, c, front_r, front_g, front_b, back_r, back_g, back_b);
+void draw_free_char(char c, int foreground_color, int background_color){
+  draw_char_w_front_and_back_color(x_cursor, y_cursor, c, foreground_color, background_color);
 }
 
 //vos le especificas los colores de frente y de fondo
-void draw_free_string(char * string, int front_r, int front_g, int front_b, int back_r, int back_g, int back_b){
+void draw_free_string(char * string, int foreground_color, int background_color){
   int i = 0;
   while(*(string + i)){
-    draw_free_char(string[i++], front_r, front_g, front_b, back_r, back_g, back_b);
+    draw_free_char(string[i++], foreground_color, background_color);
   }
 }
 
 //vos solo elegis color de frente (fondo negro)
-void draw_color_char(char c, int r, int g, int b){
-  draw_char_w_front_and_back_color(x_cursor, y_cursor, c, r, g, b, 0x0, 0x0, 0x0);
+void draw_color_char(char c, int foreground_color){
+  draw_char_w_front_and_back_color(x_cursor, y_cursor, c, foreground_color, 0x0);
 }
 
 //clasico, fondo negro letras blancas
 void draw_char(char c){
-  draw_free_char(c, 0XFF, 0XFF, 0XFF, 0x0, 0x0, 0x0);
+  draw_free_char(c, 0xFFFFFF, 0x0);
 }
 
 void draw_string(char * string){
-  draw_free_string(string, 0xFF, 0XFF, 0XFF, 0x0,0x0,0x0);
+  draw_free_string(string, 0xFFFFFF, 0x0);
 }
 void draw_n_chars(char * s, int index){
   for(int i = 0 ; i< index; i++){
@@ -147,15 +117,15 @@ int number_of_digits(int n){
 void erase_character(){
   if(x_cursor == 0){
     if(y_cursor == 0){
-      draw_color_char(' ', 0xFF,0xFF,0xFF);
+      draw_color_char(' ', 0xFFFFFF);
     }else{
       y_cursor -= CHAR_HEIGHT;
       x_cursor = get_x_res() - CHAR_WIDTH;
-      draw_color_char(' ', 0xFF,0xFF,0xFF);
+      draw_color_char(' ', 0xFFFFFF);
     }
   }else{
     x_cursor -= CHAR_WIDTH;
-    draw_color_char(' ', 0xFF,0xFF,0xFF);
+    draw_color_char(' ', 0xFFFFFF);
   }
   x_cursor -= CHAR_WIDTH;
 }
@@ -186,29 +156,7 @@ void new_line(){
   x_cursor = 0;
 }
 
-//se puede especificar color de frente y de fondo
-void draw_char_w_front_and_back_color(int x, int y, char c, int r, int g, int b, int r2, int g2, int b2){
-  if(x_cursor >= get_x_res()){
-    x_cursor = 0;
-    if(y_cursor >= get_y_res() - CHAR_HEIGHT){
-      move_everything_up();
-    }else{
-      y_cursor += CHAR_HEIGHT;
-    }
-  }
-  for(int i = 0; i < CHAR_HEIGHT; i++){
-    for(int j = 0; j < CHAR_WIDTH; j++){
-      if(*(&glyphs[(c-31) * CHAR_HEIGHT] + i * sizeof(uint8_t)) & 1<<j){
-        draw_pixel(CHAR_WIDTH -1 -j + x_cursor, i + y_cursor,r,g,b);
-      }else{
-        draw_pixel(CHAR_WIDTH -1 -j + x_cursor, i + y_cursor,r2,g2,b2); //necesito esto para poder borrar
-      }
-    }
-  }
-  x_cursor += CHAR_WIDTH;
-}
-
-//-------------------------------------HARDWARE
+//-------------------------------------HARDWARE PURAS
 
 void init_graphics(){
   info_block = (mode_info_block*)0x0000000000005C00;
