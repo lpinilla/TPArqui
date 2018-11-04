@@ -1,6 +1,12 @@
 #include <utilities.h>
 #include <string.h>
 
+/*
+PARA AGREGAR UN COMANDO HAY QUE AGREGARLO EN EL DEFINE EN ORDEN, DESPUES EN EL VECTOR DE FUNCIONES EN EL MISMO NUMERO DEL
+DEFINE Y DESPUES EN EL VECTOR DE STRINGS ENE EL NUMERO DEL DEFINE -1 (podriamos cambiar esto para que sea mas consistente) 
+*/
+
+
 #define EOF -1
 
 #define RETURN_ADRESS 0xDEADC0DE
