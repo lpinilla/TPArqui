@@ -61,6 +61,7 @@ int read(int fd, char * pointer, int size) {
   for(int i=0; i<size; i++){
     c=get_char();
     if(c==EOF){
+      pointer[i]=c;
       return i;
     }
     pointer[i]=c;

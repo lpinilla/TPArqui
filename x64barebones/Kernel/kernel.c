@@ -50,10 +50,6 @@ void * initializeKernelBinary(){
 	clearBSS(&bss, &endOfKernel - &bss);
 	init_graphics();
 	load_idt();
-	while(1){
-		if(!buffer_empty())
-			draw_char(get_char());
-	}
 	return getStackBase();
 }
 
@@ -64,7 +60,7 @@ void * initializeKernelBinary(){
 
 int main()
 {
-	//to_userland();
+	to_userland();
 	return 0;
 }
 /*

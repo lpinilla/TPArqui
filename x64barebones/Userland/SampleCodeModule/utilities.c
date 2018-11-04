@@ -13,7 +13,8 @@ void print_f(char * format, ...){
 }
 char get_char(){
   char c;
-  return sys_read(&c,1);
+  sys_read(&c,1);
+  return c;
 }
 
 void clear_console(){
