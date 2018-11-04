@@ -46,8 +46,8 @@ void keyboard_handler(){
 		key = io_read(KEYBOARD_DATA_PORT);
 	else
 		return;
-  if(key<0){
-    	if(keycode_map[key+BREAK_CODE_DIF] == LEFT_SHIFT || keycode_map[key+BREAK_CODE_DIF] == RIGHT_SHIFT)// nos fijamos si es una tecla soltada y por ahora solo tenemos en cuenta que los caracteres combinacion son los shift
+  if(CHECKBYTE(key,7)){ // si esta el bit 7 prendido es que es un codigo de tecla break
+    	if(keycode_map[key-BREAK_CODE_DIF] == LEFT_SHIFT || keycode_map[key-BREAK_CODE_DIF] == RIGHT_SHIFT)// nos fijamos si es una tecla soltada y por ahora solo tenemos en cuenta que los caracteres combinacion son los shift
   		shift=FALSE;
   	return;
   }
@@ -71,7 +71,6 @@ void keyboard_handler(){
     if(shift==TRUE)
       c = alternative_keycode_map[key];
   }
-  draw_char('a');
   add_buffer(c);
   return;
 }
