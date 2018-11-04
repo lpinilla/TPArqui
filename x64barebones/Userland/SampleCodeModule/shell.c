@@ -4,9 +4,8 @@ uint64_t * shell();
 
 uint64_t * shell(void){
 	put_char('h');
-	int i = 1;
-	while(i){
-		put_char('y');
+	for(int i=0; i<10000; i++){
+		put_char('h');
 	}
 	return (uint64_t *) 0xDEADC0DE;
 }
