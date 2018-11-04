@@ -8,6 +8,6 @@ void print_f(char * format, ...);
 void put_char(char c);
 char get_char();
 void clear_console(void);
-int * shell();
+uint64_t * shell();
 
 #endif

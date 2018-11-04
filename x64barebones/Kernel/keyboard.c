@@ -30,7 +30,7 @@ unsigned char keycode_map[128] = {
     0,	/* All other keys are undefined */
 };
 unsigned char alternative_keycode_map[128] = {
-  0,0,'!','@','#','$','%%','^', '&', '*', '(', ')', '_','+', BACKSPACE, '\t' /* shift + tab not defined in normal aasci*/,
+  0,0,'!','@','#','$','%%','^', '&', '*', '(', ')', '_','+', BACKSPACE, '\t', /* shift + tab not defined in normal aasci*/
   'Q','W','E','R','T','Y', 'U', 'I', 'O', 'P', '{', '}', ENTER_KEY, 0,
   'A', 'B', 'C', 'D', 'F', 'G', 'H', 'J', 'K', 'L', ':',
   '\"', LEFT_SHIFT, '|', 'Z', 'X', 'C', 'V', 'B', 'N',
@@ -40,7 +40,7 @@ unsigned char alternative_keycode_map[128] = {
   0,};
 
 void keyboard_handler(){
-	char key;
+	int key;
 	if(CHECKBYTE(io_read(KEYBOARD_STATUS_PORT),0)) // verificamos que se pueda leer del port
 		key = io_read(KEYBOARD_DATA_PORT);
 	else
@@ -68,7 +68,7 @@ void keyboard_handler(){
   }
   else{
     if(shift==TRUE)
-      c=alternative_keycode_map[key];
+      c = alternative_keycode_map[key];
   }
   add_buffer(c);
   return;
@@ -86,7 +86,7 @@ void add_buffer(char c){
 }
 
 void erase_buffer(){ //set all buffer to 0
-	tail==head;
+	tail=head;
   full=FALSE;
 }
 

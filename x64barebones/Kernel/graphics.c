@@ -44,14 +44,14 @@ void draw_welcome_screen(){
 
 
 void draw_pixel(int x, int y, int r, int g, int b) {
-	screen = (char *) ((uint64_t) info_block->physbase + x*info_block->bpp / 8 + (int) y*info_block->pitch);
+	screen = (unsigned char *) ((uint64_t) info_block->physbase + x*info_block->bpp / 8 + (int) y*info_block->pitch);
   screen[0] = b;              // BLUE
   screen[1] = g;              // GREEN
   screen[2] = r;              // RED
 }
 
 void shadow_pixel(int x, int y, int r, int g, int b) {
-  screen = (char *) ((uint64_t) shadow_buffer + x*info_block->bpp / 8 + (int) y*info_block->pitch);
+  screen = (unsigned char *) ((uint64_t) shadow_buffer + x*info_block->bpp / 8 + (int) y*info_block->pitch);
   screen[0] = b;              // BLUE
   screen[1] = g;              // GREEN
   screen[2] = r;              // RED
@@ -190,7 +190,7 @@ void draw_number(int n){
 
 //limpiar la pantalla principal
 void clear_screen(){
-  memset(info_block->physbase, 0, info_block->y_res * info_block->x_res * info_block->bpp/8);
+  memset((char *) ((uint64_t) info_block->physbase), 0, info_block->y_res * info_block->x_res * info_block->bpp/8);
   x_cursor = 0;
   y_cursor = CHAR_HEIGHT;
   //memset(shadow_buffer, 0x0, sizeof(shadow_buffer));
@@ -212,14 +212,14 @@ void new_line(){
 }
 
 void move_everything_up(){
-  memcpy(info_block->physbase, info_block->physbase + info_block->pitch * CHAR_HEIGHT,
+  memcpy((char *) ((uint64_t) info_block->physbase), (char *) ((uint64_t) info_block->physbase + info_block->pitch * CHAR_HEIGHT),
            (info_block->x_res * info_block->bpp / 8 * CHAR_WIDTH * 2) * info_block->y_res / CHAR_HEIGHT);
 }
 
 //si no anda bien, copiar la cantidad de bytes del move_everything_up
 void swap_buffers(){
-  memcpy(info_block->physbase - info_block->pitch * CHAR_HEIGHT, shadow_buffer,
-         info_block->x_res * info_block->y_res * info_block->bpp/8);
+  memcpy((char *) ((uint64_t) info_block->physbase - info_block->pitch * CHAR_HEIGHT), (char *) shadow_buffer,
+         (uint64_t) info_block->x_res * info_block->y_res * info_block->bpp/8);
 }
 
 

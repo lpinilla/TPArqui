@@ -57,12 +57,13 @@ uint64_t syscall_dispacher(uint64_t rdi, uint64_t rsi, uint64_t rdx, uint64_t rc
 }
 
 int read(int fd, char * pointer, int size) {
-  char c=EOF;
+  char c;
   for(int i=0; i<size; i++){
     c=get_char();
-    if(c==EOF)
+    if(c==EOF){
       return i;
-    pointer[i]==c;
+    }
+    pointer[i]=c;
   }
   return size;
 }

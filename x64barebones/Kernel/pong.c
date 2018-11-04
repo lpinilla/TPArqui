@@ -267,7 +267,6 @@ void draw_scores(){
 void draw_player_n_score(int player_n, int init_x, int init_y){	
 	char * aux;
 	int index = players[player_n].score * SCORE_HEIGHT;
-	int t;
 	for(int i = index, t = 0; i < index + SCORE_HEIGHT; i++, t++){
 		aux = numbers[i];
 		for(int j = 0; j < SCORE_WIDTH; j++){
