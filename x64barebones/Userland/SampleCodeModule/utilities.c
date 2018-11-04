@@ -9,6 +9,7 @@ void put_char(char c){
 void print_f(char * format, ...){
   if(format==NULL)
     return;
+  //parsing format
 }
 char get_char(){
   char c;

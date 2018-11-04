@@ -191,6 +191,8 @@ void draw_number(int n){
 //limpiar la pantalla principal
 void clear_screen(){
   memset(info_block->physbase, 0, info_block->y_res * info_block->x_res * info_block->bpp/8);
+  x_cursor = 0;
+  y_cursor = CHAR_HEIGHT;
   //memset(shadow_buffer, 0x0, sizeof(shadow_buffer));
   //swap_buffers();
 }
@@ -228,37 +230,3 @@ int get_x_res(){
 int get_y_res(){
   return info_block->y_res;
 }
-
-/*
-**Forma más eficiente de pintar chars, por cada fila del mapa de glyphs,
-**se encarga de copiar "toda la fila entera" en vez de hacer putpixel
-**de cada caracter.
-
-
-void draw_char2(int x, int y) {
-    char * where;
-    mode_info_block* info_block = (mode_info_block *) get_info_block();
-    where = (char *) ((uint64_t) info_block->physbase + x*info_block->bpp / 8 + (int) y*info_block->pitch);
-    uint8_t row_data;
-    uint32_t mask1, mask2;
-    uint8_t foreground_colour = (WHITE.r << 16) + (WHITE.g << 8) + WHITE.b;
-
-    uint8_t *font_data_for_char = &glyphs[0];
-<<<<<<< HEAD
-    uint32_t packed_foreground =
-    (foreground_colour << 24) | (foreground_colour << 16) | (foreground_colour << 8) | foreground_colour;
-
-=======
-    uint32_t packed_foreground = (foreground_colour << 24) | (foreground_colour << 16) | (foreground_colour << 8) | foreground_colour;
-
->>>>>>> a1fab63791d540b769fe3e2cfef78aaf0593c778
-    for (int row = 0; row < 16; row++) {
-        row_data = font_data_for_char[row];
-        mask1 = font_data_lookup_table[row_data / 16];
-        mask2 = font_data_lookup_table[row_data & 0x0F];
-        *(uint32_t *)where = (packed_foreground & mask1);
-        *(uint32_t *)(&where[4]) = (packed_foreground & mask2);
-        //where += x + (y << 8) + (y << 6);
-        where += info_block->pitch;
-    }
-}*/

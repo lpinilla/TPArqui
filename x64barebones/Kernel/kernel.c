@@ -89,6 +89,7 @@ void * initializeKernelBinary()
 	ncNewline();
 	load_idt();
 	ncPrint("Done IDT");
+
 	init_graphics();
 
 	to_userland();
@@ -100,12 +101,13 @@ void * initializeKernelBinary()
 }
 
 	void to_userland(){
-		((EntryPoint)sampleCodeModuleAddress)(); //ACA ES DONDE SALTA A USERLAND, COMENTAR ESTA LINEA SI QUEREMOS PROBAR COSAS DE KERNEL
+		//ACA ES DONDE SALTA A USERLAND, COMENTAR ESTA LINEA SI QUEREMOS PROBAR COSAS DE KERNEL
+		((EntryPoint)sampleCodeModuleAddress)(); 
 	}
 
 int main()
 {
-	to_userland();
+	//to_userland();
 	return 0;
 }
 

@@ -5,6 +5,7 @@ typedef void (*func)();
 static void dummy_func();
 static void exception0();
 static void exception6();
+static void exception13();
 
 func exception_functions[] = {exception0, dummy_func, dummy_func, dummy_func, dummy_func, dummy_func, exception6};
 
@@ -21,5 +22,9 @@ void exception0(){
 }
 
 void exception6(){
+	print_all_registers();
+}
+
+void exception13(){
 	print_all_registers();
 }

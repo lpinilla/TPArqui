@@ -9,6 +9,7 @@ GLOBAL _irq00_handler
 GLOBAL _irq01_handler
 GLOBAL _exception0_handler
 GLOBAL _exception6_handler
+GLOBAL _exception13_handler
 GLOBAL _syscall_handler
 
 EXTERN irq_dispatcher
@@ -119,6 +120,9 @@ _exception0_handler:
 
 _exception6_handler:
 	exception_handler 6
+
+_exception13_handler:
+	exception_handler 13
 
 _syscall_handler:
 	call syscall_dispacher
