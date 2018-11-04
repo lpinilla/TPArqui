@@ -33,8 +33,7 @@ uint64_t * shell(void){
 	int flag=TRUE;
 	while(flag){
 		c=get_char();
-		if(c!=EOF)
-			put_char(c);
+		put_char(c);
 	}
 
 

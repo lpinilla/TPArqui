@@ -16,8 +16,9 @@ void print_f(char * format, ...){
   //parsing format
 }
 char get_char(){
-  char c;
-  sys_read(&c,1);
+  char c=EOF;
+  while(c==EOF)
+    sys_read(&c,1);
   return c;
 }
 
