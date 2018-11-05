@@ -19,9 +19,10 @@ DEFINE Y DESPUES EN EL VECTOR DE STRINGS ENE EL NUMERO DEL DEFINE -1 (podriamos 
 #define SHUTDOWN_COMMAND 3
 #define BEEP_COMMAND 4
 #define MAKE_DIV 5
+#define AYUDA 6
 
 
-#define COMMANDS 5
+#define COMMANDS 6
 
 #define MAX_LENGTH 20
 
@@ -37,12 +38,14 @@ void shutdown();
 void print_user();
 void make_beep();
 void make_div();
-static func execute_command[]={invalid_command,play_pong,show_time,shutdown,make_beep,make_div};
-const char * commands[] = {"pong", "time","shutdown","beep","div"};
+void ayuda();
+static func execute_command[]={invalid_command,play_pong,show_time,shutdown,make_beep,make_div,ayuda};
+const char * commands[] = {"pong", "time","shutdown","beep","div","ayuda"};
 
 uint64_t * shell();
 
 uint64_t * shell(void){
+	print_f("Escriba ayuda para ver los comandos disponibles \n");
 	print_user();
 	int i=0;
 	char command[MAX_LENGTH];
@@ -118,4 +121,15 @@ void make_div(){
 	int n = 1;
 	int b = 0;
 	int c = n/b;
+}
+
+void ayuda(){
+	print_f("\nBienvenido a nuestra shell \n");
+	print_f("\nLos comandos disponibles son los siguientes \n \n \n");
+	print_f("beep - Usa el pcspeaker para hacer sonido \n");
+	print_f("pong - Ejecuta el juego pong \n");
+	print_f("div - Levanta una excepcion de division por 0 \n");
+	print_f("time - Devuelve la hora en formato GMT \n");
+	print_f("shutdown - Apaga el SO \n \n \n");
+	return;
 }
