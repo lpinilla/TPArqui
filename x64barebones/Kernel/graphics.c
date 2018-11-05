@@ -144,7 +144,7 @@ void draw_err_string(char * string){
 }
 
 void new_line(){
-  if(y_cursor != get_y_res()){ //tal vez esto es lo que escribe abajo de la pantalla
+  if(y_cursor != (get_y_res()-CHAR_HEIGHT)){ //tal vez esto es lo que escribe abajo de la pantalla
     y_cursor += CHAR_HEIGHT;
   }else{
     move_everything_up();
@@ -155,7 +155,7 @@ void new_line(){
 //-------------------------------------HARDWARE PURAS
 
 void init_graphics(){
-  info_block = (mode_info_block*)0x0000000000005C00;  
+  info_block = (mode_info_block*)0x0000000000005C00;
 }
 
 void draw_pixel(int x, int y, int r, int g, int b) {
