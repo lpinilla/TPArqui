@@ -40,7 +40,7 @@ uint64_t * shell(void){
 			i=0; // reseteamos el contador a 0 ya que empezamos una nueva linea
 			print_user();
 		}
-		else if (c!='\b' && (is_alpha(c) || is_digit(c) || is_symbol(c))){ // este caso es el generico, sacamos el caso si es un backspace porque no hacemos nada
+		else if (c!='\b' && (is_alpha(c) || is_digit(c) || is_symbol(c) || is_space(c))){ // este caso es el generico, sacamos el caso si es un backspace porque no hacemos nada
 			put_char(c);
 			if(i<MAX_LENGTH) // si el indice todavia es menor que el maximo seguimos poniendolo en el comando
 				command[i]=c;
@@ -84,6 +84,9 @@ int is_digit(unsigned char c) {
 }
 int is_symbol(unsigned char c){
 	return ((c >= '!' && c <= '/') || (c >= ':' && c <= '@') || (c>='[' && c <= '\'') || (c>='{' && c <='~'));
+}
+int is_space(unsigned char c){
+	return (c==' ');
 }
 void make_beep(){
 	sys_beep();
