@@ -9,8 +9,8 @@
 #define STD_OUT 1
 #define STD_ERR 2
 
-#define OUT_BG_COLOR 0xFFFFFF
-#define OUT_FG_COLOR 0x000000
+#define OUT_BG_COLOR 0x000000
+#define OUT_FG_COLOR 0xFFFFFF
 #define ERR_BG_COLOR 0xFF0000
 #define ERR_FG_COLOR 0x000000
 
@@ -58,6 +58,7 @@ void erase_character(void);
 int number_of_digits(int n);
 void draw_number(int n);
 void erase_character(void);
+void draw_n_chars_color(char * s, int index, int foreground_color, int background_color);
 
 //aux
 void init_graphics(void);

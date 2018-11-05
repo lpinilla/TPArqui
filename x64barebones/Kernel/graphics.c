@@ -84,6 +84,11 @@ void draw_n_chars(char * s, int index){
     draw_char(s[i]);
   }
 }
+void draw_n_chars_color(char * s , int index, int foreground_color, int background_color){
+  for(int i=0; i<index; i++){
+    draw_free_char(s[i], foreground_color, background_color);
+  }
+}
 
 //testeable
 int number_of_digits(int n){
@@ -144,7 +149,7 @@ void draw_err_string(char * string){
 }
 
 void new_line(){
-  if(y_cursor != get_y_res()){ //tal vez esto es lo que escribe abajo de la pantalla
+  if(y_cursor != (get_y_res()-CHAR_HEIGHT)){ //tal vez esto es lo que escribe abajo de la pantalla
     y_cursor += CHAR_HEIGHT;
   }else{
     move_everything_up();
@@ -155,7 +160,7 @@ void new_line(){
 //-------------------------------------HARDWARE PURAS
 
 void init_graphics(){
-  info_block = (mode_info_block*)0x0000000000005C00;  
+  info_block = (mode_info_block*)0x0000000000005C00;
 }
 
 void draw_pixel(int x, int y, int r, int g, int b) {
