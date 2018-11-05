@@ -58,6 +58,7 @@ void erase_character(void);
 int number_of_digits(int n);
 void draw_number(int n);
 void erase_character(void);
+void draw_n_chars_color(char * s, int index, int foreground_color, int background_color);
 
 //aux
 void init_graphics(void);
