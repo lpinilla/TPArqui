@@ -78,7 +78,7 @@ void player_move(int player_n, enum DIRECTION dir){
 }
 
 void play(){
-	char c = get_char();
+	char c = read();
 	switch(c){
 		case 'w':
 			player_move(0, UP);

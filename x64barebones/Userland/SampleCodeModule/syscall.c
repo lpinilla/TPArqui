@@ -26,3 +26,11 @@ void sys_swap_buffers(){
 void sys_clear_shadow_buffer(){
 	_call_int_80(CLEAR_SHADOW_BUFFER, 0, 0, 0, 0, 0);
 }
+
+void sys_color_write(char * string, int size, int foreground_color, int background_color){
+	_call_int_80(COLOR_WRITE, string, size, foreground_color, background_color, 0);
+}
+
+void sys_reset_cursor(){
+	_call_int_80(RESET_CURSOR, 0, 0, 0, 0, 0);
+}
