@@ -1,7 +1,8 @@
 #include <utilities.h>
 #include <string.h>
 #include <syscall.h>
-
+#include <time.h>
+#include <syscall.h>
 /*
 PARA AGREGAR UN COMANDO HAY QUE AGREGARLO EN EL DEFINE EN ORDEN, DESPUES EN EL VECTOR DE FUNCIONES EN EL MISMO NUMERO DEL
 DEFINE Y DESPUES EN EL VECTOR DE STRINGS ENE EL NUMERO DEL DEFINE -1 (podriamos cambiar esto para que sea mas consistente)
@@ -12,11 +13,11 @@ DEFINE Y DESPUES EN EL VECTOR DE STRINGS ENE EL NUMERO DEL DEFINE -1 (podriamos 
 
 #define RETURN_ADRESS 0xDEADC0DE
 
-#define INVALID 0
-#define PONG 1
-#define TIME 2
-#define SHUTDOWN 3
-#define BEEP
+#define INVALID_COMMAND 0
+#define PONG_COMMAND 1
+#define TIME_COMMAND 2
+#define SHUTDOWN_COMMAND 3
+#define BEEP_COMMAND
 
 #define COMMANDS 4
 
@@ -42,8 +43,8 @@ uint64_t * shell(void){
 	int i=0;
 	char command[MAX_LENGTH];
 	char c;
-	int command_id=INVALID;
-	while(command_id!=SHUTDOWN){
+	int command_id=INVALID_COMMAND;
+	while(command_id!=SHUTDOWN_COMMAND){
 		c=get_char();
 		if(c=='\b' && i!=0){  // si es un backspace y no estamos al principio de linea, volvemos el indice hacia atras
 			put_char(c);
@@ -75,7 +76,7 @@ int command_handler(char * command){
 			return i+1;
 		}
 	}
-	return INVALID;
+	return INVALID_COMMAND;
 
 }
 
@@ -90,7 +91,7 @@ void play_pong(){
 	print_f("Aca jugamos al pong \n");
 }
 void show_time(){
-	print_f("Aca mostramos el tiempo \n");
+	print_time();
 }
 void print_user(){
 	print_f("ARQ@ITBA:");

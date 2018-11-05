@@ -18,6 +18,9 @@ void sys_draw_pixel(int x, int y, int r, int g, int b){
 void sys_shadow_pixel(int x, int y, int r, int g, int b){
 	_call_int_80(SHADOW_PIXEL, x, y, r, g, b);
 }
+void sys_time(int selector){
+  _call_int_80(TIME, selector, 0,0,0,0);
+}
 
 void sys_swap_buffers(){
 	_call_int_80(SWAP_BUFFERS, 0, 0, 0, 0, 0);
