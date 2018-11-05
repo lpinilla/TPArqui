@@ -27,12 +27,12 @@ char sys_read(char * string, int size);
 void sys_clear_console();
 void sys_draw_pixel(int x, int y, int r, int g, int b);
 void sys_shadow_pixel(int x, int y, int r, int g, int b);
-void sys_swap_buffers();
+void sys_swap_buffers(void);
 void sys_clear_shadow_buffer();
 void sys_color_write(char * string, int size, int foreground_color, int background_color);
-void sys_reset_cursor();
-void sys_beep();
+void sys_reset_cursor(void);
+void sys_beep(void);
 void sys_sleep(int ticks);
-void sys_new_line();
+void sys_new_line(void);
 
 #endif

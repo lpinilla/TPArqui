@@ -14,6 +14,9 @@ const char * commands[] = {"pong", "time","shutdown","beep","div","ayuda"};
 uint64_t * shell(void){
 	draw_welcome_screen();
 	print_f("Escriba ayuda para ver los comandos disponibles \n");
+	for(int i = 0; i < 36; i++){
+		sys_new_line();
+	}
 	print_user();
 	int i=0;
 	char command[MAX_LENGTH];

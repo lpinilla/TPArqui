@@ -195,16 +195,19 @@ void restart_game(){
 
 void game_over(){
 	//acá ya salimos del juego y estamos por volver al kernel
+	for(int i = 0; i < 3; i++){
+		sys_new_line();
+	}
 	if(players[0].score == 3){
-		//draw_free_string("                          Ha ganado el jugador 1!", 0xFF, 0x0, 0x0, 0x0, 0x0, 0x0);
+		print_f("                                  Ha ganado el jugador 1!", 0xFF, 0x0, 0x0, 0x0, 0x0, 0x0); //ver si imprimo color
 	}else{
-		//draw_free_string("                          Ha ganado el jugador 2!", 0xFF, 0x0, 0x0, 0x0, 0x0, 0x0);
+		print_f("                                  Ha ganado el jugador 2!", 0xFF, 0x0, 0x0, 0x0, 0x0, 0x0); //ver si imprimo color
 	}
 	print_f("%s","  Saliendo del juego en 3 segundos");
-	//time_wait(3 * 18);
+	sys_sleep(3 * 18);
 	sys_clear_console();
 	sys_clear_shadow_buffer();
-	//draw_welcome_screen();
+	draw_welcome_screen();
 }
 
 char *numbers[SCORE_HEIGHT * 10] = {
