@@ -1,6 +1,27 @@
 #include <openlg.h>
 #include <syscall.h>
 
+char * title[9] = {"      ##      ##                           ",
+                   "      ##      ##                TP DE ARQUI",
+                   "    ##############                         ",
+                   "  ####  ######  ####                       ",
+                   "######################                     ",
+                   "##  ##############  ##                     ",
+                   "##  ##          ##  ##                     ",
+                   "      ####  ####                           ",
+                   "Pls profes aprueben el TP                  "};
+
+
+
+
+void draw_welcome_screen(){
+  sys_reset_cursor();
+  //mensaje de bienvenida
+  for(int i = 0; i < 9; i++){
+    print_f(title[i]);
+    sys_new_line();
+  }
+}
 
 
 void shadow_fill_square(int x, int y, unsigned char r, unsigned char g, unsigned   char b, unsigned char size) {

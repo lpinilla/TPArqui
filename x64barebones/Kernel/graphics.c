@@ -13,28 +13,6 @@ static char shadow_buffer[64] = {'0'}; //64k = 320 * 200
 int x_cursor, y_cursor;
 mode_info_block* info_block;
 
-char * title[9] = {"      ##      ##                           ",
-                   "      ##      ##                TP DE ARQUI",
-                   "    ##############                         ",
-                   "  ####  ######  ####                       ",
-                   "######################                     ",
-                   "##  ##############  ##                     ",
-                   "##  ##          ##  ##                     ",
-                   "      ####  ####                           ",
-                   "Pls profes aprueben el TP                  "};
-//-----------------Fin variables locales
-
-
-
-void draw_welcome_screen(){
-  reset_cursor();
-  //mensaje de bienvenida
-  for(int i = 0; i < 9; i++){
-    draw_string(title[i]);
-    new_line();
-  }
-}
-
 
 void reset_cursor(){
   clear_screen();
@@ -177,8 +155,7 @@ void new_line(){
 //-------------------------------------HARDWARE PURAS
 
 void init_graphics(){
-  info_block = (mode_info_block*)0x0000000000005C00;
-  draw_welcome_screen();
+  info_block = (mode_info_block*)0x0000000000005C00;  
 }
 
 void draw_pixel(int x, int y, int r, int g, int b) {

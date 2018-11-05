@@ -4,6 +4,7 @@
 #include <syscall.h>
 #include <shell.h>
 #include <pong.h>
+#include <openlg.h>
 
 
 static func execute_command[]={invalid_command,play_pong,show_time,shutdown,make_beep,make_div,ayuda};
@@ -11,6 +12,7 @@ const char * commands[] = {"pong", "time","shutdown","beep","div","ayuda"};
 
 
 uint64_t * shell(void){
+	draw_welcome_screen();
 	print_f("Escriba ayuda para ver los comandos disponibles \n");
 	print_user();
 	int i=0;
