@@ -1,6 +1,8 @@
 #include <openlg.h>
 #include <syscall.h>
 
+
+
 void shadow_fill_square(int x, int y, unsigned char r, unsigned char g, unsigned   char b, unsigned char size) {
     for (int i = y; i < size + y; i++) {
         for (int j = x; j < size + x; j++) {
@@ -37,4 +39,10 @@ void shadow_fill_rect(int x, int y, unsigned char r, unsigned char g, unsigned  
 
 void swap_buffers(){
 	sys_swap_buffers();
+}
+
+char get_key(){
+    char c;
+    sys_read(&c, 1);
+    return c;
 }

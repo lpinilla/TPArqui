@@ -1,9 +1,9 @@
-#include <utilities.h>
 #include <string.h>
 #include <syscall.h>
 #include <time.h>
 #include <syscall.h>
 #include <shell.h>
+#include <pong.h>
 
 
 static func execute_command[]={invalid_command,play_pong,show_time,shutdown,make_beep,make_div,ayuda};
@@ -63,6 +63,7 @@ void shutdown(){
 }
 void play_pong(){
 	print_f("Aca jugamos al pong \n");
+	init_game();
 }
 void show_time(){
 	print_time();

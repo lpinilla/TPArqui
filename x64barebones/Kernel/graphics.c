@@ -95,7 +95,7 @@ void draw_color_char(char c, int foreground_color){
 
 //clasico, fondo negro letras blancas
 void draw_char(char c){
-  draw_free_char(c, 0xFFFFF, 0x0);
+  draw_free_char(c, 0xFFFFFF, 0x0);
 }
 
 void draw_string(char * string){

@@ -10,7 +10,7 @@
 #define SCORE_WIDTH 4
 #define SCORE_HEIGHT 5
 #define BALL_SIZE 20
-#define BALL_SPEED 4
+#define BALL_SPEED 5
 
 enum STATE {GAME_OVER = 0,PLAYING };
 enum DIRECTION {DOWN = 0, UP};

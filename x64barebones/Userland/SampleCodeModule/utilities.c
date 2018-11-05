@@ -1,4 +1,3 @@
-
 #include <utilities.h>
 
 void print_string(char * s);

@@ -1,6 +1,6 @@
 #include <openlg.h> //después cambiar para usar la librería de video
 #include <pong.h>
-//#include <sound.h>
+#include <utilities.h>
 
 player_position players[2];
 ball_t ball;
@@ -54,11 +54,15 @@ void draw_board(){
 	}
 }
 
-void draw_players(){}
-void draw_ball(){
-	shadow_fill_square(ball.x, ball.y ,0xFF, 0xFF, 0xFF, BALL_SIZE);
+void draw_players(){
 	shadow_fill_rect(players[0].x, players[0].y, 0xFF, 0xFF, 0xFF, PLAYER_WIDTH, PLAYER_HEIGHT);
 	shadow_fill_rect(players[1].x, players[1].y, 0xFF, 0xFF, 0xFF, PLAYER_WIDTH, PLAYER_HEIGHT);
+}
+
+
+void draw_ball(){
+	shadow_fill_square(ball.x, ball.y ,0xFF, 0xFF, 0xFF, BALL_SIZE);
+	
 }
 
 void player_move(int player_n, enum DIRECTION dir){
@@ -76,7 +80,7 @@ void player_move(int player_n, enum DIRECTION dir){
 }
 
 void play(){
-	char c = get_char();
+	char c = get_key(); //esto enlentece todo
 	switch(c){
 		case 'w':
 			player_move(0, UP);
