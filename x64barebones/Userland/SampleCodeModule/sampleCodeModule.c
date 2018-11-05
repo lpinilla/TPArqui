@@ -1,4 +1,5 @@
 #include <utilities.h>
+#include <syscall.h>
 
 uint64_t main() {
 	/*

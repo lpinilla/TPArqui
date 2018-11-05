@@ -1,5 +1,6 @@
 #include <utilities.h>
 #include <string.h>
+#include <syscall.h>
 
 /*
 PARA AGREGAR UN COMANDO HAY QUE AGREGARLO EN EL DEFINE EN ORDEN, DESPUES EN EL VECTOR DE FUNCIONES EN EL MISMO NUMERO DEL
@@ -15,8 +16,9 @@ DEFINE Y DESPUES EN EL VECTOR DE STRINGS ENE EL NUMERO DEL DEFINE -1 (podriamos 
 #define PONG 1
 #define TIME 2
 #define SHUTDOWN 3
+#define BEEP
 
-#define COMMANDS 3
+#define COMMANDS 4
 
 #define MAX_LENGTH 20
 
@@ -30,8 +32,9 @@ void play_pong();
 void show_time();
 void shutdown();
 void print_user();
-static func execute_command[]={invalid_command,play_pong,show_time,shutdown};
-const char * commands[] = {"pong", "time","shutdown"};
+void make_beep();
+static func execute_command[]={invalid_command,play_pong,show_time,shutdown,make_beep};
+const char * commands[] = {"pong", "time","shutdown","beep"};
 
 uint64_t * shell();
 
@@ -100,4 +103,7 @@ int is_digit(unsigned char c) {
 }
 int is_symbol(unsigned char c){
 	return ((c >= '!' && c <= '/') || (c >= ':' && c <= '@') || (c>='[' && c <= '\'') || (c>='{' && c <='~'));
+}
+void make_beep(){
+	sys_beep();
 }

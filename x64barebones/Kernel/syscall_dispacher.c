@@ -3,6 +3,8 @@
 #include <stdarg.h>
 #include <graphics.h>
 #include <rtc.h>
+#include <sound.h>
+#include <time.h>
 
 #define READ 3
 #define WRITE 4
@@ -18,6 +20,8 @@
 #define INIT_GRAPHICS 14
 #define COLOR_WRITE 15
 #define RESET_CURSOR 16
+#define BEEP 17
+#define SLEEP 18
 
 int read(int param1, char * param2, int param3);
 void write(int param1, char * param2, int param3);
@@ -63,6 +67,12 @@ uint64_t syscall_dispacher(uint64_t rdi, uint64_t rsi, uint64_t rdx, uint64_t rc
         break;
       case RESET_CURSOR:
         reset_cursor();
+        break;
+      case BEEP:
+        beep();
+        break;
+      case SLEEP:
+        time_wait(rsi);
         break;
   }
 	return 0;

@@ -34,3 +34,9 @@ void sys_color_write(char * string, int size, int foreground_color, int backgrou
 void sys_reset_cursor(){
 	_call_int_80(RESET_CURSOR, 0, 0, 0, 0, 0);
 }
+void sys_sleep(int ticks){
+  _call_int_80(SLEEP,ticks,0,0,0,0);
+}
+void sys_beep(){
+  _call_int_80(BEEP,0,0,0,0,0);
+}

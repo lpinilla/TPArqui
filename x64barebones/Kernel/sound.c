@@ -1,4 +1,5 @@
 #include <sound.h>
+#include <graphics.h>
 
 extern void io_write(uint16_t port, uint8_t data);
 extern uint8_t io_read(uint16_t port);
@@ -24,7 +25,7 @@ void deactivate_sound() {
 }
 
 void beep() {
-  activate_sound(10000);
-  time_wait(1);
+  activate_sound(100);
+  time_wait(10);
   deactivate_sound();
 }

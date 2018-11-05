@@ -1,6 +1,7 @@
 //inicio .h
 #include <time.h>
 #include <stdint.h>
+#include <graphics.h>
 
 #include <naiveConsole.h> //testing purposes
 

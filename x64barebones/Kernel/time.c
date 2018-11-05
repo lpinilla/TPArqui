@@ -1,12 +1,12 @@
+#include <interrupts.h>
 #include <time.h>
 #include <naiveConsole.h>
+#include <graphics.h> // testeando
 
 static unsigned long ticks = 0;
 
 void timer_handler() {
 	ticks++;
-	/*ncNewline();
-	ncPrint("Timer-Tick Working");*/
 }
 
 int ticks_elapsed() {
@@ -18,6 +18,7 @@ int seconds_elapsed() {
 }
 
 void time_wait(int n_ticks){
+	_sti();
 	int goal_ticks = ticks + n_ticks;
 	while(ticks < goal_ticks);
 }

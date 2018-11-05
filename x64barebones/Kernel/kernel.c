@@ -75,22 +75,20 @@ void * initializeKernelBinary(){
 	ncPrint("Loading IDT");
 	ncNewline();
 	ncNewline();
-	load_idt();
 	ncPrint("Done IDT");
 
 	init_graphics();
-
+	load_idt();
 	to_userland();
 	//video_tests();
 	//clear_screen();
 	//init_game();
 	return getStackBase();
 }
-	
+
 
 int main()
 {
-	draw_string("Back to kernel");
 	//to_userland();
 	return 0;
 }

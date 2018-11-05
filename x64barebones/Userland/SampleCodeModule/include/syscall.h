@@ -18,6 +18,8 @@
 #define INIT_GRAPHICS 14
 #define COLOR_WRITE 15
 #define RESET_CURSOR 16
+#define BEEP 17
+#define SLEEP 18
 
 void sys_write(char * string, int size);
 char sys_read(char * string, int size);
@@ -28,5 +30,7 @@ void sys_swap_buffers();
 void sys_clear_shadow_buffer();
 void sys_color_write(char * string, int size, int foreground_color, int background_color);
 void sys_reset_cursor();
+void sys_beep();
+void sys_sleep(int ticks);
 
 #endif
