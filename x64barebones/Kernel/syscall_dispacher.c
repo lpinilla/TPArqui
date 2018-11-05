@@ -5,26 +5,7 @@
 #include <rtc.h>
 #include <sound.h>
 #include <time.h>
-
-#define READ 3
-#define WRITE 4
-#define DRAW_PIXEL 5
-#define X_RES 6
-#define Y_RES 7
-#define CLEAR_SCREEN 8
-#define SHADOW_PIXEL 9
-#define MOVE_EVERYTHING_UP 10
-#define SWAP_BUFFERS 11
-#define CLEAR_SHADOW_BUFFER 12
-#define TIME 13
-#define INIT_GRAPHICS 14
-#define COLOR_WRITE 15
-#define RESET_CURSOR 16
-#define BEEP 17
-#define SLEEP 18
-
-int read(int param1, char * param2, int param3);
-void write(int param1, char * param2, int param3);
+#include <irq_dispatcher.h>
 
 // usamos la convencion de linux y c para los parametros de las syscalls
 uint64_t syscall_dispacher(uint64_t rdi, uint64_t rsi, uint64_t rdx, uint64_t rcx, uint64_t r8, uint64_t r9) {
@@ -73,6 +54,9 @@ uint64_t syscall_dispacher(uint64_t rdi, uint64_t rsi, uint64_t rdx, uint64_t rc
         break;
       case SLEEP:
         time_wait(rsi);
+        break;
+      case NEW_LINE:
+        new_line();
         break;
   }
 	return 0;

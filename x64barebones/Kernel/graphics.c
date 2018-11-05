@@ -166,7 +166,7 @@ void draw_err_string(char * string){
 }
 
 void new_line(){
-  if(y_cursor != get_y_res()){
+  if(y_cursor != get_y_res()){ //tal vez esto es lo que escribe abajo de la pantalla
     y_cursor += CHAR_HEIGHT;
   }else{
     move_everything_up();

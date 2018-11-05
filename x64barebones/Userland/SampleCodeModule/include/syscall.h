@@ -20,6 +20,7 @@
 #define RESET_CURSOR 16
 #define BEEP 17
 #define SLEEP 18
+#define NEW_LINE 19
 
 void sys_write(char * string, int size);
 char sys_read(char * string, int size);
@@ -32,5 +33,6 @@ void sys_color_write(char * string, int size, int foreground_color, int backgrou
 void sys_reset_cursor();
 void sys_beep();
 void sys_sleep(int ticks);
+void sys_new_line();
 
 #endif
