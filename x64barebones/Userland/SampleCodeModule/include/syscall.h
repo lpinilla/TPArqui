@@ -16,6 +16,8 @@
 #define CLEAR_SHADOW_BUFFER 12
 #define TIME 13
 #define INIT_GRAPHICS 14
+#define COLOR_WRITE 15
+#define RESET_CURSOR 16
 
 void sys_write(char * string, int size);
 char sys_read(char * string, int size);
@@ -24,5 +26,7 @@ void sys_draw_pixel(int x, int y, int r, int g, int b);
 void sys_shadow_pixel(int x, int y, int r, int g, int b);
 void sys_swap_buffers();
 void sys_clear_shadow_buffer();
+void sys_color_write(char * string, int size, int foreground_color, int background_color);
+void sys_reset_cursor();
 
 #endif
