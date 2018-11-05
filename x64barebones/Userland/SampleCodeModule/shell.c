@@ -1,6 +1,5 @@
 #include <utilities.h>
 #include <string.h>
-#include <pong.h>
 
 /*
 PARA AGREGAR UN COMANDO HAY QUE AGREGARLO EN EL DEFINE EN ORDEN, DESPUES EN EL VECTOR DE FUNCIONES EN EL MISMO NUMERO DEL
@@ -34,43 +33,15 @@ const char * commands[] = {"pong", "time","shutdown"};
 uint64_t * shell();
 
 uint64_t * shell(void){
-<<<<<<< HEAD
-
-	put_char('h');
-	put_char('o');
-	put_char('l');
-	put_char('a');	
-
-
-=======
 	int i=0;
 	char command[MAX_LENGTH];
->>>>>>> 162116e024c0bab5e25e934936e51f117fe813c0
 	char c;
 	int command_id=INVALID;
 	while(command_id!=SHUTDOWN){
 		c=get_char();
 		if(c=='\b' && i!=0){  // si es un backspace y no estamos al principio de linea, volvemos el indice hacia atras
 			put_char(c);
-<<<<<<< HEAD
-	}
-
-	/*
-	const char * commands = {"pong", "time","shutdown"};
-	char command[MAX_LENGTH];
-	int flag = TRUE;
-	char c;
-	int i;
-	int valid_command = FALSE;
-
-	while(flag){
-		i=0;
-		while((c=get_char())!=EOF && i<MAX_LENGTH){
-			command[i]=c;
-			i++;
-=======
 			i--;
->>>>>>> 162116e024c0bab5e25e934936e51f117fe813c0
 		}
 		else if(c=='\n'){ // si es una new line entramos
 			put_char(c); // imprimimos la new line

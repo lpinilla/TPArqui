@@ -10,7 +10,7 @@
 #define SCORE_WIDTH 4
 #define SCORE_HEIGHT 5
 #define BALL_SIZE 20
-#define BALL_SPEED 4 //4 para testar, 3 original y 5 para apurar el juego
+#define BALL_SPEED 4
 
 enum STATE {GAME_OVER = 0,PLAYING };
 enum DIRECTION {DOWN = 0, UP};
