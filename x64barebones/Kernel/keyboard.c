@@ -19,7 +19,7 @@ int buffer_empty();
 #define CHECKBYTE(binary, index) (binary & 1<<(index)) // macro que checkea si el byte en la posicion index esta prendido
 
 unsigned char keycode_map[128] = {
-    0,  27, '1', '2', '3', '4', '5', '6', '7', '8', /* INDEX: 0 - 9 */
+    27,  '`', '1', '2', '3', '4', '5', '6', '7', '8', /* INDEX: 0 - 9 */
     '9','0', '-', '=','\b', '\t' /* Tab */,'q', 'w', 'e', 'r',	/* INDEX: 10 - 19 */
   't', 'y', 'u', 'i', 'o', 'p', '[', ']', '\n', 0 /* Control */, /* INDEX: 20 - 29 */
   'a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l', ';',	/* INDEX: 30 - 39 */
@@ -119,6 +119,9 @@ char get_char(){
 }
 int is_alpha(unsigned char c) {
     return ((c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z'));
+}
+int is_digit(unsigned char c) {
+    return (c >= '0' && c <= '9');
 }
 int is_cntrl(unsigned char c){
   return ((c == '\n' || c == '\t'));

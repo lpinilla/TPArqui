@@ -10,6 +10,5 @@ uint64_t main() {
 	if (var1 == 0 && var2 == 0)
 		return 0xDEADC0DE;
 	*/
-	print_f("Hola %c",'a');
 	return (uint64_t) (shell());
 }

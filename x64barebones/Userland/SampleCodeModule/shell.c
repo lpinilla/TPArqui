@@ -3,7 +3,7 @@
 
 /*
 PARA AGREGAR UN COMANDO HAY QUE AGREGARLO EN EL DEFINE EN ORDEN, DESPUES EN EL VECTOR DE FUNCIONES EN EL MISMO NUMERO DEL
-DEFINE Y DESPUES EN EL VECTOR DE STRINGS ENE EL NUMERO DEL DEFINE -1 (podriamos cambiar esto para que sea mas consistente) 
+DEFINE Y DESPUES EN EL VECTOR DE STRINGS ENE EL NUMERO DEL DEFINE -1 (podriamos cambiar esto para que sea mas consistente)
 */
 
 
@@ -22,6 +22,9 @@ DEFINE Y DESPUES EN EL VECTOR DE STRINGS ENE EL NUMERO DEL DEFINE -1 (podriamos 
 
 typedef void (*func)();
 
+int is_digit(unsigned char c);
+int is_alpha(unsigned char c);
+int is_symbol(unsigned char c);
 void invalid_command();
 void play_pong();
 void show_time();
@@ -54,7 +57,7 @@ uint64_t * shell(void){
 				invalid_command();  // mandamos un mensaje de comando invalido
 			i=0; // reseteamos el contador a 0 ya que empezamos una nueva linea
 		}
-		else if (c!='\b'){ // este caso es el generico, sacamos el caso si es un backspace porque no hacemos nada
+		else if (c!='\b' && (is_alpha(c) || is_digit(c) || is_symbol(c))){ // este caso es el generico, sacamos el caso si es un backspace porque no hacemos nada
 			put_char(c);
 			if(i<MAX_LENGTH) // si el indice todavia es menor que el maximo seguimos poniendolo en el comando
 				command[i]=c;
@@ -88,4 +91,13 @@ void show_time(){
 }
 void print_user(){
 	print_f("ARQ@ITBA:");
+}
+int is_alpha(unsigned char c) {
+    return ((c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z'));
+}
+int is_digit(unsigned char c) {
+    return (c >= '0' && c <= '9');
+}
+int is_symbol(unsigned char c){
+	return ((c >= '!' && c <= '/') || (c >= ':' && c <= '@') || (c>='[' && c <= '\'') || (c>='{' && c <='~'));
 }
