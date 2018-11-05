@@ -199,9 +199,9 @@ void game_over(){
 		sys_new_line();
 	}
 	if(players[0].score == 3){
-		print_f("                                  Ha ganado el jugador 1!", 0xFF, 0x0, 0x0, 0x0, 0x0, 0x0); //ver si imprimo color
+		print_f("                                  Ha ganado el jugador 1!"); //ver si imprimo color
 	}else{
-		print_f("                                  Ha ganado el jugador 2!", 0xFF, 0x0, 0x0, 0x0, 0x0, 0x0); //ver si imprimo color
+		print_f("                                  Ha ganado el jugador 2!"); //ver si imprimo color
 	}
 	print_f("%s","  Saliendo del juego en 3 segundos");
 	sys_sleep(3 * 18);
