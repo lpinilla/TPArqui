@@ -15,6 +15,8 @@
 #define SWAP_BUFFERS 11
 #define CLEAR_SHADOW_BUFFER 12
 #define TIME 13
+#define INIT_GRAPHICS 14
+
 
 int read(int param1, char * param2, int param3);
 void write(int param1, char * param2, int param3);
@@ -51,6 +53,9 @@ uint64_t syscall_dispacher(uint64_t rdi, uint64_t rsi, uint64_t rdx, uint64_t rc
         break;
       case CLEAR_SHADOW_BUFFER:
         clear_shadow_buffer();
+        break;
+      case INIT_GRAPHICS:
+        init_graphics();
         break;
   }
 	return 0;

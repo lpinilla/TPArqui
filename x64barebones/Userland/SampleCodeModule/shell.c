@@ -1,5 +1,6 @@
 #include <utilities.h>
 #include <string.h>
+#include <pong.h>
 
 #define TRUE 1
 #define FALSE 0
@@ -29,17 +30,13 @@ static func execute_command[]={play_pong,show_time,shutdown};
 uint64_t * shell();
 
 uint64_t * shell(void){
-<<<<<<< HEAD
+
 	put_char('h');
 	put_char('o');
 	put_char('l');
 	put_char('a');	
 
-	while(1){
-		put_char('g');
-	}
-	return;
-=======
+
 	char c;
 	int flag=TRUE;
 	while(flag){
@@ -47,7 +44,6 @@ uint64_t * shell(void){
 		if(c!=EOF)
 			put_char(c);
 	}
-
 
 	/*
 	const char * commands = {"pong", "time","shutdown"};
@@ -93,5 +89,4 @@ void play_pong(){
 }
 void show_time(){
 	print_f("Aca mostramos el tiempo");
->>>>>>> 526d47a5772574140a7180bc72fd61c69fb15f26
 }

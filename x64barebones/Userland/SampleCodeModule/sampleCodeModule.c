@@ -1,7 +1,6 @@
 #include <utilities.h>
 
 uint64_t main() {
-<<<<<<< HEAD
 	/*
 	//All the following code may be removed
 	*v = 'X';
@@ -20,8 +19,6 @@ uint64_t main() {
 		put_char('o');
 	}*/
 	// (uint64_t) (shell());
-
-=======
+	
 	return (uint64_t) (shell());
->>>>>>> 526d47a5772574140a7180bc72fd61c69fb15f26
 }

@@ -10,3 +10,19 @@ char sys_read(char * string, int size){
 void sys_clear_console(){
 	_call_int_80(CLEAR_SCREEN, 0,0,0,0,0);
 }
+
+void sys_draw_pixel(int x, int y, int r, int g, int b){
+	_call_int_80(DRAW_PIXEL, x, y, r, g, b);
+}
+
+void sys_shadow_pixel(int x, int y, int r, int g, int b){
+	_call_int_80(SHADOW_PIXEL, x, y, r, g, b);
+}
+
+void sys_swap_buffers(){
+	_call_int_80(SWAP_BUFFERS, 0, 0, 0, 0, 0);
+}
+
+void sys_clear_shadow_buffer(){
+	_call_int_80(CLEAR_SHADOW_BUFFER, 0, 0, 0, 0, 0);
+}

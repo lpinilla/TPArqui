@@ -39,6 +39,11 @@ void * getStackBase()
 	);
 }
 
+void to_userland(){
+		//ACA ES DONDE SALTA A USERLAND, COMENTAR ESTA LINEA SI QUEREMOS PROBAR COSAS DE KERNEL
+		((EntryPoint)sampleCodeModuleAddress)();
+	}
+
 void * initializeKernelBinary(){
 	char buffer[10];
 	(cpuVendor(buffer));
@@ -66,7 +71,7 @@ void * initializeKernelBinary(){
 	ncNewline();
 	ncNewline();
 
-	initial_info();
+	//initial_info();
 	ncPrint("Loading IDT");
 	ncNewline();
 	ncNewline();
@@ -75,31 +80,23 @@ void * initializeKernelBinary(){
 
 	init_graphics();
 
-
 	to_userland();
 	//video_tests();
 	//clear_screen();
 	//init_game();
 	return getStackBase();
 }
-
-	void to_userland(){
-		//ACA ES DONDE SALTA A USERLAND, COMENTAR ESTA LINEA SI QUEREMOS PROBAR COSAS DE KERNEL
-		((EntryPoint)sampleCodeModuleAddress)();
-	}
+	
 
 int main()
 {
-<<<<<<< HEAD
 	draw_string("Back to kernel");
 	//to_userland();
-=======
-	to_userland();
->>>>>>> 526d47a5772574140a7180bc72fd61c69fb15f26
 	return 0;
 }
 /*
 void initial_info(){
+
 	ncPrint("[Kernel Main]");
 	ncNewline();
 	ncPrint("  Sample code module at 0x");

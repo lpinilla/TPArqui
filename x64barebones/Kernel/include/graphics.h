@@ -35,18 +35,13 @@ typedef struct __attribute__((packed)) {
 //dibujar
 void draw_pixel(int x,int y, int r, int g, int b);
 void shadow_pixel(int x,int y, int r, int g, int b);
-void draw_fill_square(int x, int y, unsigned char r, unsigned char g, unsigned   char b, unsigned char size);
-void shadow_fill_square(int x, int y, unsigned char r, unsigned char g, unsigned   char b, unsigned char size);
-void shadow_fill_rect(int x, int y, unsigned char r, unsigned char g, unsigned   char b,
-                     unsigned char base, unsigned char height);
-void draw_fill_rect(int x, int y, unsigned char r, unsigned char g, unsigned   char b,
-                     unsigned char base, unsigned char height);
+
 
 //escribir
-void draw_char_w_front_and_back_color(int x, int y, char c, int r, int g, int b, int r2, int g2, int b2);
-void draw_free_char(char c, int front_r, int front_g, int front_b, int back_r, int back_g, int back_b);
-void draw_free_string(char * string, int front_r, int front_g, int front_b, int back_r, int back_g, int back_b);
-void draw_color_char(char c, int r, int g, int b);
+void draw_char_w_front_and_back_color(int x, int y, char c, int foreground_color, int background_color);
+void draw_free_char(char c, int foreground_color, int background_color);
+void draw_free_string(char * string, int foreground_color, int background_color);
+void draw_color_char(char c, int foreground_color);
 void draw_char(char c);
 void draw_string(char * string);
 void draw_n_chars(char * string, int size);
@@ -60,7 +55,6 @@ void init_graphics(void);
 void clear_screen(void);
 void new_line(void);
 void move_everything_up(void);
-void copy_pixel(int a, int b, int c, int d);
 int number_of_digits(int n);
 void load_vga_info(void);
 void swap_buffers(void);

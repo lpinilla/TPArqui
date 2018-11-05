@@ -65,10 +65,10 @@ void draw_char_w_front_and_back_color(int x, int y, char c, int foreground_color
     for(int j = 0; j < CHAR_WIDTH; j++){
       if(*(&glyphs[(c-31) * CHAR_HEIGHT] + i * sizeof(uint8_t)) & 1<<j){
         draw_pixel(CHAR_WIDTH -1 -j + x_cursor, i + y_cursor,
-                  (foreground_color << 16) & 0xFF, (foreground_color << 8) & 0xFF, foreground_color & 0xFF);
+                  (foreground_color >> 16) & 255, (foreground_color >> 8) & 255, foreground_color & 255);
       }else{
         draw_pixel(CHAR_WIDTH -1 -j + x_cursor, i + y_cursor,
-                  (background_color << 16) & 0xFF, (background_color << 8) & 0xFF, background_color & 0xFF); //necesito esto para poder borrar
+                  (background_color >> 16) & 255, (background_color >> 8) & 255, background_color & 255); //necesito esto para poder borrar
       }
     }
   }
