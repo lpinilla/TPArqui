@@ -18,8 +18,10 @@ DEFINE Y DESPUES EN EL VECTOR DE STRINGS ENE EL NUMERO DEL DEFINE -1 (podriamos 
 #define TIME_COMMAND 2
 #define SHUTDOWN_COMMAND 3
 #define BEEP_COMMAND 4
+#define MAKE_DIV 5
 
-#define COMMANDS 4
+
+#define COMMANDS 5
 
 #define MAX_LENGTH 20
 
@@ -34,8 +36,9 @@ void show_time();
 void shutdown();
 void print_user();
 void make_beep();
-static func execute_command[]={invalid_command,play_pong,show_time,shutdown,make_beep};
-const char * commands[] = {"pong", "time","shutdown","beep"};
+void make_div();
+static func execute_command[]={invalid_command,play_pong,show_time,shutdown,make_beep,make_div};
+const char * commands[] = {"pong", "time","shutdown","beep","div"};
 
 uint64_t * shell();
 
@@ -109,4 +112,10 @@ int is_symbol(unsigned char c){
 }
 void make_beep(){
 	sys_beep();
+}
+
+void make_div(){
+	int n = 1;
+	int b = 0;
+	int c = n/b;
 }

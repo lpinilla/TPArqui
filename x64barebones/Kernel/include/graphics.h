@@ -5,6 +5,15 @@
 #define CHAR_WIDTH 8
 #define VIDEO_START_ADDRESS 0xB8000
 
+#define STD_IN 0
+#define STD_OUT 1
+#define STD_ERR 2
+
+#define OUT_BG_COLOR 0xFFFFFF
+#define OUT_FG_COLOR 0x000000
+#define ERR_BG_COLOR 0xFF0000
+#define ERR_FG_COLOR 0x000000
+
 #include <stdint.h>
 
 typedef struct __attribute__((packed)) {

@@ -95,7 +95,7 @@ void draw_color_char(char c, int foreground_color){
 
 //clasico, fondo negro letras blancas
 void draw_char(char c){
-  draw_free_char(c, 0xFFFFFF, 0x0);
+  draw_free_char(c, 0xFFFFF, 0x0);
 }
 
 void draw_string(char * string){
@@ -145,6 +145,24 @@ void draw_number(int n){
   for(int i = 0; i < count; i++){
     draw_char(array[i] + '0');
   }
+}
+void draw_err_number(int n){
+  if (n == 0){
+   draw_free_char('0',ERR_FG_COLOR,ERR_BG_COLOR);
+   return;
+  }
+  int count = number_of_digits(n);
+  int array[count];
+  for(int i = 0; i < count; i++){
+    array[count-1-i] = n % 10;
+    n /= 10;
+  }
+  for(int i = 0; i < count; i++){
+    draw_free_char(array[i] + '0',ERR_FG_COLOR,ERR_BG_COLOR);
+  }
+}
+void draw_err_string(char * string){
+  draw_free_string(string,ERR_FG_COLOR, ERR_BG_COLOR);
 }
 
 void new_line(){

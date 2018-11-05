@@ -1,3 +1,5 @@
+#include <graphics.h>
+
 extern void print_all_registers();
 
 typedef void (*func)();
