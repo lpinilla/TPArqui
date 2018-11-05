@@ -17,7 +17,7 @@ DEFINE Y DESPUES EN EL VECTOR DE STRINGS ENE EL NUMERO DEL DEFINE -1 (podriamos 
 #define PONG_COMMAND 1
 #define TIME_COMMAND 2
 #define SHUTDOWN_COMMAND 3
-#define BEEP_COMMAND
+#define BEEP_COMMAND 4
 
 #define COMMANDS 4
 
@@ -40,6 +40,7 @@ const char * commands[] = {"pong", "time","shutdown","beep"};
 uint64_t * shell();
 
 uint64_t * shell(void){
+	print_user();
 	int i=0;
 	char command[MAX_LENGTH];
 	char c;
@@ -60,6 +61,7 @@ uint64_t * shell(void){
 			else // este es el caso que entramos a una new line y el comando es mas largo que MAX LENGHT
 				invalid_command();  // mandamos un mensaje de comando invalido
 			i=0; // reseteamos el contador a 0 ya que empezamos una nueva linea
+			print_user();
 		}
 		else if (c!='\b' && (is_alpha(c) || is_digit(c) || is_symbol(c))){ // este caso es el generico, sacamos el caso si es un backspace porque no hacemos nada
 			put_char(c);
