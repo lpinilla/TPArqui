@@ -16,7 +16,7 @@ void init_game(){
 	restart_game();
 	draw_game();
 	game_loop();
-} 
+}
 
 void game_loop(){
 	while(game_state != GAME_OVER){
@@ -44,21 +44,19 @@ void draw_game(){
 //todo negro salvo la linea del medio
 void draw_board(){
 	for(int i = 0; i < 12; i++){
-		shadow_fill_rect( 90 * i, 20, 0xFF, 0xFF, 0xFF, 30, 10);	
+		shadow_fill_rect( 90 * i, 20, 0xFF, 0xFF, 0xFF, 30, 10);
 	}
 	for(int i = 0; i < 10; i++){
-		shadow_fill_rect(500, 20 + 90 * i, 0xFF, 0xFF, 0xFF, 15, 30);	
+		shadow_fill_rect(500, 20 + 90 * i, 0xFF, 0xFF, 0xFF, 15, 30);
 	}
 	for(int i = 0; i < 12; i++){
-		shadow_fill_rect( 90 * i, 760, 0xFF, 0xFF, 0xFF, 30, 10);	
+		shadow_fill_rect( 90 * i, 760, 0xFF, 0xFF, 0xFF, 30, 10);
 	}
 }
 
+void draw_players(){}
 void draw_ball(){
 	shadow_fill_square(ball.x, ball.y ,0xFF, 0xFF, 0xFF, BALL_SIZE);
-}
-
-void draw_players(){
 	shadow_fill_rect(players[0].x, players[0].y, 0xFF, 0xFF, 0xFF, PLAYER_WIDTH, PLAYER_HEIGHT);
 	shadow_fill_rect(players[1].x, players[1].y, 0xFF, 0xFF, 0xFF, PLAYER_WIDTH, PLAYER_HEIGHT);
 }
@@ -78,7 +76,7 @@ void player_move(int player_n, enum DIRECTION dir){
 }
 
 void play(){
-	char c = read();
+	char c = get_char();
 	switch(c){
 		case 'w':
 			player_move(0, UP);
@@ -120,7 +118,7 @@ void move_ball(){
 		shadow_fill_rect(ball.x - BALL_SPEED, ball.y, 0x0, 0x0, 0x0, BALL_SPEED, BALL_SIZE);
 	}else{
 		ball.x -= BALL_SPEED;
-		shadow_fill_rect(ball.x + BALL_SIZE, ball.y, 0x0, 0x0, 0x0, BALL_SPEED, BALL_SIZE);	
+		shadow_fill_rect(ball.x + BALL_SIZE, ball.y, 0x0, 0x0, 0x0, BALL_SPEED, BALL_SIZE);
 	}
 	//colisiones
 	//colisiona con alguna barra si la distancia desde el centro de la barra hasta la pelota
@@ -188,7 +186,7 @@ void restart_game(){
 	ball.down = 0; //rand
 	ball.right = 0; //rand
 	game_state = PLAYING;
-	scored = 0;	
+	scored = 0;
 }
 
 void game_over(){
@@ -263,7 +261,7 @@ void draw_scores(){
 	draw_player_n_score(1, 600, 50);
 }
 
-void draw_player_n_score(int player_n, int init_x, int init_y){	
+void draw_player_n_score(int player_n, int init_x, int init_y){
 	char * aux;
 	int index = players[player_n].score * SCORE_HEIGHT;
 	for(int i = index, t = 0; i < index + SCORE_HEIGHT; i++, t++){
