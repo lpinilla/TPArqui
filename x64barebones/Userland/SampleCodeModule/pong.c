@@ -151,7 +151,7 @@ void move_ball(){
 }
 
 void player_score(int player_n){
-	//beep();
+	sys_beep();
 	if(players[player_n].score == MAX_SCORE - 1){
 		game_state = GAME_OVER;
 		sys_clear_console();
@@ -196,7 +196,7 @@ void game_over(){
 	}else{
 		//draw_free_string("                          Ha ganado el jugador 2!", 0xFF, 0x0, 0x0, 0x0, 0x0, 0x0);
 	}
-	//draw_string("  Saliendo del juego en 3 segundos");
+	print_f("%s","  Saliendo del juego en 3 segundos");
 	//time_wait(3 * 18);
 	sys_clear_console();
 	sys_clear_shadow_buffer();
