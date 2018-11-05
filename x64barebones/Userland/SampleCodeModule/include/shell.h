@@ -26,6 +26,7 @@ DEFINE Y DESPUES EN EL VECTOR DE STRINGS ENE EL NUMERO DEL DEFINE -1 (podriamos 
 
 typedef void (*func)();
 
+int is_space(unsigned char c);
 int is_digit(unsigned char c);
 int is_alpha(unsigned char c);
 int is_symbol(unsigned char c);

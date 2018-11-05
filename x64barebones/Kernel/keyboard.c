@@ -126,6 +126,9 @@ int is_digit(unsigned char c) {
 int is_cntrl(unsigned char c){
   return ((c == '\n' || c == '\t'));
 }
+int is_space(unsigned char c){
+  return (c=='\t' || c == ' ');
+}
 
 int buffer_empty(){
   return head==tail;
