@@ -44,7 +44,7 @@ uint64_t syscall_dispacher(uint64_t rdi, uint64_t rsi, uint64_t rdx, uint64_t rc
         init_graphics();
         break;
       case COLOR_WRITE:
-        draw_free_char(rsi, rdx, rcx);
+        color_write(rsi, rdx, rcx,r8);
         break;
       case RESET_CURSOR:
         reset_cursor();
@@ -60,6 +60,9 @@ uint64_t syscall_dispacher(uint64_t rdi, uint64_t rsi, uint64_t rdx, uint64_t rc
         break;
   }
 	return 0;
+}
+void color_write(char * pointer, int size, int foreground_color, int background_color){
+  draw_n_chars_color(pointer,size,foreground_color,background_color);
 }
 
 int read(int fd, char * pointer, int size) {
@@ -78,9 +81,9 @@ int read(int fd, char * pointer, int size) {
 void write(int fd, char * pointer, int size) {
   // por ahora solo implementamos por salida estandar (en nuestro caso pantalla), y el numero de salida estandar es 1
 	if(fd==STD_OUT)
-    draw_n_chars(pointer,size);
+    draw_n_chars_color(pointer,size, OUT_FG_COLOR, OUT_BG_COLOR);
   if(fd==STD_ERR)
-    draw_n_chars_color(pointer,size,ERR_FG_COLOR,ERR_BG_COLOR);
+    draw_n_chars_color(pointer,size,ERR_FG_COLOR, OUT_BG_COLOR);
   else
     return;
 }

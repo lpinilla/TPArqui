@@ -84,8 +84,8 @@ void draw_n_chars(char * s, int index){
     draw_char(s[i]);
   }
 }
-void draw_n_chars_color(char * s, int index, int foreground_color, int background_color){
-  for(int i=0; i< index; i++){
+void draw_n_chars_color(char * s , int index, int foreground_color, int background_color){
+  for(int i=0; i<index; i++){
     draw_free_char(s[i], foreground_color, background_color);
   }
 }
