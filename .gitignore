@@ -46,6 +46,7 @@
 *.mod*
 *.cmd
 .img
+.vmdk
 .tmp_versions/
 modules.order
 Module.symvers

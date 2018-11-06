@@ -1,0 +1,5 @@
+Known Errors:
+
+1)Cuando salís del juego, las primeras 2 líneas se imprimen mal
+2)El driver de audio puede fallar
+3)puede que jugando, quedé algún pixel pintado que no debería estar
