@@ -201,7 +201,7 @@ int is_digit(unsigned char c) {
     return (c >= '0' && c <= '9');
 }
 int is_symbol(unsigned char c){
-	return ((c >= '!' && c <= '/') || (c >= ':' && c <= '@') || (c>='[' && c <= '\'') || (c>='{' && c <='~'));
+	return ((c >= '!' && c <= '/') || (c >= ':' && c <= '@') || (c>='[' && c <= 96) || (c>='{' && c <='~'));
 }
 int is_space(unsigned char c){
 	return (c==' ');
