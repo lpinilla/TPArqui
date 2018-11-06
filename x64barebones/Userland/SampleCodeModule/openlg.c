@@ -8,8 +8,7 @@ char * title[9] = {"      ##      ##                           ",
                    "######################                     ",
                    "##  ##############  ##                     ",
                    "##  ##          ##  ##                     ",
-                   "      ####  ####                           ",
-                   "Pls profes aprueben el TP                  "};
+                   "      ####  ####                           "};
 
 
 void draw_welcome_screen(){
