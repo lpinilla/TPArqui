@@ -70,14 +70,6 @@ print_all_registers:
     pop_all
 
     push_all
-    mov rdi, register3
-    call draw_err_string
-    mov rdi,rcx
-    call draw_err_number
-    call new_line
-    pop_all
-
-    push_all
     mov rdi, register4
     call draw_err_string
     mov rdi,rdx
@@ -140,7 +132,6 @@ print_all_registers:
 section .rodata
   register1 db "RAX= ", 0
   register2 db "RBC= ", 0
-  register3 db "RCX= ", 0
   register4 db "RDX= ", 0
   register5 db "RSI= ", 0
   register6 db "RDI= ", 0
@@ -149,9 +140,3 @@ section .rodata
   register9 db "RIP= ", 0
   register10 db "R8= ", 0
   register11 db "R9= ", 0
-	register12 db "R10", 0
-	register13 db "R11", 0
-	register14 db "R12", 0
-	register15 db "R13", 0
-	register16 db "R14", 0
-	register17 db "R15", 0

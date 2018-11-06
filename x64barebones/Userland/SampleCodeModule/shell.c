@@ -1,8 +1,9 @@
 #include <shell.h>
 
 
-static func execute_command[]={invalid_command,play_pong,show_time,shutdown,make_beep,make_div,ayuda,try_scan_f,try_print_f};
-const char * commands[] = {"pong", "time","shutdown","beep","div","ayuda","scan","print"};
+static func execute_command[]={invalid_command,play_pong,show_time,shutdown,make_beep,make_div,ayuda,try_scan_f,try_print_f,try_invalid_function};
+
+const char * commands[] = {"pong", "time","shutdown","beep","div","ayuda","scan","print","invalid"};
 
 static int command_handler(char * command);
 
@@ -94,12 +95,19 @@ void try_scan_f(){
 	print_f("%d %s \n",a,aux);
 }
 
+void try_invalid_function(){
+	uint64_t asd= 0xFFFFFFFFFFFF; //claramente una instruccion no valida
+	uint64_t * aux = &asd;
+	((func)aux)();
+}
+
 void ayuda(){
 	print_f("\nBienvenido a nuestra shell \n");
 	print_f("\nLos comandos disponibles son los siguientes \n \n \n");
 	print_f("beep - Usa el pcspeaker para hacer sonido \n");
 	print_f("pong - Ejecuta el juego pong \n");
 	print_f("div - Levanta una excepcion de division por 0 \n");
+	print_f("invalid - Levanta una excepcion de codigo invalido \n");
 	print_f("time - Devuelve la hora en formato GMT \n");
 	print_f("shutdown - Apaga el SO \n");
 	print_f("scan - prueba el comando de scan_f con el formato \"Hola %%d %%s\" e imprime el resultado  \n");
