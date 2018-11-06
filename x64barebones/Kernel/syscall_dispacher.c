@@ -1,12 +1,4 @@
-#include <keyboard.h>
-#include <stdint.h>
-#include <stdarg.h>
-#include <graphics.h>
-#include <rtc.h>
-#include <sound.h>
-#include <time.h>
-#include <irq_dispatcher.h>
-
+#include <syscall_dispacher.h>
 // usamos la convencion de linux y c para los parametros de las syscalls
 uint64_t syscall_dispacher(uint64_t rdi, uint64_t rsi, uint64_t rdx, uint64_t rcx, uint64_t r8, uint64_t r9) {
   switch(rdi){
@@ -44,7 +36,7 @@ uint64_t syscall_dispacher(uint64_t rdi, uint64_t rsi, uint64_t rdx, uint64_t rc
         init_graphics();
         break;
       case COLOR_WRITE:
-        color_write(rsi, rdx, rcx,r8);
+        color_write((char *)rsi, rdx, rcx,r8);
         break;
       case RESET_CURSOR:
         reset_cursor();

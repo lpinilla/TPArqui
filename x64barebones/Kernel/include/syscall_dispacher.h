@@ -1,6 +1,14 @@
 #ifndef _IRQ_DISPATCHER_H_
 #define _IRQ_DISPATCHER_H_
 
+#include <keyboard.h>
+#include <stdint.h>
+#include <graphics.h>
+#include <rtc.h>
+#include <sound.h>
+#include <time.h>
+
+
 #define READ 3
 #define WRITE 4
 #define DRAW_PIXEL 5
@@ -21,5 +29,6 @@
 
 int read(int param1, char * param2, int param3);
 void write(int param1, char * param2, int param3);
+void color_write(char * pointer, int size, int foreground_color, int background_color);
 
 #endif
