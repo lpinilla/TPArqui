@@ -28,10 +28,10 @@ unsigned char keycode_map[128] = {
     0,	/* All other keys are undefined */
 };
 unsigned char alternative_keycode_map[128] = {
-  0,0,'!','@','#','$','%',94, '&', '*', '(', ')', 95,'+', '\b', '\t', /* shift + tab not defined in normal aasci*/
+  0,'~','!','@','#','$','%',94, '&', '*', '(', ')', 95,'+', '\b', '\t', /* shift + tab not defined in normal aasci*/
   'Q','W','E','R','T','Y', 'U', 'I', 'O', 'P', '{', '}', '\n', 0,
   'A', 'B', 'C', 'D', 'F', 'G', 'H', 'J', 'K', 'L', ':',
-  '\"', LEFT_SHIFT, '|', 'Z', 'X', 'C', 'V', 'B', 'N',
+  '~', LEFT_SHIFT, '|', 'Z', 'X', 'C', 'V', 'B', 'N',
   'M', '<', '>', '?', RIGHT_SHIFT, '*', 0, ' ', CAPS_LOCK, 0,
   0,0,0,0,0,0,0,0,0,
   DOWN_ARROW,0,0,0,0,0,0,0,0,
