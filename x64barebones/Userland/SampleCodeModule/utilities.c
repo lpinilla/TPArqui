@@ -98,53 +98,52 @@ void clear_console(){
   sys_clear_console();
 }
 
-int scan_f(const char* c, ...){
+int scan_f(const char* format, ...){
 	va_list va;
-	va_start(va,c);
-
-	int ret = 0;
-	int flag = 0;
+	va_start(va,format);
+	int ret = 0; // valor de retorno, numero de variables que escribio
+	int flag = FALSE; // flag para saber si estamos en un %
 	int i = 0;
-	char buffer[MAX];
+	char buffer[MAX];  // buffer donde guardamos el comando
 	int j = 0;
-	char currentChar;
+	char c;
 
-	while((currentChar = get_char()) != '\n'){
-		if(currentChar == '\b'){
-			if(j>0){
-				buffer[--j] = 0;
+	while((c = get_char()) != '\n'){ // Este while hace la logica de guardar en buffer el comando e imprimirlo en STDOUT
+		if(c == '\b'){
+			if(i>0){
+				buffer[--i] = 0;
 				print_f("\b");
 			}
 		}else{
-			if(j < MAX){
-				buffer[j++]	= currentChar;
-				put_char(currentChar);
+			if(i < MAX){
+				buffer[i++]	= c;
+				put_char(c);
 			}
 		}
 	}
-	buffer[j] = 0;
-	j = 0;
-	while(c[i]!=0&&ret>=0){
-		switch(c[i]) {
-			case '%':
-				if(flag) {
+	buffer[i] = 0;
+	i = 0;
+	while(format[i]!=0&&ret>=0){  //loop para comparar el comando que tenemos con el formato, ret se usa como flag para salir si hay algo no igual
+		switch(format[i]) {
+			case '%':  //caso del %
+				if(flag) {  // aca entra si el % anterior es un %, por lo tanto hubo un error de formato si el comando no viene con un %
 					if(buffer[j]!='%')
 						ret = -1;
-					else
+					else  //  //si viene con un % sumamos al indice del comando ya que el acual matchea
 						j++;
-				} else {
+				} else {  // si es el primer % que encontramos activamos el flag
 					flag = TRUE;
 				}
 				break;
-			case 'd':
-				if(flag){
+			case 'd':      // caso de una d
+				if(flag){  // si ya estaba el flag significa que estamos en un %d por lo tanto vamos a consumir todo el numero que haya
 					if(get_number(buffer, va_arg(va, int *), &j))
             ret++;
 				  else
             ret = -1;
           flag = FALSE;
         }
-        else{
+        else{  // si no esta el flag activado significa que es una d sola, chequeamos que el comando venga una d y si no activamos el flag para romper
 					       if(buffer[j]!='d')
 						           ret = -1;
 					       else
@@ -155,7 +154,7 @@ int scan_f(const char* c, ...){
                 if(flag){
                     j += str_cpy(buffer+j,va_arg(va,char*));
                     ret++;
-                    flag = 0;
+                    flag = FALSE;
                   } else {
                     if(buffer[j]!='s')
                       ret = -1;
@@ -163,14 +162,15 @@ int scan_f(const char* c, ...){
                       j++;
                   }
                   break;
-        default:
-            if(buffer[j]!=c[i])
+        default: // caso default comparamos el comando con el buffer
+            if(buffer[j]!=format[i])
               ret = -1;
             else
               j++;
 		}
 		i++;
 	}
+  put_char('\n');
 	va_end(va);
 	return ret;
 }

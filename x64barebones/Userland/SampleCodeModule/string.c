@@ -13,10 +13,9 @@ int str_cmp(const char string1[],const char string2[]){
 }
 
 int str_cpy(const char* from, char* destination){
-	int i;
-	for (i = 0; from[i] != 0; ++i) {
+  int i = 0;
+	for (i = 0; from[i] != 0; ++i)
 		destination[i] = from[i];
-	}
 	destination[i] = 0;
 	return i;
 }

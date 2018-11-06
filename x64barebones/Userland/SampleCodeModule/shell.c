@@ -85,8 +85,9 @@ void make_div(){
 
 void try_scan_f(){
 	char * aux[20];
-	scan_f("Hola %s", aux);
-	print_f("%s",aux);
+	int a;
+	scan_f("Hola %d %s", &a,aux);
+	print_f("%s %d \n",aux,a);
 }
 
 void ayuda(){
