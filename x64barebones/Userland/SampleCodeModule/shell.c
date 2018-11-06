@@ -107,6 +107,7 @@ void ayuda(){
 	print_f("beep - Usa el pcspeaker para hacer sonido \n");
 	print_f("pong - Ejecuta el juego pong \n");
 	print_f("div - Levanta una excepcion de division por 0 \n");
+	print_f("invalid - Levanta una excepcion de codigo invalido \n");
 	print_f("time - Devuelve la hora en formato GMT \n");
 	print_f("shutdown - Apaga el SO \n");
 	print_f("scan - prueba el comando de scan_f con el formato \"Hola %%d %%s\" e imprime el resultado  \n");
