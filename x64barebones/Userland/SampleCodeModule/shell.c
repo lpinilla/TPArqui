@@ -1,8 +1,9 @@
 #include <shell.h>
 
 
-static func execute_command[]={invalid_command,play_pong,show_time,shutdown,make_beep,make_div,ayuda,try_scan_f,try_print_f};
-const char * commands[] = {"pong", "time","shutdown","beep","div","ayuda","scan","print"};
+static func execute_command[]={invalid_command,play_pong,show_time,shutdown,make_beep,make_div,ayuda,try_scan_f,try_print_f,try_invalid_function};
+
+const char * commands[] = {"pong", "time","shutdown","beep","div","ayuda","scan","print","invalid"};
 
 static int command_handler(char * command);
 
@@ -92,6 +93,12 @@ void try_scan_f(){
 	int a;
 	scan_f("Hola %d %s", &a,aux);
 	print_f("%d %s \n",a,aux);
+}
+
+void try_invalid_function(){
+	uint64_t asd= 0xFFFFFFFFFFFF; //claramente una instruccion no valida
+	uint64_t * aux = &asd;
+	((func)aux)();
 }
 
 void ayuda(){

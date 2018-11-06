@@ -16,7 +16,7 @@ static int time_selector[] = {SECONDS_REGISTER,MINUTES_REGISTER,HOUR_REGISTER,DA
 void set_binary_time(){
   io_write(RTC_REGISTER_SELECTOR, STATUS_B_REGISTER);
   uint8_t aux = io_read(RTC_DATA);
-  aux = aux | 0x04 ;
+  aux = aux | 0x04 ; 
   io_write(RTC_DATA, aux);
 }
 
