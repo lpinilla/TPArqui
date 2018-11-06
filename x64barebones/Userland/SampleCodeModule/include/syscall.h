@@ -34,5 +34,6 @@ void sys_reset_cursor(void);
 void sys_beep(void);
 void sys_sleep(int ticks);
 void sys_new_line(void);
+int sys_time(int selector);
 
 #endif

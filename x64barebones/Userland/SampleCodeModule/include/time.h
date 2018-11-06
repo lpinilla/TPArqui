@@ -1,3 +1,6 @@
+#ifndef _TIME_H
+#define _TIME_H
+
 #include <syscall.h>
 #include <utilities.h>
 
@@ -8,6 +11,7 @@
 #define MONTH_SELECTOR 4
 #define YEAR_SELECTOR 5
 
+
 typedef struct{
   int seconds;
   int minutes;
@@ -16,3 +20,8 @@ typedef struct{
   int month;
   int year;
 }tm;
+
+void print_time();
+tm get_time();
+
+#endif

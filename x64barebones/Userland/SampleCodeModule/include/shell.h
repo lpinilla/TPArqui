@@ -6,8 +6,13 @@ PARA AGREGAR UN COMANDO HAY QUE AGREGARLO EN EL DEFINE EN ORDEN, DESPUES EN EL V
 DEFINE Y DESPUES EN EL VECTOR DE STRINGS ENE EL NUMERO DEL DEFINE -1 (podriamos cambiar esto para que sea mas consistente)
 */
 #include <utilities.h>
-
-#define EOF -1
+#include <string.h>
+#include <syscall.h>
+#include <time.h>
+#include <syscall.h>
+#include <pong.h>
+#include <openlg.h>
+#include <time.h>
 
 #define RETURN_ADRESS 0xDEADC0DE
 
@@ -26,10 +31,6 @@ DEFINE Y DESPUES EN EL VECTOR DE STRINGS ENE EL NUMERO DEL DEFINE -1 (podriamos 
 
 typedef void (*func)();
 
-int is_space(unsigned char c);
-int is_digit(unsigned char c);
-int is_alpha(unsigned char c);
-int is_symbol(unsigned char c);
 void try_scan_f();
 void invalid_command();
 void play_pong();

@@ -1,23 +1,13 @@
-#include <string.h>
-#include <syscall.h>
-#include <time.h>
-#include <syscall.h>
 #include <shell.h>
-#include <pong.h>
-#include <openlg.h>
 
 
 static func execute_command[]={invalid_command,play_pong,show_time,shutdown,make_beep,make_div,ayuda,try_scan_f};
 const char * commands[] = {"pong", "time","shutdown","beep","div","ayuda","scan"};
 
+static int command_handler(char * command);
 
 uint64_t * shell(void){
-	int aux;
-	draw_welcome_screen();
-	print_f("Escriba ayuda para ver los comandos disponibles \n");
-	for(int i = 0; i < 36; i++){
-		sys_new_line();
-	}
+	draw_welcome_screen();	
 	print_user();
 	int i=0;
 	char command[MAX_LENGTH];
@@ -50,7 +40,7 @@ uint64_t * shell(void){
 	}
 	return (uint64_t *) RETURN_ADRESS;
 }
-int command_handler(char * command){
+static int command_handler(char * command){
 	for(int i=0; i<COMMANDS; i++){
 		if(str_cmp(command, commands[i])==0){
 			return i+1;
@@ -77,18 +67,7 @@ void show_time(){
 void print_user(){
 	print_f("ARQ@ITBA:");
 }
-int is_alpha(unsigned char c) {
-    return ((c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z'));
-}
-int is_digit(unsigned char c) {
-    return (c >= '0' && c <= '9');
-}
-int is_symbol(unsigned char c){
-	return ((c >= '!' && c <= '/') || (c >= ':' && c <= '@') || (c>='[' && c <= '\'') || (c>='{' && c <='~'));
-}
-int is_space(unsigned char c){
-	return (c==' ');
-}
+
 void make_beep(){
 	sys_beep();
 }
@@ -97,12 +76,14 @@ void make_div(){
 	int n = 1;
 	int b = 0;
 	int c = n/b;
+	c--;
 }
 
 void try_scan_f(){
 	char * aux[20];
-	scan_f("Hola %s", aux);
-	print_f("%s",aux);
+	int a;
+	scan_f("Hola %d %s", &a,aux);
+	print_f("%s %d \n",aux,a);
 }
 
 void ayuda(){

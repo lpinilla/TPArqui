@@ -1,7 +1,7 @@
 #ifndef _KEYBOARD_H_
 #define _KEYBOARD_H_
 
-#include <string.h> //sacar de aca
+#include <stdint.h>
 
 #define BUFFER_SIZE 80
 
