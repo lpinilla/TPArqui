@@ -16,7 +16,7 @@ EXTERN irq_dispatcher
 EXTERN exception_dispatcher
 EXTERN syscall_dispacher
 
-%macro pushState 0
+%macro push_all 0
 	push rax
 	push rbx
 	push rcx
@@ -34,7 +34,7 @@ EXTERN syscall_dispacher
 	push r15
 %endmacro
 
-%macro popState 0
+%macro pop_all 0
 	pop r15
 	pop r14
 	pop r13
@@ -53,7 +53,7 @@ EXTERN syscall_dispacher
 %endmacro
 
 %macro irq_handler_master 1
-	pushState
+	push_all
 
 	mov rdi, %1 				; pasaje de parametro
 	call irq_dispatcher
@@ -62,16 +62,16 @@ EXTERN syscall_dispacher
 	mov al, 20h
 	out 20h, al
 
-	popState
+	pop_all
 	iretq
 %endmacro
 
 %macro exception_handler 1
-	pushState
+	push_all
 
 	mov rdi, %1 				; pasaje de parametro
 	call exception_dispatcher
-	popState
+	pop_all
 	iretq
 %endmacro
 

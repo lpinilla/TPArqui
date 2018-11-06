@@ -4,10 +4,11 @@ extern new_line
 extern to_userland
 extern draw_err_string
 extern draw_err_number
+extern time_wait
 
 section .text
 
-%macro pushState 0
+%macro push_all 0
 	push rax
 	push rbx
 	push rcx
@@ -25,7 +26,7 @@ section .text
 	push r15
 %endmacro
 
-%macro popState 0
+%macro pop_all 0
 	pop r15
 	pop r14
 	pop r13
@@ -44,94 +45,113 @@ section .text
 %endmacro
 
 print_all_registers:
-    pushState
+		push_all
+		mov rdi, register9
+		call draw_err_string
+		mov rdi,[rsp + 15 * 8]
+		call draw_err_number
+		call new_line
+		pop_all
+
+    push_all
     mov rdi, register1
     call draw_err_string
     mov rdi,rax
     call draw_err_number
     call new_line
-    popState
-    pushState
+    pop_all
+
+    push_all
     mov rdi, register2
     call draw_err_string
     mov rdi,rbx
     call draw_err_number
     call new_line
-    popState
-    pushState
+    pop_all
+
+    push_all
     mov rdi, register3
     call draw_err_string
     mov rdi,rcx
     call draw_err_number
     call new_line
-    popState
-    pushState
+    pop_all
+
+    push_all
     mov rdi, register4
     call draw_err_string
     mov rdi,rdx
     call draw_err_number
     call new_line
-    popState
-    pushState
+    pop_all
+
+    push_all
     mov rdi, register5
     call draw_err_string
     mov rdi,rsi
     call draw_err_number
     call new_line
-    popState
-    pushState
+    pop_all
+
+    push_all
     mov rdi, register6
     call draw_err_string
     mov rdi,rdi
     call draw_err_number
     call new_line
-    popState
-    pushState
+    pop_all
+
+    push_all
     mov rdi, register7
     call draw_err_string
     mov rdi,rsp
     call draw_err_number
     call new_line
-    popState
-    pushState
+    pop_all
+
+    push_all
     mov rdi, register8
     call draw_err_string
     mov rdi,rbp
     call draw_err_number
     call new_line
-    popState
-    pushState
-    mov rdi, register9
-    call draw_err_string
-    mov rdi,[rsp + 15 * 8]
-    call draw_err_number
-    call new_line
-    popState
-    pushState
+    pop_all
+
+    push_all
     mov rdi, register10
     call draw_err_string
     mov rdi,r8
     call draw_err_number
     call new_line
-    popState
-    pushState
+    pop_all
+
+    push_all
     mov rdi, register11
     call draw_err_string
     mov rdi,r9
     call draw_err_number
     call new_line
-    popState
+    pop_all
+
+		mov rdi, 100
+		call time_wait
     call to_userland
 
 section .rodata
   register1 db "RAX= ", 0
   register2 db "RBC= ", 0
-  register3 db 'RCX= ', 0
-  register4 db 'RDX= ', 0
-  register5 db 'RSI= ', 0
-  register6 db 'RDI= ', 0
-  register7 db 'RSP= ', 0
-  register8 db 'RBP= ', 0
-  register9 db 'RIP= ', 0
-  register10 db 'R8= ', 0
-  register11 db 'R9= ', 0
+  register3 db "RCX= ", 0
+  register4 db "RDX= ", 0
+  register5 db "RSI= ", 0
+  register6 db "RDI= ", 0
+  register7 db "RSP= ", 0
+  register8 db "RBP= ", 0
+  register9 db "RIP= ", 0
+  register10 db "R8= ", 0
+  register11 db "R9= ", 0
+	register12 db "R10", 0
+	register13 db "R11", 0
+	register14 db "R12", 0
+	register15 db "R13", 0
+	register16 db "R14", 0
+	register17 db "R15", 0
