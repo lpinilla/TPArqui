@@ -1,10 +1,5 @@
 #include <utilities.h>
 
-void print_string(char * s);
-#define MAX_BUFFER 100
-#define TRUE 1
-#define FALSE 0
-
 void put_char(char c){
   sys_write(&c,1);
 }
@@ -40,7 +35,7 @@ void print_number(int number){
   }
 }
 
-void print_f(char * format, ...){
+int print_f(const char * format, ...){
   if(format==NULL)
     return;
   int i=0;
@@ -89,6 +84,7 @@ void print_f(char * format, ...){
     i++;
   }
   va_end(va);
+  return i;
 }
 
 
@@ -103,9 +99,7 @@ void clear_console(){
   sys_clear_console();
 }
 
-#define MAX 100
-
-void scan_f(const char* c, ...){
+int scan_f(const char* c, ...){
 	va_list va;
 	va_start(va,c);
 
@@ -179,7 +173,7 @@ void scan_f(const char* c, ...){
 		i++;
 	}
 	va_end(va);
-	return;
+	return ret;
 }
 int get_number(char * array, int * pointer, int * index){
   *pointer = 0; // limpio el puntero
@@ -199,4 +193,17 @@ int get_number(char * array, int * pointer, int * index){
 		}
 	} while(flag);
 	return ret;
+}
+
+int is_alpha(unsigned char c) {
+    return ((c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z'));
+}
+int is_digit(unsigned char c) {
+    return (c >= '0' && c <= '9');
+}
+int is_symbol(unsigned char c){
+	return ((c >= '!' && c <= '/') || (c >= ':' && c <= '@') || (c>='[' && c <= '\'') || (c>='{' && c <='~'));
+}
+int is_space(unsigned char c){
+	return (c==' ');
 }

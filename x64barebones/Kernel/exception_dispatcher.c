@@ -9,7 +9,8 @@ static void exception0();
 static void exception6();
 static void exception13();
 
-func exception_functions[] = {exception0, dummy_func, dummy_func, dummy_func, dummy_func, dummy_func, exception6};
+func exception_functions[] = {exception0, dummy_func, dummy_func, dummy_func, dummy_func, dummy_func, exception6
+,dummy_func,dummy_func,dummy_func,dummy_func,dummy_func,dummy_func,exception13};
 
 void exception_dispatcher(int idx){
 	exception_functions[idx]();
