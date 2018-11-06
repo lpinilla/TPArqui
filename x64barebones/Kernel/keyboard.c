@@ -13,6 +13,7 @@ int is_alpha(unsigned char c);
 int is_cntrl(unsigned char c);
 void add_buffer(char);
 int buffer_empty();
+
 #define CHECKBYTE(binary, index) (binary & 1<<(index)) // macro que checkea si el byte en la posicion index esta prendido
 
 unsigned char keycode_map[128] = {
@@ -83,28 +84,11 @@ void add_buffer(char c){
   }
 }
 
-void erase_buffer(){ //set all buffer to 0
+void erase_buffer(){ // vacia el buffer
 	tail=head;
   full=FALSE;
 }
 
-/*
-
-void read_from_buffer(char * placeholder, int count){
-Salvo verificar si es null, no se verifica nada de placeholder
-	if(count < 0 || placeholder == NULL){
-		return;
-	}
-	//pasar al buffer
-	memcpy(placeholder, buffer, count * sizeof(char));
-	//pasar todas las demas al comienzo
-	int desp = (BUFFER_SIZE - buffer_index) * sizeof(char);
-	memcpy(buffer, buffer + buffer_index * sizeof(char), desp);
-	//setear lo que quedó sin desplazar en 0
-	memset(buffer + desp, 0, count);
-}
-
-*/
 char get_char(){
   int aux = EOF;
   if(!buffer_empty()){

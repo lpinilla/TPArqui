@@ -10,7 +10,6 @@
 #define MAX_BUFFER 100
 #define TRUE 1
 #define FALSE 0
-#define MAX 100
 
 
 int scan_f(const char * format, ...);

@@ -1,18 +1,18 @@
 #include <shell.h>
 
 
-static func execute_command[]={invalid_command,play_pong,show_time,shutdown,make_beep,make_div,ayuda,try_scan_f};
-const char * commands[] = {"pong", "time","shutdown","beep","div","ayuda","scan"};
+static func execute_command[]={invalid_command,play_pong,show_time,shutdown,make_beep,make_div,ayuda,try_scan_f,try_print_f};
+const char * commands[] = {"pong", "time","shutdown","beep","div","ayuda","scan","print"};
 
 static int command_handler(char * command);
 
 uint64_t * shell(void){
-	draw_welcome_screen();	
+	draw_welcome_screen();
+	int command_id=INVALID_COMMAND;
 	print_user();
 	int i=0;
 	char command[MAX_LENGTH];
 	char c;
-	int command_id=INVALID_COMMAND;
 	while(command_id!=SHUTDOWN_COMMAND){
 		c=get_char();
 		if(c=='\b' && i!=0){  // si es un backspace y no estamos al principio de linea, volvemos el indice hacia atras
@@ -29,7 +29,8 @@ uint64_t * shell(void){
 			else // este es el caso que entramos a una new line y el comando es mas largo que MAX LENGHT
 				invalid_command();  // mandamos un mensaje de comando invalido
 			i=0; // reseteamos el contador a 0 ya que empezamos una nueva linea
-			print_user();
+			if(command_id!=SHUTDOWN_COMMAND)
+					print_user();
 		}
 		else if (c!='\b' && (is_alpha(c) || is_digit(c) || is_symbol(c) || is_space(c))){ // este caso es el generico, sacamos el caso si es un backspace porque no hacemos nada
 			put_char(c);
@@ -56,6 +57,8 @@ void invalid_command(){
 
 void shutdown(){
 	print_f("Thank you, powering off \n");
+	sys_sleep(10);
+	sys_clear_console();
 }
 void play_pong(){
 	print_f("Aca jugamos al pong \n");
@@ -71,6 +74,11 @@ void print_user(){
 void make_beep(){
 	sys_beep();
 }
+void try_print_f(){
+	char s[100];
+	scan_f("%s",s);
+	print_f("%s \n", s);
+}
 
 void make_div(){
 	int n = 1;
@@ -83,7 +91,7 @@ void try_scan_f(){
 	char * aux[20];
 	int a;
 	scan_f("Hola %d %s", &a,aux);
-	print_f("%s %d \n",aux,a);
+	print_f("%d %s \n",a,aux);
 }
 
 void ayuda(){
@@ -93,6 +101,8 @@ void ayuda(){
 	print_f("pong - Ejecuta el juego pong \n");
 	print_f("div - Levanta una excepcion de division por 0 \n");
 	print_f("time - Devuelve la hora en formato GMT \n");
-	print_f("shutdown - Apaga el SO \n \n \n");
+	print_f("shutdown - Apaga el SO \n");
+	print_f("scan - prueba el comando de scan_f con el formato \"Hola %%d %%s\" e imprime el resultado  \n");
+	print_f("print - prueba el comando de print_f con el formato \"%%s \\n \" \n\n\n");
 	return;
 }

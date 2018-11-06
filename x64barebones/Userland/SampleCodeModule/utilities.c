@@ -104,7 +104,7 @@ int scan_f(const char* format, ...){
 	int ret = 0; // valor de retorno, numero de variables que escribio
 	int flag = FALSE; // flag para saber si estamos en un %
 	int i = 0;
-	char buffer[MAX];  // buffer donde guardamos el comando
+	char buffer[MAX_BUFFER];  // buffer donde guardamos el comando
 	int j = 0;
 	char c;
 
@@ -115,7 +115,7 @@ int scan_f(const char* format, ...){
 				print_f("\b");
 			}
 		}else{
-			if(i < MAX){
+			if(i < MAX_BUFFER){
 				buffer[i++]	= c;
 				put_char(c);
 			}
