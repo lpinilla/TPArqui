@@ -12,9 +12,7 @@ DEFINE Y DESPUES EN EL VECTOR DE STRINGS ENE EL NUMERO DEL DEFINE -1 (podriamos 
 #include <syscall.h>
 #include <pong.h>
 #include <openlg.h>
-
-
-#define EOF -1
+#include <time.h>
 
 #define RETURN_ADRESS 0xDEADC0DE
 

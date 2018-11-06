@@ -4,9 +4,9 @@
 static func execute_command[]={invalid_command,play_pong,show_time,shutdown,make_beep,make_div,ayuda,try_scan_f};
 const char * commands[] = {"pong", "time","shutdown","beep","div","ayuda","scan"};
 
+static int command_handler(char * command);
 
 uint64_t * shell(void){
-	int aux;
 	draw_welcome_screen();
 	print_f("Escriba ayuda para ver los comandos disponibles \n");
 	for(int i = 0; i < 36; i++){
@@ -44,7 +44,7 @@ uint64_t * shell(void){
 	}
 	return (uint64_t *) RETURN_ADRESS;
 }
-int command_handler(char * command){
+static int command_handler(char * command){
 	for(int i=0; i<COMMANDS; i++){
 		if(str_cmp(command, commands[i])==0){
 			return i+1;

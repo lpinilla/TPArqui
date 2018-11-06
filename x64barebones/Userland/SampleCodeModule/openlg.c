@@ -1,5 +1,4 @@
 #include <openlg.h>
-#include <syscall.h>
 
 char * title[9] = {"      ##      ##                           ",
                    "      ##      ##                TP DE ARQUI",

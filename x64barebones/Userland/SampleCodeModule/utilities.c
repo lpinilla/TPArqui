@@ -37,10 +37,9 @@ void print_number(int number){
 
 int print_f(const char * format, ...){
   if(format==NULL)
-    return;
+    return 0;
   int i=0;
   int flag=FALSE;
-  char c;
   va_list va;
   va_start(va, format);
   while(format[i]!=0){
