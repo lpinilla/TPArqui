@@ -20,10 +20,14 @@ void dummy_func(){ // funcion dummy que no hace nada, se deja asi hasta que se i
 }
 
 void exception0(){
+	clear_screen();
+	draw_err_string("Excepcion 0: Division por cero detectada, reiniciando el OS, registros: \n");
 	print_all_registers();
 }
 
 void exception6(){
+	clear_screen();
+	draw_err_string("Excepcion 6: Codigo invalido, reiniciando el OS, registros: \n");
 	print_all_registers();
 }
 
