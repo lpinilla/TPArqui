@@ -1,7 +1,7 @@
 #include <utilities.h>
 
 void print_string(char * s);
-
+#define MAX_BUFFER 100
 #define TRUE 1
 #define FALSE 0
 
@@ -101,4 +101,102 @@ int get_digits(int number){
 
 void clear_console(){
   sys_clear_console();
+}
+
+#define MAX 100
+
+void scan_f(const char* c, ...){
+	va_list va;
+	va_start(va,c);
+
+	int ret = 0;
+	int flag = 0;
+	int i = 0;
+	char buffer[MAX];
+	int j = 0;
+	char currentChar;
+
+	while((currentChar = get_char()) != '\n'){
+		if(currentChar == '\b'){
+			if(j>0){
+				buffer[--j] = 0;
+				print_f("\b");
+			}
+		}else{
+			if(j < MAX){
+				buffer[j++]	= currentChar;
+				put_char(currentChar);
+			}
+		}
+	}
+	buffer[j] = 0;
+	j = 0;
+	while(c[i]!=0&&ret>=0){
+		switch(c[i]) {
+			case '%':
+				if(flag) {
+					if(buffer[j]!='%')
+						ret = -1;
+					else
+						j++;
+				} else {
+					flag = TRUE;
+				}
+				break;
+			case 'd':
+				if(flag){
+					if(get_number(buffer, va_arg(va, int *), &j))
+            ret++;
+				  else
+            ret = -1;
+          flag = FALSE;
+        }
+        else{
+					       if(buffer[j]!='d')
+						           ret = -1;
+					       else
+						     j++;
+				  }
+				  break;
+          case 's':
+                if(flag){
+                    j += str_cpy(buffer+j,va_arg(va,char*));
+                    ret++;
+                    flag = 0;
+                  } else {
+                    if(buffer[j]!='s')
+                      ret = -1;
+                    else
+                      j++;
+                  }
+                  break;
+        default:
+            if(buffer[j]!=c[i])
+              ret = -1;
+            else
+              j++;
+		}
+		i++;
+	}
+	va_end(va);
+	return;
+}
+int get_number(char * array, int * pointer, int * index){
+  *pointer = 0; // limpio el puntero
+	int ret = 0; // auxiliar de retorno
+	char c; // auxiliar de char
+	int flag = TRUE;
+	do{
+		c = array[*index];  //asigno el auxiliar al indice del array
+		if(is_digit(c)){  // si lo que asigne es un numero
+			*pointer = (*pointer)*10; // multiplico al puntero por 10 para agregar un 0
+			*pointer += c - '0';  // le sumo el ascii del numero
+			ret = TRUE; //ponemos en true ya que pudimos leer al menos un numero
+			*index = (*index)+1; //sumamos el indice
+		}
+    else {
+			flag = FALSE;
+		}
+	} while(flag);
+	return ret;
 }

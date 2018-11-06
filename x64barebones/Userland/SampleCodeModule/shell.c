@@ -7,11 +7,12 @@
 #include <openlg.h>
 
 
-static func execute_command[]={invalid_command,play_pong,show_time,shutdown,make_beep,make_div,ayuda};
-const char * commands[] = {"pong", "time","shutdown","beep","div","ayuda"};
+static func execute_command[]={invalid_command,play_pong,show_time,shutdown,make_beep,make_div,ayuda,try_scan_f};
+const char * commands[] = {"pong", "time","shutdown","beep","div","ayuda","scan"};
 
 
 uint64_t * shell(void){
+	int aux;
 	draw_welcome_screen();
 	print_f("Escriba ayuda para ver los comandos disponibles \n");
 	for(int i = 0; i < 36; i++){
@@ -96,6 +97,12 @@ void make_div(){
 	int n = 1;
 	int b = 0;
 	int c = n/b;
+}
+
+void try_scan_f(){
+	char * aux[20];
+	scan_f("Hola %s", aux);
+	print_f("%s",aux);
 }
 
 void ayuda(){

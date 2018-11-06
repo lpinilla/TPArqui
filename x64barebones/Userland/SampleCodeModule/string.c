@@ -11,3 +11,12 @@ int str_cmp(char string1[], char string2[]){
             return 0;
     }
 }
+
+int str_cpy(char* from, char* destination){
+	int i;
+	for (i = 0; from[i] != 0; ++i) {
+		destination[i] = from[i];
+	}
+	destination[i] = 0;
+	return i;
+}

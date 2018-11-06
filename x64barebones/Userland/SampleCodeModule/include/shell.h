@@ -18,9 +18,9 @@ DEFINE Y DESPUES EN EL VECTOR DE STRINGS ENE EL NUMERO DEL DEFINE -1 (podriamos 
 #define BEEP_COMMAND 4
 #define MAKE_DIV 5
 #define AYUDA 6
+#define SCAN_F 7
 
-
-#define COMMANDS 6
+#define COMMANDS 7
 
 #define MAX_LENGTH 20
 
@@ -30,6 +30,7 @@ int is_space(unsigned char c);
 int is_digit(unsigned char c);
 int is_alpha(unsigned char c);
 int is_symbol(unsigned char c);
+void try_scan_f();
 void invalid_command();
 void play_pong();
 void show_time();
