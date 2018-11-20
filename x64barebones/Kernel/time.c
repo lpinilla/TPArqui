@@ -20,5 +20,7 @@ int seconds_elapsed() {
 void time_wait(int n_ticks){
 	_sti();
 	int goal_ticks = ticks + n_ticks;
-	while(ticks < goal_ticks);
+	while(ticks < goal_ticks){
+		_hlt();
+	}
 }
