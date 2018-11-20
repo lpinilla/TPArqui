@@ -2,6 +2,9 @@
 
 extern void print_all_registers();
 
+void _cli();
+void _sti();
+
 typedef void (*func)();
 
 static void dummy_func();
@@ -13,7 +16,9 @@ func exception_functions[] = {exception0, dummy_func, dummy_func, dummy_func, du
 ,dummy_func,dummy_func,dummy_func,dummy_func,dummy_func,dummy_func,exception13};
 
 void exception_dispatcher(int idx){
+	_cli();
 	exception_functions[idx]();
+	_sti();
 }
 
 void dummy_func(){ // funcion dummy que no hace nada, se deja asi hasta que se implementen las proximas excepciones
